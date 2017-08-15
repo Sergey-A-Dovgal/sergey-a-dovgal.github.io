@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About
+title: CV
 permalink: /about/
 ref: about
 lang: en
