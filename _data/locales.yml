@@ -1,0 +1,21 @@
+en:
+    nav:
+    - text:         "Blog"
+      url:          "/index.html"
+    - text:         "Archive"
+      url:          "/archive.html"
+    - text:         "About"
+      url:          "/about.html"
+    - text:         "&laquo;/&raquo;"
+      url:          "/folders.html"
+
+ru:
+    nav:
+    - text:         "Блог"
+      url:          "/index_ru.html"
+    - text:         "Архив"
+      url:          "/archive_ru.html"
+    - text:         "Инфо"
+      url:          "/about_ru.html"
+    - text:         "&laquo;/&raquo;"
+      url:          "/folders.html"
