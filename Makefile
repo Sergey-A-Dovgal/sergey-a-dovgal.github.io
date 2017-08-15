@@ -15,7 +15,7 @@ deploy:
 	@git checkout master
 	@echo "Switch to master...                ${CHECK} Done"
 	@cp -rf _site/* .
-	@rm -rf _site/
+	-rm -rf _site/
 	-git rm -rf _posts/
 	-git rm -rf Makefile
 	@echo "Updating files...                  ${CHECK} Done"
