@@ -2,6 +2,7 @@
 title: "Factor Graphs, Sum-Product Algorithm. Part 1."
 layout: post
 lang: en
+ref: sumproduct1
 tags:
     statistics
     clustering

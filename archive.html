@@ -1,13 +1,14 @@
 ---
 layout: page
 title: Archive
+ref: archive
 lang: en
 ---
 
 <section class="archive-post-list">
 
    {% for post in site.posts %}
-   {% if post.lang == 'ru' %}
+   {% if post.lang == 'en' %}
        {% assign currentDate = post.date | date: "%Y" %}
        {% if currentDate != myDate %}
            {% unless forloop.first %}</ul>{% endunless %}
