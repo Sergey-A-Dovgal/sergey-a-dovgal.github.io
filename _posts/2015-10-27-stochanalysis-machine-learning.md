@@ -3,8 +3,23 @@ layout: post
 title:  "Стохастический анализ в задачах. Машинное обучение и задача классификации."
 lang: ru
 tags:
+    teaching
+    stochastic_analysis
+    machine_learning
+    classification
 ---
 ## С чего всё началось
+\\(
+\def \X {\mathcal X}
+\def \Y {\mathcal Y}
+\def \F {\mathcal F}
+\def \R {\mathbb R}
+\def \E {\mathbb E}
+\def \P {\mathbb P}
+\def \N {\mathcal N}
+\def \Ind {\mathrm{Ind}\;}
+\def \ch {\mathrm{ch}\;}
+\\)
 Для третьекурсников в этом году существует факультативный курс «Стохастический анализ в задачах».
 
 * В прошлом семестре было законспектировано несколько занятий и опубликовано несколько листочков. Материалы и литературу можно найти в [гугл-диске](https://drive.google.com/open?id=0B733JIZxEnkNZEp0QUFfLS1vWmc).
@@ -14,32 +29,32 @@ tags:
  
 ## Постановка задачи классификации
 
-Практическая задача: пусть есть некоторые объекты \\( \mathcal X \\), и классы \\( \mathcal Y 
-\\). Для удобства будем считать, что классов всего два, \\( \mathcal Y \in \\{-1, 1\\} 
+Практическая задача: пусть есть некоторые объекты \\( \X \\), и классы \\( \Y 
+\\). Для удобства будем считать, что классов всего два, \\( \Y \in \\{-1, 1\\} 
 \\). Объекты – произвольной природы.
     
 Рассмотрим множество *классификаторов*:
 \\[
-    \mathcal F = \\{ f \mid f \colon \mathcal X \to \mathcal Y \\}
+    \mathcal F = \\{ f \mid f \colon \X \to \Y \\}
 \\]
         
-Вероятностная модель: объекты приходят парами \\( \mathcal X \times \mathcal Y \\). Пусть 
+Вероятностная модель: объекты приходят парами \\( \X \times \Y \\). Пусть 
 пришло \\( n \\) объектов.
     
 На этих парах \\( (X\_1, Y\_1), (X\_2, Y\_2), \ldots, (X\_n, Y\_n) \\) задана 
 вероятностная мера. Таким образом, мы вводим некоторое распределение на \\( 
-\mathcal X \times \mathcal Y \\), и будем считать, что все наблюдаемые пары получены 
-независимо и согласно \\( \mathbb P\_{\mathcal X \times \mathcal Y} \\).
+\X \times \Y \\), и будем считать, что все наблюдаемые пары получены 
+независимо и согласно \\( \P\_{\X \times \Y} \\).
 
 Как же на самом деле взаимодействуют эти пары?
 
 > Предположение.
 >
->\\( \exists f^{\ast} \in \mathcal F \colon Y = f^{\ast} (X) \\).
+>\\( \exists f^{\ast} \in \F \colon Y = f^{\ast} (X) \\).
 
 Другими словами, мы предположили, что классы \\( Y \\) каким-то детерминированным 
 образом зависят от \\( X \\), хотя она нам и неизвестна. Мы знаем, что эта 
-функция лежит в классе \\( \mathcal F \\), и этот класс нам известен.
+функция лежит в классе \\( \F \\), и этот класс нам известен.
 
 Не имеет значения, конечный он, счётный или несчётный. Он представляет собой 
 некоторый &laquo;мешок&raquo;, в котором лежат все &laquo;подозрительные&raquo; функции.
@@ -52,7 +67,7 @@ tags:
 **Ответ.** Наша задача – найти такую функцию \\( \hat f(x) \\) (построить её по 
 данным), чтобы вероятность
     \\[
-        \mathbb P(\hat f(x) \neq f^{\ast} (x))
+        \P(\hat f(x) \neq f^{\ast} (x))
     \\]
     была минимальна.
 
@@ -60,7 +75,7 @@ tags:
 \hat f(x) \\). Первое, что приходит в голову – минимизировать 
 *эмпирический риск*: выбрать такую функцию \\( \hat f \\) по данным, что 
 \\[
-    \sum\_{i=1}^{n} \mathrm{Ind}; [\hat f(X\_i) \neq Y\_i] \to \min
+    \sum\_{i=1}^{n} \Ind [\hat f(X\_i) \neq Y\_i] \to \min
 \\]
 Такой минимизатор риска не может ошибаться на выборке, потому что истинная 
 зависимость лежит в классе, а минимум мы ищем по функциям класса. Другое дело в 
@@ -72,15 +87,15 @@ tags:
 функции проецируют одни и те же наблюдения.
 
 > Определение.  Пусть \\( X \\) – случайная величина, \\( \lambda \gt 0 \\),
-> \\( \varphi\_X \colon \mathbb R\_+ \to \mathbb R\_+. \\)
+> \\( \varphi\_X \colon \R\_+ \to \R\_+. \\)
 >
 >*Производящей функцией моментов* называется 
-функция вида \\[ \varphi\_X (\lambda) = \mathbb E \exp(\lambda X) \\]
+функция вида \\[ \varphi\_X (\lambda) = \E \exp(\lambda X) \\]
 >Для каждого конкретного \\( \lambda \\) это матожидание является конкретным 
 числом (для дискретной случайной величины это дискретное матожидание).
 >
 >*Характеристическая функция* – это функция вида
-\\[ \mathrm{ch};i\_X(t) = \mathbb E \exp( i t X) \\]
+\\[ \chi\_X(t) = \E \exp( i t X) \\]
 
 **Вопрос.** Пусть мы знаем, что эта функция является гладкой, дифференцируемой. Как 
 найти 
@@ -88,7 +103,7 @@ tags:
 
 **Ответ.**
 \\[
-    \varphi'(0) = \mathbb E X \exp(0 X) = \mathbb E X %'
+    \varphi'(0) = \E X \exp(0 X) = \E X %'
 \\]
 
 Мы видим, что эта функция даёт довольно много информации о случайной величине, 
@@ -100,7 +115,7 @@ tags:
 > значения \\( \pm 1 \\) с вероятностями \\( p = 1/2 \\).
 > \\[
 >   \varphi\_X(\lambda) = \dfrac{1}{2} ( \exp(\lambda) + \exp(-\lambda) ) = 
->       \mathrm{ch};(\lambda)
+>       \ch(\lambda)
 >\\]
 
 Оказывается, что для нормальной случайной величины выполнено свойство
@@ -111,7 +126,7 @@ tags:
 \\]
 Заметим, что для экспоненты выполнено разложение в ряд:
 \\[
-    \mathbb E \exp(\lambda X) = \mathbb E (1 + \lambda x + \dfrac{\lambda^2 x^2}{2} + 
+    \E \exp(\lambda X) = \E (1 + \lambda x + \dfrac{\lambda^2 x^2}{2} + 
     \ldots)
 \\]
 
@@ -136,14 +151,14 @@ tags:
 
 Обозначим случайную величину \\( Z \\):
 \\[
-    Z = \mathbb E \max\_{i=1, \ldots, n} Y\_i
+    Z = \E \max\_{i=1, \ldots, n} Y\_i
 \\]
 
 Мы хотим ограничить этот максимум сверху. Чуть позже мы поймём, что максимум 
 будет тем больше, чем больше в этих случайных величинах «независимости».
 \\[
-     \varphi\_Z(\lambda) = \mathbb E \exp (\lambda Z) = \mathbb E \exp( \lambda \max\_i Y\_i)
-     = \mathbb E \max\_i \exp(\lambda Y\_i)
+     \varphi\_Z(\lambda) = \E \exp (\lambda Z) = \E \exp( \lambda \max\_i Y\_i)
+     = \E \max\_i \exp(\lambda Y\_i)
 \\]
 
 **Вопрос.** Как максимум от неотрицательных случайных величин можно ограничить сверху 
@@ -154,15 +169,15 @@ tags:
 грубо.
 
 \\[
-    \mathbb E \max\_i \exp(\lambda Y\_i) \leqslant \mathbb E \sum\_{i} \exp(\lambda Y\_i) = 
-    \sum\_i \mathbb E \exp(\lambda Y\_i) = n \exp(\lambda^2 \sigma^2 / 2)
+    \E \max\_i \exp(\lambda Y\_i) \leqslant \E \sum\_{i} \exp(\lambda Y\_i) = 
+    \sum\_i \E \exp(\lambda Y\_i) = n \exp(\lambda^2 \sigma^2 / 2)
 \\]
 
 > Неравенство Йенсена.
 >
 > Пусть \\( \psi \\) – выпуклая функция.
 \\[
-    \psi(\mathbb E X) \leqslant \mathbb E \psi (X)
+    \psi(\E X) \leqslant \E \psi (X)
 \\]
 
 
@@ -178,27 +193,27 @@ tags:
 то, что хоть величины \\( Y\_i \\) были центрированные, но максимум из них, то 
 есть величина \\( Z \\) уже не является центрированной.
 \\[
-    \mathbb E \exp(\lambda Z) \geqslant \exp( \lambda \mathbb E Z)
+    \E \exp(\lambda Z) \geqslant \exp( \lambda \E Z)
 \\]
 \\[
-    \dfrac{1}{\lambda} \log \varphi\_Z(\lambda) \geqslant \mathbb E Z
+    \dfrac{1}{\lambda} \log \varphi\_Z(\lambda) \geqslant \E Z
 \\]
 \\[
-    \mathbb E \max\_i Y\_i \leqslant \dfrac{1}{\lambda} \ln \left(
+    \E \max\_i Y\_i \leqslant \dfrac{1}{\lambda} \ln \left(
         n \exp (\lambda^2 \sigma^2 / 2)
     \right) = \dfrac{1}{\lambda} \ln n + \dfrac{\lambda \sigma^2}{2}, \quad 
     \lambda \gt 0
 \\]
 Так как это верно для любого \\( \lambda \\), давайте найдём минимум:
 \\[
-    \lambda^\ast = \dfrac{\sqrt{2 \ln n}}{\sigma}, \qquad \mathbb E \max\_i Y\_i 
+    \lambda^\ast = \dfrac{\sqrt{2 \ln n}}{\sigma}, \qquad \E \max\_i Y\_i 
     \leqslant \sigma \sqrt{2 \ln n}.
 \\]
 Пусть \\( Z = \max\_i |Y\_i| \\), где \\( Y\_i \\) – центрированные 
 субгауссовские величины. Заметим, что
 \\[
     Z = \max\_i (Y\_i, -Y\_i), \qquad
-    \mathbb E Z \leqslant \sigma \sqrt{2 \ln (2n)}.
+    \E Z \leqslant \sigma \sqrt{2 \ln (2n)}.
 \\]
 
 ## Снова классификация
@@ -206,71 +221,71 @@ tags:
 Классификатор, который минимизирует эмпирический риск, не ошибается на 
 наблюдениях, где количество наблюдений-пар равно \\( m \\).
 \\[                                    
-    \mathbb P( \hat f(x) \neq f^\ast (x)) 
+    \P( \hat f(x) \neq f^\ast (x)) 
 \\]
 В этом выражении есть некоторая тонкость: \\( x \\) – случайная величина, но 
 при этом \\( \hat f \\) тоже строится по наблюдениям, то есть является случайной 
 функцией. Вероятность берётся только по «новому наблюдению» \\( x \\), а затем 
 можно усреднить эту величину по пространству вероятностей для классификатора:
 \\[
-    \mathbb E^{(m)} \mathbb P ( \hat f(x) \neq f^{\ast} (x) ) = (1)
+    \E^{(m)} \P ( \hat f(x) \neq f^{\ast} (x) ) = (1)
 \\]
 Пусть \\( \hat f \\) не ошибается на обучающей выборке \\( (X\_1, Y\_1), \ldots, 
 (X\_m, Y\_m) \\).
 \\[
-    (1) = \mathbb E^{(m)} \left(
-        \mathbb P\left( \hat f(X) \neq f^{\ast} (X) \right) - \dfrac{1}{m} 
-        \sum\_{i=1}^{m} \mathrm{Ind}; 
+    (1) = \E^{(m)} \left(
+        \P\left( \hat f(X) \neq f^{\ast} (X) \right) - \dfrac{1}{m} 
+        \sum\_{i=1}^{m} \Ind 
         \left(\hat f(X\_i) \neq Y\_i\right)
     \right) = (2)
 \\]
 Это выражение тождественно равняется \\( (1) \\), потому что второе слагамемое 
 равно нулю.
 \\[
-    (2) \leqslant \mathbb E^{(m)} \sup\_{f \in \mathcal F} \left(
-        \mathbb P \left(
+    (2) \leqslant \E^{(m)} \sup\_{f \in \F} \left(
+        \P \left(
             f(X) \neq f^{\ast} (X)
         \right) - \dfrac{1}{m} \sum\_{i=1}^{m}
-        \mathrm{Ind}; \left(
+        \Ind \left(
             f(X\_i) \neq Y\_i
         \right)
     \right) = (3)
 \\]
 Здесь второе слагаемое уже ненулевое по матожиданию. Заметим, что
 \\[
-    \mathbb E \mathrm{Ind}; \left(
+    \E \Ind \left(
         f(X\_i) \neq Y\_i
-    \right) = \mathbb P \left(
+    \right) = \P \left(
         f(X\_i) \neq Y\_i
     \right)
 \\]
-Можно из того же распределения \\( \mathbb P \\) сгерерировать новую выборку из 
+Можно из того же распределения \\( \P \\) сгерерировать новую выборку из 
 \\( m \\) объектов. При этом в выражении \\( (3) \\) в первом слагаемом вероятности 
-для \\( \mathbb P(f(x) \neq f^{\ast}(x)) \\) одинаковые для всех «искусственных» точек 
+для \\( \P(f(x) \neq f^{\ast}(x)) \\) одинаковые для всех «искусственных» точек 
 выборки. Это позволяет записать выражение в виде:
 \\[
-    (3) = \mathbb E^{(m)} \sup\_{f \in \mathcal F} \left(
-        \mathbb E^{(m)} \left(
-            \dfrac{1}{m} \sum \mathrm{Ind}; (f(X'\_i) \neq Y'\_i)
-        \right) - \dfrac{1}{m} \sum\_i \mathrm{Ind}; (f(X\_i) \neq Y\_i)
+    (3) = \E^{(m)} \sup\_{f \in \F} \left(
+        \E^{(m)} \left(
+            \dfrac{1}{m} \sum \Ind (f(X'\_i) \neq Y'\_i)
+        \right) - \dfrac{1}{m} \sum\_i \Ind (f(X\_i) \neq Y\_i)
     \right) = (4)
 \\]
 Воспользуемся неравенством Йенсена. Оказывается, что если класс 
-*счётный*, то супремум \\( \sup\_{f \in \mathcal F} (\cdot) \\) является выпуклой 
+*счётный*, то супремум \\( \sup\_{f \in \F} (\cdot) \\) является выпуклой 
 функцией (это известный и несложный факт из выпуклого анализа: надграфик от 
 максимума является пересечением надграфиков выпуклых функций, каждый из которых 
 является выпуклым множеством).
 \\[
-    (4) \leqslant \mathbb E^{(m)} \mathbb E^{(m')} \sup\_{f \in \mathcal F}
+    (4) \leqslant \E^{(m)} \E^{(m')} \sup\_{f \in \F}
     \left(
         \dfrac{1}{m} \sum\_{i = 1}^{m} \Big(
-            \mathrm{Ind}; (f(X'\_i) \neq Y'\_i) - \mathrm{Ind} (f(X\_i) \neq Y\_i)
+            \Ind (f(X'\_i) \neq Y'\_i) - \Ind (f(X\_i) \neq Y\_i)
         \Big)
     \right) = (5)
 \\]
 Рассмотрим отдельно разность индикаторов.
 \\[
-    \mathrm{Ind};(f(X'\_i) \neq Y\_i) - \mathrm{Ind} (f(X\_i) \neq Y\_i)
+    \Ind(f(X'\_i) \neq Y\_i) - \Ind (f(X\_i) \neq Y\_i)
 \\]
 Эта случайная величина может принимать всего три значения: \\( \\{0, -1, 1\\}. \\) 
 Между ними есть некоторое «равноправие»: пары \\( (X\_i, Y\_i) \\) распределены 
@@ -280,14 +295,14 @@ tags:
 распределённый знак \\( \varepsilon\_i \\):
 \\[
     \varepsilon\_i \Big(
-        \mathrm{Ind};(f(X'\_i) \neq Y\_i) - \mathrm{Ind} (f(X\_i) \neq Y\_i)
+        \Ind(f(X'\_i) \neq Y\_i) - \Ind (f(X\_i) \neq Y\_i)
     \Big).
 \\]
 \\[
-    (5) = \mathbb E^{(m)} \mathbb E^{(m)} \mathbb E\_{\varepsilon_i} \sup\_{f \in \mathcal F}
+    (5) = \E^{(m)} \E^{(m)} \E\_{\varepsilon_i} \sup\_{f \in \F}
     \left(
     \dfrac{1}{m} \sum\_{i = 1}^{m} \varepsilon\_i\Big(
-    \mathrm{Ind}; (f(X'\_i) \neq Y'\_i) - \mathrm{Ind} (f(X\_i) \neq Y\_i)
+    \Ind (f(X'\_i) \neq Y'\_i) - \Ind (f(X\_i) \neq Y\_i)
     \Big)
     \right) = (6)
 \\]
@@ -295,8 +310,8 @@ tags:
 штуку! Заметим, что \\( \sup (a + b) \leqslant \sup (a) + \sup (b). \\) Поэтому 
 можно оценить выражение как
 \\[
-    (6) \leqslant 2 \mathbb E^{(m)} \mathbb E\_{\varepsilon} \sup\_{f \in \mathcal F} \left(
-        \dfrac{1}{m} \sum\_{i=1}^{m} \varepsilon\_i \mathrm{Ind}; (f(X\_i) \neq Y\_i)
+    (6) \leqslant 2 \E^{(m)} \E\_{\varepsilon} \sup\_{f \in \F} \left(
+        \dfrac{1}{m} \sum\_{i=1}^{m} \varepsilon\_i \Ind (f(X\_i) \neq Y\_i)
     \right)
 \\]
 Практически уже сейчас можно применить нашу субгауссовскую технологию, главное 
@@ -304,8 +319,8 @@ tags:
 \\( m \\) точек, по которым рассматривается матожидание, и рассмотрим выражение, 
 которое стоит внутри скобки:
 \\[
-    \mathbb E\_{\varepsilon} \sup\_{f \in \mathcal F} \left(
-    \sum\_{i=1}^{m} \varepsilon\_i \mathrm{Ind}; (f(X\_i) \neq Y\_i)
+    \E\_{\varepsilon} \sup\_{f \in \F} \left(
+    \sum\_{i=1}^{m} \varepsilon\_i \Ind (f(X\_i) \neq Y\_i)
     \right)
 \\]
 Заметим, что случайные величины, которые стоят под матожиданием, являются 
@@ -316,30 +331,30 @@ tags:
 >
 > Случайная величина вида
 \\[
-    \sum\_{i=1}^{m} \varepsilon\_i \mathrm{Ind}; (f(X\_i) \neq Y\_i)
+    \sum\_{i=1}^{m} \varepsilon\_i \Ind (f(X\_i) \neq Y\_i)
 \\]
 >является субгауссовской.
 
 ### Доказательство.
 
 \\[
-    \mathbb E \exp(\lambda \sum\_{i=1}^{m} \varepsilon\_i \mathrm{Ind}; (f(X\_i) \neq Y_i) ) = 
+    \E \exp(\lambda \sum\_{i=1}^{m} \varepsilon\_i \Ind (f(X\_i) \neq Y_i) ) = 
     (7)
 \\]
 Экспонента от суммы является произведением экспонент, а матожидание 
 произведения независимых случайных величин равняется произведению 
-матожиданий. Кроме того, можно заметить, что \\( \mathrm{ch}; x \geqslant 1 \\), 
+матожиданий. Кроме того, можно заметить, что \\( \ch x \geqslant 1 \\), 
 поэтому можно «не учитывать» нулевые значения внутри экспоненты, если мы 
 хотим оценить выражение сверху:
 \\[
-    (7) = \Big(\mathbb E\_{\varepsilon} \exp (\lambda \varepsilon\_i \mathrm{Ind}; (f(X\_i) 
+    (7) = \Big(\E\_{\varepsilon} \exp (\lambda \varepsilon\_i \Ind (f(X\_i) 
     \neq Y\_i)) 
-    \Big)^m = ( \mathrm{ch}; \lambda )^{m}
+    \Big)^m = ( \ch \lambda )^{m}
 \\]
 Заметим, что для гиперболического косинуса выполнено неравенство (оно 
 доказывается разложением в бескеонечный ряд Тейлора):
 \\[
-    \mathrm{ch}; \lambda \leqslant \exp \left(
+    \ch \lambda \leqslant \exp \left(
         \dfrac{\lambda^2}{2}
     \right)
 \\]
@@ -354,10 +369,10 @@ tags:
 
 **Конец доказательства.**
 
-Пусть класс функций является конечным: \\( |\mathcal F| = N \\). Мы знаем, что максимум 
+Пусть класс функций является конечным: \\( |\F| = N \\). Мы знаем, что максимум 
 из субгауссовских случайных величин ведёт себя следующим образом:
 \\[
-    (6) \leqslant \dfrac{2 \mathbb E^{(m)} \sqrt{m} \sqrt{2 \ln (N)}}{m} = 
+    (6) \leqslant \dfrac{2 \E^{(m)} \sqrt{m} \sqrt{2 \ln (N)}}{m} = 
     2\sqrt{\dfrac{2 \ln N}{m}}.
 \\]
 **Таким образом, ожидаемая вероятность ошибки построенного нами алгоритма 
@@ -369,13 +384,13 @@ N} \\) в общем случае
 показать нельзя, но в нашей задаче результат можно улучшить. Можно доказать, 
 что 
 \\[
-    \mathbb E^{(m)} \mathbb P (\hat f(x) \neq f^{\ast} (x)) \leqslant \dfrac{4 \ln N}{m}.
+    \E^{(m)} \P (\hat f(x) \neq f^{\ast} (x)) \leqslant \dfrac{4 \ln N}{m}.
 \\]
 Эта оценка является «самой лучшей». Предположим, что существует некоторый 
 «противник», который умеет варьировать \\( N \\) в зависимости от \\( m \\). Если 
 словарь функций становится слишком большим, то техника рушится.
 
-Пусть \\( \mathcal F \\) – пространство всех измеримых функций. Мы рассмотрим ситуацию, 
+Пусть \\( \F \\) – пространство всех измеримых функций. Мы рассмотрим ситуацию, 
 которую принять называть *переобучением*. Вероятность ошибки может 
 оказаться очень большой, и даже стремиться к единице. Ясно, что так как мы 
 наблюдаем выборку лишь в конечном числе точек, то найдётся функция, которая не 
@@ -389,12 +404,12 @@ N} \\) в общем случае
 
 1. Найдите характеристическую случайную функцию нормально 
 распределённой 
-случайной величины: \\( X \sim \mathcal N(0, 1). \\) \\( \varphi_X(\lambda) = ? 
+случайной величины: \\( X \sim \N(0, 1). \\) \\( \varphi_X(\lambda) = ? 
 \\)
 2. **Метод Чернова.**
 Используя неравенство Маркова, докажите, что для случайной величины \\( X \\) с производящей  функцией моментов \\(\psi\_{X}:\\)
 \\[
-    \mathbb P(X \ge \varepsilon) \le \inf\limits\_{\lambda > 0}\exp(\psi\_{X}(\lambda) - \lambda\varepsilon) 
+    \P(X \ge \varepsilon) \le \inf\limits\_{\lambda > 0}\exp(\psi\_{X}(\lambda) - \lambda\varepsilon) 
 \\]
 *Подсказка:*
 Функция \\( g \\), заданная \\( g(x) = \exp(\lambda x) \\) является возрастающей для \\( \lambda \gt 0\\).
@@ -402,23 +417,23 @@ N} \\) в общем случае
 4. **Неравенство Чернова.**
 Пусть \\( S \sim \mathrm{Bi}(n, p)\\). Докажите, что
 \\[                           
-    \mathbb P \left(\frac{S - \mathbb E S}{n} \ge \varepsilon\right) \le \exp(-2\varepsilon^{2}n).
+    \P \left(\frac{S - \E S}{n} \ge \varepsilon\right) \le \exp(-2\varepsilon^{2}n).
 \\]
 *Подсказка:*
 Как задается производящая функция моментов для суммы независимых случайных величин?
 5. 
 Докажите, что для неотрицательной случайной величины \\( X \\):
 \\[
-    \mathbb E X \le \int\limits\_{0}^{\infty} \mathbb P(X \ge \varepsilon) d\varepsilon.
+    \E X \le \int\limits\_{0}^{\infty} \P(X \ge \varepsilon) d\varepsilon.
 \\]
 6.
 Пусть для \\( c\_{1} \gt e^{-1}, c\_{2} \gt 0 \\) для некоторой неотрицательной случайной величины \\( X\_n \\) выполнено:
 \\[
-    \mathbb P(X\_n \ge \varepsilon) \le c\_{1}\exp(-c\_{2}n\varepsilon^{2}).
+    \P(X\_n \ge \varepsilon) \le c\_{1}\exp(-c\_{2}n\varepsilon^{2}).
 \\]
 Докажите, что
 \\[
-    \mathbb E X\_n \le \sqrt{\frac{C}{n}}, 
+    \E X\_n \le \sqrt{\frac{C}{n}}, 
 \\]
 где \\( C = (1 + \ln(c\_{1}))/c\_{2}. \\)
 
