@@ -264,13 +264,13 @@ tags:
     (4) \leqslant \mathbb E^{(m)} \mathbb E^{(m')} \sup\_{f \in \mathcal F}
     \left(
         \dfrac{1}{m} \sum\_{i = 1}^{m} \Big(
-            \mathrm{Ind}; (f(X'\_i) \neq Y'\_i) - \Ind (f(X\_i) \neq Y\_i)
+            \mathrm{Ind}; (f(X'\_i) \neq Y'\_i) - \mathrm{Ind} (f(X\_i) \neq Y\_i)
         \Big)
     \right) = (5)
 \\]
 Рассмотрим отдельно разность индикаторов.
 \\[
-    \mathrm{Ind};(f(X'\_i) \neq Y\_i) - \Ind (f(X\_i) \neq Y\_i)
+    \mathrm{Ind};(f(X'\_i) \neq Y\_i) - \mathrm{Ind} (f(X\_i) \neq Y\_i)
 \\]
 Эта случайная величина может принимать всего три значения: \\( \\{0, -1, 1\\}. \\) 
 Между ними есть некоторое «равноправие»: пары \\( (X\_i, Y\_i) \\) распределены 
@@ -280,14 +280,14 @@ tags:
 распределённый знак \\( \varepsilon\_i \\):
 \\[
     \varepsilon\_i \Big(
-        \mathrm{Ind};(f(X'\_i) \neq Y\_i) - \Ind (f(X\_i) \neq Y\_i)
+        \mathrm{Ind};(f(X'\_i) \neq Y\_i) - \mathrm{Ind} (f(X\_i) \neq Y\_i)
     \Big).
 \\]
 \\[
     (5) = \mathbb E^{(m)} \mathbb E^{(m)} \mathbb E\_{\varepsilon_i} \sup\_{f \in \mathcal F}
     \left(
     \dfrac{1}{m} \sum\_{i = 1}^{m} \varepsilon\_i\Big(
-    \mathrm{Ind}; (f(X'\_i) \neq Y'\_i) - \Ind (f(X\_i) \neq Y\_i)
+    \mathrm{Ind}; (f(X'\_i) \neq Y'\_i) - \mathrm{Ind} (f(X\_i) \neq Y\_i)
     \Big)
     \right) = (6)
 \\]
