@@ -1,21 +1,21 @@
 en:
     nav:
-    - text:         "Blog"
-      url:          "/index.html"
-    - text:         "Archive"
+#    - text:         "[home]"
+#      url:          "/index.html"
+    - text:         "[blog]"
       url:          "/archive.html"
-    - text:         "Tree"
+    - text:         "[cv]"
       url:          "/about.html"
-    - text:         "&laquo;/&raquo;"
-      url:          "/folders.html"
+#    - text:         "&laquo;/&raquo;"
+#      url:          "/folders.html"
 
 ru:
     nav:
-    - text:         "Блог"
-      url:          "/index_ru.html"
-    - text:         "Архив"
+#    - text:         "[в начало]"
+#      url:          "/index_ru.html"
+    - text:         "[блог]"
       url:          "/archive_ru.html"
-    - text:         "Дерево"
+    - text:         "[резюме]"
       url:          "/about_ru.html"
-    - text:         "&laquo;/&raquo;"
-      url:          "/folders.html"
+#    - text:         "&laquo;/&raquo;"
+#      url:          "/folders.html"

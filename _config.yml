@@ -7,14 +7,14 @@
 
 # Site settings
 title:
-  en: English blog title
-  ru: Русское название блога
+  en: 
+  ru: 
 # email: 
 description:
-  en: Awesome description of this blog
-  ru: Потрясающее описание этого блога
+  en: Sergey Dovgal's personal homepage
+  ru: Личная страница Серёжи Довгаля
 index:
-  en:
+  en: index.html
   ru: index_ru.html
 feed:
   en: /feed.xml
@@ -26,3 +26,7 @@ github_username: electric-tric
 
 # Build settings
 markdown: kramdown
+
+home:
+  en: "[home]"
+  ru: "[в начало]"

@@ -14,6 +14,7 @@
       </a>
 
       <div class="trigger">
+        <a class="page-link" href="{{ site.index[page.lang] | prepend: site.baseurl }}">{{ site.home[page.lang] }}</a>
         {% for page in site.data.locales[page.lang].nav %}
           <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.text }}</a>
         {% endfor %}
