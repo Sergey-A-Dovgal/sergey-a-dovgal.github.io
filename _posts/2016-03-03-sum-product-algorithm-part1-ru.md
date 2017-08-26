@@ -405,37 +405,48 @@ Forward-Backward Algorithm, алгоритма Витерби для марко�
 
 ## Affinity propagation.
 
-Affinity propagation is a clustering algorithm. Its goal is to maximize *net similarity*.
+Affinity propagation (распространение сродства) это алгоритм кластеризации. Его
+цель состоит в том, чтобы максимизировать функционал *net similarity*.
 
-The problem is formulated as follows: we are given a set of observations \\( X\_1, \ldots, X\_n \\), and a matrix of similarities \\( s(i, j) \\). We often cannot observe the variables \\( X\_1, \ldots, X\_n \\) themselves, but we always observe the similarity matrix.
+Сформулируем задачу следующим образом: задана последовательность наблюдений \\( X\_1, \ldots, X\_n \\), а также матрица схожести (это как расстояния только наоборот) \\( s(i, j) \\). Часто бывает так, что мы не можем наблюдать сами переменные \\( X\_1, \ldots, X\_n \\), но мы всегда можем наблюдать матрицу схожести.
 
-In case of metric clusterization problem, i.e. \\( X\_j \in \mathbb R^d\\) we can choose similarities like \\( s(i, j) = - d(X\_i, X\_j) \\) for \\( i \neq j\\), but for \\( i = j\\) we must have \\( s(X\_i, X\_j) \neq 0 \\). In fact, there are several possible strategies to define similarity of a vertex to itself:
+В задаче метрической кластеризации, то есть когда \\( X\_j \in \mathbb R^d\\), можно выбрать схожесть по правилу \\( s(i, j) = - d(X\_i, X\_j) \\) для \\( i \neq j\\), однако для \\( i = j\\) необходимо, чтобы \\( s(X\_i, X\_j) \neq 0 \\). Фактически, существует несколько возможных стратегий для того, чтобы определить матрицу схожести вершины с самой собой:
 \\[
     s(i, i) = -\lambda; \quad \text{or} \quad
     s(i, i) = \mathrm{Median}_{j}(s(i, j))
 \\]                             
-We would like to choose *exemplars* \\( c\_1, c\_2, \ldots, c\_n \\) among the points of dataset, \\( c\_i \in \\{X\_1, \ldots, X\_n \\} \\) such that the sum of similarities
+Среди наблюдений 
+ \\( c\_i \in \\{X\_1, \ldots, X\_n \\} \\) 
+мы выбираем так называемые *экземпляры*  \\( c\_1, c\_2, \ldots, c\_n \\) 
+так, чтобы сумма схожестей 
 \\[
     \sum\_{i = 1}^{n} s(i, c\_i)
 \\]
-is maximal. However, there is one restriction, preventing us from the greedy assignment.
+была максимальной. При этом есть одно ограничение, которое препятствует
+<<жадному>> назначению экземпляров.
 \\[
     (c\_i = k) \, \Rightarrow \, (c\_k = k),
 \\] 
-i.e. the assignment of exemplars is correct. If point \\( X\_k \\) is an exemplar for point \\( X\_i \\), then it should be an exemplar for itself. The requirement can be re-formulated as follows: the set of points is splitted into disjoint sets of points, where each set has its own unique exemplar.
+Необходимо, чтобы назначенные экземпляры были корректными в том смысле, что если
+точка \\( X\_k \\) является экземпляром для точки \\( X\_i \\), то она должна являться экземпляром для самой себя.
+Это требование можно переформулировать следующим образом: множество точек
+разбито на непересекающиеся подмножества точек, где каждое подмножество имеет
+свой собственный единственный экземпляр.
 
 <center>
 <img src="{{site.baseurl}}/pic/factor_graphs/2016-03-03-7.png" alt="Reference: Brendan J. Frey and Delbert Dueck, Clustering by Passing Messages Between Data Points, Science Feb. 2007"> <br>
 Reference: Brendan J. Frey and Delbert Dueck, “Clustering by Passing Messages Between Data Points”, Science Feb. 2007
 </center>
 
-The optimization problem can also be interpreted as the [*Facility Location Problem*](https://en.wikipedia.org/wiki/Facility_location_problem), which is known to be NP-hard.
+Такая оптимизационная задача может быть проинтерпретирована как [*проблема размещения объектов (facility Location Problem)*](https://en.wikipedia.org/wiki/Facility_location_problem), и она является NP-трудной.
 
-It turns out that the optimized function with the correctness restriction can be modified and turned into another single function with no restrictions. Namely, we consider 
+Оказывается, что целевая функция вместе с ограничением корректности может быть
+преобразована в некоторую другую функцию без ограничений. А именно, мы
+рассматриваем
 \\[
     F(\boldsymbol c, \boldsymbol s) = \prod\_{i=1}^{N} e^{s(i, c\_i)} \prod\_{k=1}^{N} f\_k (\underbrace{c\_1, \ldots, c\_N}\_{\boldsymbol c})
 \\]
-The second term contains a correctness constraint defined as follows:
+Второй член содержит ограничение корректности, определённое следующим образом:
 \\[
     f\_k(\boldsymbol c) = \begin{cases}
     0, & c\_k \neq k, \, \exists i \colon c\_i = k\\\
@@ -443,12 +454,16 @@ The second term contains a correctness constraint defined as follows:
 \end{cases}
 \\]
 
-This function naturally produces the factor graph:
+Такая функция естественным образом определяет граф сомножителей:
 <center>
 <img src="{{site.baseurl}}/pic/factor_graphs/2016-03-03-8.png">
 </center>
 
-In fact, the analysis of message-passing for this function \\( F(\boldsymbol c, \boldsymbol s) \\) is quite cubersome, we need to consider several cases for valid and invalid configurations. The messages passing between \\( c\_i\\) and \\( f\_j \\) are most important, while messages between \\( s(i, c\_i) \\) and \\( c\_i \\) can be easily eliminated. The authors of Affinity Propagation show that max-product algorithm update equations for the functional, after some variable notation change, can be transformed into very simple form:
+Фактически, анализ механизма передачи сообщений для функции \\( F(\boldsymbol c, \boldsymbol s) \\) является довольно запутанным, необходимо рассматривать несколько случаев
+для корректных и некорректных конфигураций. Передача сообщений между \\( c\_i\\) и \\( f\_j \\) является наиболее важной, в то время как сообщения между \\( s(i, c\_i) \\) и \\( c\_i \\)
+можно легко исключить. Авторы алгоритма Affinity Propagation доказывают, что
+процедуру передачи сообщений, после некоторого преобразования обозначений, можно представить
+в следующем виде: 
 
 > **Affinity Propagation**
 >
@@ -462,12 +477,17 @@ In fact, the analysis of message-passing for this function \\( F(\boldsymbol c, 
 > 3. Output: cluster assignments.
 >   * \\( \hat{\boldsymbol c} = (\hat c\_{1}, \ldots, \hat c\_{N}) \\), where
 >   * \\( \hat c_i = \arg\max\_{k} [a(i,k) + r(i,k)] \\)
+                  
+Конечно же, представленный алгоритм является эвристическим и не имеет
+теоретического обоснования по следующим причинам:
 
-Note that this algorithm is rather heuristic than theoretically justified, because of the several reasons:
+* В то время, как существует обоснование с помощью дивергенции Кульбака-Лейблера лишь для алгоритма суммы-произведения, про алгоритм максимума-произведения ничего не известно.
+При этом использование алгоритма суммы-произведения для алгоритма affinity propagation не
+имеет большого смысла потому что это не соответствует формулировке никакой
+задачи, и к тому же вычислительно труднее, чем максимум-произведение.
+* Алгоритм вообще может сойтись к некорректной конфигурации. В этом случае необходимо его перезапустить, до тех пор пока не получится корректная конфигурация. Не существует никаких теоретических гарантий на число перезапусков.
 
-* There is justification via KL-divergence only for Sum-Product algorithm, but not for Max-Product. One can use the Sum-Product version of Affinity Propagation,  but it neither makes sense, nor is computational as simple as Max-Product version.
-* Algorithm may converge to invalid configuration. In this case, one needs to restart it, until we get valid configuration. There are no theoretical guarantees on the number of restarts.
+Тем не менее, утверждается, что этот алгоритм хорошо себя ведёт на практике.
 
-However, it is claimed to have great practical performance.
-
-Other interpretations of Affinity Propagation, including some probabilistic ones, can be found on its [FAQ Page](http://www.psi.toronto.edu/affinitypropagation/faq.html).
+Заинтересованный читатель может обратиться к официальному FAQ, которое включает
+некоторые вероятностные интерпретации affinity propagation: [FAQ Page](http://www.psi.toronto.edu/affinitypropagation/faq.html).
