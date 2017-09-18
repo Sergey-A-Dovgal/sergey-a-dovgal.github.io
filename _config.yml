@@ -14,8 +14,8 @@ description:
   en: Sergey Dovgal's personal homepage
   ru: Личная страница Серёжи Довгаля
 index:
-  en: index.html
-  ru: index_ru.html
+  en: /index.html
+  ru: /index_ru.html
 feed:
   en: /feed.xml
   ru: /feed.xml
