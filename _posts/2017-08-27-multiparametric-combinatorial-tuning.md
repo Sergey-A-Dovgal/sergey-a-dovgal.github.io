@@ -186,7 +186,9 @@ which can be proved by solving quadratic equation with respect to \\( T \\)
 \\]
 which, in its turn, follows from the reccurence relation on its coefficients.
 
-> **Boltzmann sampler algorithm for binary trees**. [Try this code online!]
+> **Boltzmann sampler algorithm for binary trees**.
+[[Try the code online!]](
+https://nbviewer.jupyter.org/github/Electric-tric/electric-tric.github.io/blob/gh-pages/ipynb/Recursive%20generation.ipynb#){:target="\_blank"}
 >
 * Input \\(n\\), target *expected* tree size.
 * Choose \\( z = z\_n \\) depending on \\( n \\), we will discuss this below.
@@ -249,9 +251,9 @@ where \\( a\_{njk} \\) stands for the number of trees with given number \\( n
 \\) of nodes, \\( j \\) leaves, and \\( k \\) nodes with 4 children.
 
 \\[
-    T(x, y, z) = x y + x T^2 + x z T^3 
+    T(x, y, z) = x y + x \left( \dfrac{1}{1 - T} - T^3 \right) + x z T^3 
 \\]
-This is a cubic equation on \\( T \\) which is not obvious to solve.
+This is a 4-th degree equation on \\( T \\) which is not obvious to solve.
 
 In fact, the best known solution to the mentioned problem (in case of
 arbitrarily large number of parameters) is to generate random objects with
@@ -311,9 +313,9 @@ combinatorics behind).
 
 \\[
 \begin{cases}
-    A &= 1 + xy^2 B^2 + \dfrac{z BC}{1 - y C} + ABD^2 , \\
-    B &= x + A^3 + CD , \\
-    C &= \dfrac{y}{1 - yz} + C^3 + AD , \\
+    A &= 1 + xy^2 B^2 + \dfrac{z BC}{1 - y C} + ABD^2 , \\\
+    B &= x + A^3 + CD , \\\
+    C &= \dfrac{y}{1 - yz} + C^3 + AD , \\\
     D &= B + C^4 \enspace .
 \end{cases}
 \\]
@@ -330,15 +332,19 @@ of objects from combinatorial class \\( A \\). Suppose that the values
 Then \\( \xi, \eta, \zeta \\) can be obtained from a convex optimisation problem
 \\[
 \begin{cases}
-           & \alpha - \mathbb E i \xi - \mathbb E j \eta - \mathbb E k \zeta \to \min ,\\
-    \alpha &\geq 1 + e^{\xi + 2 \eta + 2 \beta}
+           \alpha
+            - \mathbb E i \cdot \xi
+            - \mathbb E j \cdot \eta
+            - \mathbb E k \cdot \zeta
+            \to \min ,\\\
+    \alpha \geq 1 + e^{\xi + 2 \eta + 2 \beta}
             + \dfrac{e^{\zeta + \beta + \gamma}}{1 - e^{\eta+\gamma}}
-            + e^{\alpha + \beta + 2 \delta} , \\
-    \beta  &\geq e^\xi + e^{3 \alpha} + e^{\gamma + \delta} , \\
-    \gamma &\geq \dfrac{e^\eta}{1 - e^{\eta + \zeta}}
+            + e^{\alpha + \beta + 2 \delta} , \\\
+    \beta  \geq e^\xi + e^{3 \alpha} + e^{\gamma + \delta} , \\\
+    \gamma \geq \dfrac{e^\eta}{1 - e^{\eta + \zeta}}
             + e^{3 \gamma}
-            + e^{\alpha + \delta} , \\
-    \delta &\geq e^\beta + e^{4 \gamma} \enspace .
+            + e^{\alpha + \delta} , \\\
+    \delta \geq e^\beta + e^{4 \gamma} \enspace .
 \end{cases}
 \\]
 
@@ -350,12 +356,12 @@ The geometry of this transform is well illustrated by an example of binary
 trees.
 \\[
     \begin{cases}
-        z \to \max , \\
+        z \to \max , \\\
         T \geq z + z T^2
     \end{cases}
     \quad \Rightarrow \quad   
     \begin{cases}
-        \zeta \to \max , \\
+        \zeta \to \max , \\\
         b \geq \log(e^\zeta + e^\zeta e^{2b})
     \end{cases}
 \\]
