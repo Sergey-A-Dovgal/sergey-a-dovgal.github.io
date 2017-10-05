@@ -248,7 +248,7 @@ Let us construct a trivariate generating function
     a_{njk} x^n y^j z^k
 \\]
 where \\( a\_{njk} \\) stands for the number of trees with given number \\( n
-\\) of nodes, \\( j \\) leaves, and \\( k \\) nodes with 4 children.
+\\) of nodes, \\( j \\) leaves, and \\( k \\) nodes with 3 children.
 
 \\[
     T(x, y, z) = x y + x \left( \dfrac{1}{1 - T} - T^3 \right) + x z T^3 
