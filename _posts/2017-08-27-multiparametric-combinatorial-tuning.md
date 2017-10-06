@@ -214,7 +214,7 @@ Let us look at the distribution of size when \\( z \\) is close to \\( 0.5 \\).
 
 ![](/pic/polynomial-tuning/27-08-17-02.png)   
 
->**Excercise**. The expected size of a generated object
+>**Exercise**. The expected size of a generated object
 from a Boltzmann sampler is equal to \\( z \dfrac{T'(z)}{T(z)} \\).
 \\( T(z) \\) is the generating function associated with the class of objects.
 Moreover, \\( z T'(z) / T(z) \\) is a non-decreasing function on \\( z \\), and
@@ -229,7 +229,7 @@ sampling**, where objects with size not in
 
 ![](/pic/polynomial-tuning/27-08-17-03.png)   
 
->**Excercise**. Boltzmann samplers with approximate-size rejection return an
+>**Exercise**. Boltzmann samplers with approximate-size rejection return an
 >object of size \\( n(1 + \delta) \\), \\( \delta \in [-\varepsilon,
 >\varepsilon] \\) in linear time \\( C\_\varepsilon n \\).
 
@@ -270,13 +270,13 @@ to be impossible.
 The word <<uniformly>> means that conditioned on size and parameter values, the
 objects are drawn uniformly at random.
 
->**Excercise**.
+>**Exercise**.
 Suppose that some magician gave us the variable values \\( x, y, z \\) depending on
 given expected values of parameters. Verify that the algorithm for Boltzmann
 sampling can be generalized in a straghtforward manner, and the uniformity
 conditions are verified automatically.
 
->**Excercise**.
+>**Exercise**.
 Verify that changing the weights in the recursive sampling algorithm, also gives
 exact-size approximate parameter random generation procedure, which is also
 uniform conditioned on parameter values.
@@ -337,14 +337,32 @@ Then \\( \xi, \eta, \zeta \\) can be obtained from a convex optimisation problem
             - \mathbb E j \cdot \eta
             - \mathbb E k \cdot \zeta
             \to \min ,\\\
-    \alpha \geq 1 + e^{\xi + 2 \eta + 2 \beta}
+    \alpha \geq
+    \log\left(
+            1 + e^{\xi + 2 \eta + 2 \beta}
             + \dfrac{e^{\zeta + \beta + \gamma}}{1 - e^{\eta+\gamma}}
-            + e^{\alpha + \beta + 2 \delta} , \\\
-    \beta  \geq e^\xi + e^{3 \alpha} + e^{\gamma + \delta} , \\\
-    \gamma \geq \dfrac{e^\eta}{1 - e^{\eta + \zeta}}
+            + e^{\alpha + \beta + 2 \delta}
+    \right)
+    , \\\
+    \beta  \geq
+    \log\left(
+            e^\xi
+            + e^{3 \alpha}
+            + e^{\gamma + \delta}
+    \right)
+    , \\\
+    \gamma \geq
+    \log\left(
+            \dfrac{e^\eta}{1 - e^{\eta + \zeta}}
             + e^{3 \gamma}
-            + e^{\alpha + \delta} , \\\
-    \delta \geq e^\beta + e^{4 \gamma} \enspace .
+            + e^{\alpha + \delta}
+    \right)
+    , \\\
+    \delta \geq
+    \log\left(
+        e^\beta + e^{4 \gamma}
+    \right)
+    \enspace .
 \end{cases}
 \\]
 
