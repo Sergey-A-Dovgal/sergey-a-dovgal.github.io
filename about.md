@@ -25,6 +25,7 @@ Polynomial tuning of multiparametric combinatorial samplers
 [[arxiv]](https://arxiv.org/abs/1708.01212)
 [[github:sampler]](https://github.com/maciej-bendkowski/boltzmann-brain)
 [[github:examples]](https://github.com/maciej-bendkowski/multiparametric-combinatorial-samplers)
+[[slides]](files/slides/polynomial-boltzmann-tuning.pdf)
 * Sergey Dovgal, Vlady Ravelomanana.
 Shifting the phase transition threshold for random graphs and 2-SAT using
   degree constraints [[arxiv]](https://arxiv.org/abs/1704.06683)
