@@ -25,4 +25,7 @@ deploy:
 	@echo "Switch back to develop...          ${CHECK} Done"
 	@echo "Deployed successfully completed at ${DATE}."
 	@echo "${HR}\n"
+	-git checkout lipn-pages
+	@make
+	-git checkout gh-pages
 	@echo "Script by @nicoespeon"
