@@ -38,7 +38,7 @@ Then, binary trees admit a kind of recursive definition:
 > **Definition.**
 >
 > A binary tree is either a *leaf* or a *root* with two *binary trees*
-> ![](/pic/polynomial-tuning/27-08-17-01.png)
+> ![]({{ "/pic/polynomial-tuning/27-08-17-01.png" | prepend: site.baseurl }})   
 
 Binary trees can be also represented by an unambiguous context-free grammar:
 \\[
@@ -212,7 +212,7 @@ https://nbviewer.jupyter.org/github/Electric-tric/electric-tric.github.io/blob/g
 
 Let us look at the distribution of size when \\( z \\) is close to \\( 0.5 \\).
 
-![](/pic/polynomial-tuning/27-08-17-02.png)   
+![]({{ "/pic/polynomial-tuning/27-08-17-02.png" | prepend: site.baseurl }})   
 
 >**Exercise**. The expected size of a generated object
 from a Boltzmann sampler is equal to \\( z \dfrac{T'(z)}{T(z)} \\).
@@ -227,7 +227,7 @@ objects of size approximately \\( 8 \\). For this reason, people use **rejection
 sampling**, where objects with size not in
 \\( [n(1 - \varepsilon), n(1 + \varepsilon)] \\) are rejected.
 
-![](/pic/polynomial-tuning/27-08-17-03.png)   
+![]({{ "/pic/polynomial-tuning/27-08-17-03.png" | prepend: site.baseurl }})   
 
 >**Exercise**. Boltzmann samplers with approximate-size rejection return an
 >object of size \\( n(1 + \delta) \\), \\( \delta \in [-\varepsilon,
@@ -240,7 +240,7 @@ Let us switch to another example.
 >**Problem**. Generate uniformly at random rooted trees with given number of
 >nodes, leaves and vertices with 3 chlidren.
 
-![](/pic/polynomial-tuning/27-08-17-04.png)   
+![]({{ "/pic/polynomial-tuning/27-08-17-04.png" | prepend: site.baseurl }})   
 
 Let us construct a trivariate generating function
 \\[
@@ -285,7 +285,7 @@ The idea of tuning expected values of parameteres is not completely meaningless.
 The distributions of most parameters in the system follow a Gaussian behaviour
 with \\( \sqrt n \\)-deviation.
 
-![](/pic/polynomial-tuning/27-08-17-05.png)   
+![]({{ "/pic/polynomial-tuning/27-08-17-05.png" | prepend: site.baseurl }})   
 
 
 ## Multiparametric tuning
@@ -299,7 +299,7 @@ possible to tune each value separately because each <<handle>> can influence
 each expectation.
 
 
-![](/pic/polynomial-tuning/27-08-17-06.png)   
+![]({{ "/pic/polynomial-tuning/27-08-17-06.png" | prepend: site.baseurl }})   
 
 The first naive approach requires nested binary searches, and this algorithm
 still has an exponential complexity on the number of parameters. We propose a
@@ -384,7 +384,7 @@ trees.
     \end{cases}
 \\]
 
-![](/pic/polynomial-tuning/27-08-17-07.png)   
+![]({{ "/pic/polynomial-tuning/27-08-17-07.png" | prepend: site.baseurl }})   
 
 The point of singularity \\( z = 0.5 \\) corresponds to the right-most point of
 the feasible set. After log-exp transform the feasible set becomes convex, which
@@ -402,19 +402,19 @@ tiles, some exemplary tiles are shown below. The principle of construction is to
 attach a subset of unit squares to the base layer which is a single connected
 block. 
 
-![](/pic/polynomial-tuning/27-08-17-08.png)   
+![]({{ "/pic/polynomial-tuning/27-08-17-08.png" | prepend: site.baseurl }})   
 
 A random tiling is generated from a rational grammar with a huge number of
 states (more than 28000).
 
-![](/pic/polynomial-tuning/27-08-17-09.png)   
+![]({{ "/pic/polynomial-tuning/27-08-17-09.png" | prepend: site.baseurl }})   
 
 ### Tree-like structures with given degree distribution
 
 Tree-like structures include rooted trees and also lambda terms in natural
 size notion. 
 
-![](/pic/polynomial-tuning/27-08-17-10.png)   
+![]({{ "/pic/polynomial-tuning/27-08-17-10.png" | prepend: site.baseurl }})   
 
 Don't be confused about observed frequency: this is a random variable with
 expectation exactly equal to 8 percent.
@@ -436,5 +436,5 @@ total number of unit squares represents an enegry of the system of bosons,
 the number of colours represents dimension of the space, and each row represents
 a particle.
 
-![](/pic/polynomial-tuning/27-08-17-11.png)   
+![]({{ "/pic/polynomial-tuning/27-08-17-11.png" | prepend: site.baseurl }})   
 
