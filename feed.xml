@@ -1,32 +1,899 @@
----
-layout: null
-lang: en
----
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ site.title[page.lang] | xml_escape }}</title>
-    <description>{{ site.description[page.lang] | xml_escape }}</description>
-    <link>{{ site.url }}{{ site.baseurl }}/</link>
-    <atom:link href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" rel="self" type="application/rss+xml"/>
-    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
-    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
-    <generator>Jekyll v{{ jekyll.version }}</generator>
-    {% assign posts=site.posts | where:"lang", page.lang %}
-    {% for post in posts limit:10 %}
+    <title></title>
+    <description>Sergey Dovgal's personal homepage</description>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 27 Jan 2020 21:54:17 +0100</pubDate>
+    <lastBuildDate>Mon, 27 Jan 2020 21:54:17 +0100</lastBuildDate>
+    <generator>Jekyll v4.0.0</generator>
+    
+    
       <item>
-        <title>{{ post.title | xml_escape }}</title>
-        <description>{{ post.content | xml_escape }}</description>
-        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-        <link>{{ post.url | prepend: site.baseurl | prepend: site.url }}</link>
-        <guid isPermaLink="true">{{ post.url | prepend: site.baseurl | prepend: site.url }}</guid>
-        {% for tag in post.tags %}
-        <category>{{ tag | xml_escape }}</category>
-        {% endfor %}
-        {% for cat in post.categories %}
-        <category>{{ cat | xml_escape }}</category>
-        {% endfor %}
+        <title>Multiparametric combinatorial tuning</title>
+        <description>&lt;p&gt;This note accompanies our recent paper
+&lt;a href=&quot;https://arxiv.org/abs/1708.01212&quot; target=&quot;\_blank&quot;&gt;[Polynomial tuning of multiparametric combinatorial samplers]&lt;/a&gt;
+with Olivier Bodini and Maciej Bendkowski.&lt;/p&gt;
+
+&lt;p&gt;Here I present the main statements (not proofs) illustrated by examples.
+This note is also accompanied by an &lt;code class=&quot;highlighter-rouge&quot;&gt;ipython&lt;/code&gt; notebook with clarifying simulations and code examples.
+&lt;a href=&quot;https://nbviewer.jupyter.org/github/Electric-tric/electric-tric.github.io/blob/gh-pages/ipynb/Recursive%20generation.ipynb#&quot; target=&quot;\_blank&quot;&gt;[Try the code online!]&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;We also wrote implementation which became a part of Maciej’s sampler &lt;code class=&quot;highlighter-rouge&quot;&gt;boltzmann-brain&lt;/code&gt;.
+The implementation is a mixture of &lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;python&lt;/code&gt; so it’s a bit tricky
+to configure and make it work, but &lt;a href=&quot;https://github.com/maciej-bendkowski/boltzmann-brain&quot;&gt;[you can
+try]&lt;/a&gt;. You can find a
+bunch of combinatorial examples &lt;a href=&quot;https://github.com/maciej-bendkowski/multiparametric-combinatorial-samplers&quot;&gt;[in another repository]&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Finally, I invite you to start a discussion / participate at the bottom of
+the page.&lt;/p&gt;
+
+&lt;h2 id=&quot;warm-up-example-binary-trees-and-catalan-numbers&quot;&gt;Warm-up example: binary trees and Catalan numbers&lt;/h2&gt;
+
+&lt;p&gt;First, define a binary tree. In principle, we are all familiar from graph theory
+with the concept of tree, which is a graph without cycles. In rooted trees,
+there is one distinguished vertex that we call a &lt;em&gt;root&lt;/em&gt;.
+The height of a node is the distance from this node to the root. If two nodes
+are adjacent then the node with greater height is calles a &lt;strong&gt;child&lt;/strong&gt;, and the
+other one is called a &lt;strong&gt;parent&lt;/strong&gt;.
+Binary trees are those trees whose nodes have either zero or two children.&lt;/p&gt;
+
+&lt;p&gt;Then, binary trees admit a kind of recursive definition:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Definition.&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;A binary tree is either a &lt;em&gt;leaf&lt;/em&gt; or a &lt;em&gt;root&lt;/em&gt; with two &lt;em&gt;binary trees&lt;/em&gt;
+&lt;img src=&quot;/pic/polynomial-tuning/27-08-17-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Binary trees can be also represented by an unambiguous context-free grammar:
+\[
+    B = \mathcal Z \mid (B) \mathcal Z (B)
+\]
+The symbol \( \mathcal Z \) is a terminal symbol of this grammar (a leaf
+vertex), and the brackets «(», «)» are auxilliary symbols.
+Thus, this grammar describes the set of words
+\(
+    \def\Z{\mathcal Z}
+\)
+\[
+    \{
+        \Z,
+        (\Z)\Z (\Z),
+        ((\Z)\Z (\Z)) \Z (\Z),
+        (\Z) \Z ((\Z)\Z (\Z)),
+        \ldots
+    \}
+\]&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Problem.&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;Generate uniformly at random binary trees with \( n \) nodes.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In the long run, the problem of random generation will become a bit more general
+than this, but we need to start with a simple example.
+Essentially, we consider two algorithms which solve this problem.&lt;/p&gt;
+
+&lt;h3 id=&quot;offtopic-random-facts-about-catalan-numbers-that-you-maybe-didnt-know&quot;&gt;offtopic. Random facts about Catalan numbers that you maybe didn’t know&lt;/h3&gt;
+&lt;p&gt;Let \( T_k \) denote the number of binary trees with \( n \)
+nodes. The sequence of nonzero \( T_k \), i.e. the subsequence with
+odd indices, is called a sequence of &lt;strong&gt;Catalan numbers&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Random fact 1.&lt;/strong&gt; 
+\[
+    T_{2n + 1} = \dfrac{1}{2 \pi} \int_0^4 x^n
+    \sqrt{ \dfrac{4-x}{x}} dx
+\]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Random fact 2.&lt;/strong&gt; 
+If \( T_{2n+1} \) is an odd number then \( n = 2^k - 1 \).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Random fact 3.&lt;/strong&gt; Matrix \( n \times n \) whose entries at index \( (i,j) \)
+are \( T_{2i+2j-1} \) has determinant \(1\):
+\[
+    \det \begin{bmatrix}
+        1  &amp;amp; 2  &amp;amp; 5   &amp;amp; 14 \&lt;br /&gt;
+        2  &amp;amp; 5  &amp;amp; 14  &amp;amp; 42 \&lt;br /&gt;
+        5  &amp;amp; 14 &amp;amp; 42  &amp;amp; 132 \&lt;br /&gt;
+        14 &amp;amp; 42 &amp;amp; 132 &amp;amp; 429 \&lt;br /&gt;
+    \end{bmatrix} = 1
+\]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;the-recursive-method&quot;&gt;The recursive method&lt;/h2&gt;
+
+&lt;p&gt;The recursive method is a kind of algorithm which uses dynamic programming.
+In order to generate a tree of size \( n \), we choose some \( k \)
+at random, and generate left subtree with \( k \) nodes and right subtree with
+\( n-k-1 \) nodes. But what should be the distribution of random variable \( k \)?&lt;/p&gt;
+
+&lt;p&gt;In order to give the answer, let’s turn to combinatorics.
+Suppose that the number of binary trees with \( k \) nodes is equal to \( T_k \)
+and has been precomputed for all \( k \leq n \).
+How to compute the number of trees of size \( n \)
+if all the numbers \( T_k \) are known for \( k &amp;lt; n \)?
+After summing over all possible \( k \), we obtain:
+\[
+    T_n = \sum_{k=1}^n T_k T_{n-k-1}
+    \enspace .
+\]
+The probability of having \( k \) vertices in the left subtree should be
+proportional to \( k \)-th summand in the previous sum:
+\[
+    \mathbb P(k \text{ nodes in the left subtree}) = \dfrac{T_k T_{n-k-1}}{T_n}
+\]
+Once all the values \( T_1, \ldots, T_{n-1} \) are precomputed, it is
+possible to recursively generate each required probability distribution on the
+number of nodes in the left subtree. The tree is generated from the root until
+each «subprocess» becomes a leaf node.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Recursive algorithm for binary trees&lt;/strong&gt;.
+&lt;a href=&quot;https://nbviewer.jupyter.org/github/Electric-tric/electric-tric.github.io/blob/gh-pages/ipynb/Recursive%20generation.ipynb#&quot; target=&quot;_blank&quot;&gt;[Try this code online!]&lt;/a&gt;&lt;/p&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;Precompute array \( (T_k)_{k=1}^n \) using the reccurence
+\[
+  T_n = \sum_{k=1}^n T_k T_{n-k-1}
+  \enspace ,
+  \quad
+  T_1 = 1 
+\]&lt;/li&gt;
+    &lt;li&gt;For each \( n \), precompute the probability distribution \( \mathcal P_n \):
+\[
+  p_k^{(n)} = \dfrac{T_k T_{n-k-1}}{T_n}
+\]&lt;/li&gt;
+    &lt;li&gt;Input: \( n \), target tree size&lt;/li&gt;
+    &lt;li&gt;Function &lt;code class=&quot;highlighter-rouge&quot;&gt;generate(n)&lt;/code&gt;:
+      &lt;ul&gt;
+        &lt;li&gt;If \( n = 1 \) return \( \mathcal Z \).&lt;/li&gt;
+        &lt;li&gt;Generate \( k \) from the probability distribution \( \mathcal P_n \).&lt;/li&gt;
+        &lt;li&gt;Left subtree &lt;code class=&quot;highlighter-rouge&quot;&gt;L := generate(k)&lt;/code&gt;&lt;/li&gt;
+        &lt;li&gt;Right subtree &lt;code class=&quot;highlighter-rouge&quot;&gt;R := generate(n-k-1)&lt;/code&gt;&lt;/li&gt;
+        &lt;li&gt;Return &lt;code class=&quot;highlighter-rouge&quot;&gt;(L)Z(R)&lt;/code&gt;, where &lt;code class=&quot;highlighter-rouge&quot;&gt;Z&lt;/code&gt; stands for root node.&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Remark&lt;/strong&gt;. We use quadratic algorithm to precompute the values \( T_k \).
+In fact, this can be done in linear time
+using a recursive formula
+\[
+    T_{2n+1} = \dfrac{2(2n-1)}{n+1} T_{2n-1}
+\]
+Moreover, for any combinatorial
+system corresponding to &lt;em&gt;unambiguous context-free grammar&lt;/em&gt; this can be done in
+linear arithmetic time (using so-called &lt;em&gt;holonomic specifications&lt;/em&gt;).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;the-boltzmann-sampler&quot;&gt;The Boltzmann sampler&lt;/h2&gt;
+
+&lt;p&gt;As often happens, the sampler named after Boltzmann, was not invented by him.
+This sampler is an invention of Duchon, Flajolet, Louchard and Schaeffer.
+The name &lt;em&gt;Boltzmann&lt;/em&gt; stands for Boltzmann distribution.&lt;/p&gt;
+
+&lt;p&gt;In contrast to the previous sampler, Boltzmann sampler doesn’t return objects of
+fixed size, the size is a random variable. Hovewer, the sampler has an
+additional parameter as an input, and this parameter can be changed to give
+different expected values of size.&lt;/p&gt;
+
+&lt;p&gt;At this point we need to define &lt;em&gt;generating function&lt;/em&gt; of binary trees.
+Generating function is a formal power series that contains information about all
+the coefficients \( T_k \) in the following way:
+\[
+    T(z) := T_0 + T_1 z + T_2 z^2 + \ldots
+\]
+This function can be even computed at some points \( z \), for example
+\( T(0.5) = 1 \). Pure magic and beauty.&lt;/p&gt;
+
+&lt;p&gt;There is a famous formula for Catalan numbers.
+\[
+    T(z) = \dfrac{1 - \sqrt{1 - 4z^2}}{2z}
+\]
+which can be proved by solving quadratic equation with respect to \( T \)
+\[
+    T(z) = z + z T^2(z)
+\]
+which, in its turn, follows from the reccurence relation on its coefficients.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Boltzmann sampler algorithm for binary trees&lt;/strong&gt;.
+&lt;a href=&quot;https://nbviewer.jupyter.org/github/Electric-tric/electric-tric.github.io/blob/gh-pages/ipynb/Recursive%20generation.ipynb#&quot; target=&quot;\_blank&quot;&gt;[Try the code online!]&lt;/a&gt;&lt;/p&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;Input \(n\), target &lt;em&gt;expected&lt;/em&gt; tree size.&lt;/li&gt;
+    &lt;li&gt;Choose \( z = z_n \) depending on \( n \), we will discuss this below.&lt;/li&gt;
+    &lt;li&gt;Function &lt;code class=&quot;highlighter-rouge&quot;&gt;generate(z)&lt;/code&gt;:
+      &lt;ul&gt;
+        &lt;li&gt;Carefully look at the equation
+  \[
+  T(z) = z + zT^2(z)
+  \]&lt;/li&gt;
+        &lt;li&gt;Generate Bernoulli random choice with probability
+  \[
+  \begin{cases}
+      \mathbb P(X = 0) &amp;amp;= \dfrac{z}{z + z T^2(z)} \&lt;br /&gt;
+      \mathbb P(X = 1) &amp;amp;= \dfrac{zT^2(z)}{z + z T^2(z)} 
+  \end{cases}
+  \]
+          &lt;ul&gt;
+            &lt;li&gt;If \( X = 0 \) then return &lt;code class=&quot;highlighter-rouge&quot;&gt;Z&lt;/code&gt; (tree with one node)&lt;/li&gt;
+            &lt;li&gt;If \( X = 1 \) then
+              &lt;ul&gt;
+                &lt;li&gt;Left subtree &lt;code class=&quot;highlighter-rouge&quot;&gt;L := generate(z)&lt;/code&gt;&lt;/li&gt;
+                &lt;li&gt;Right subtree &lt;code class=&quot;highlighter-rouge&quot;&gt;R := generate(z)&lt;/code&gt;&lt;/li&gt;
+                &lt;li&gt;Return &lt;code class=&quot;highlighter-rouge&quot;&gt;(L)Z(R)&lt;/code&gt; where &lt;code class=&quot;highlighter-rouge&quot;&gt;Z&lt;/code&gt; stands for root node.&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Let us look at the distribution of size when \( z \) is close to \( 0.5 \).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/pic/polynomial-tuning/27-08-17-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Exercise&lt;/strong&gt;. The expected size of a generated object
+from a Boltzmann sampler is equal to \( z \dfrac{T’(z)}{T(z)} \).
+\( T(z) \) is the generating function associated with the class of objects.
+Moreover, \( z T’(z) / T(z) \) is a non-decreasing function on \( z \), and
+therefore, the tuning parameter \( z_n \) depending on given expected size \(
+n \) can be computed with binary search.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Although the distribution depicted above, has expectation,
+it is not very «useful» in practice if we want to obtain
+objects of size approximately \( 8 \). For this reason, people use &lt;strong&gt;rejection
+sampling&lt;/strong&gt;, where objects with size not in
+\( [n(1 - \varepsilon), n(1 + \varepsilon)] \) are rejected.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/pic/polynomial-tuning/27-08-17-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Exercise&lt;/strong&gt;. Boltzmann samplers with approximate-size rejection return an
+object of size \( n(1 + \delta) \), \( \delta \in [-\varepsilon,
+\varepsilon] \) in linear time \( C_\varepsilon n \).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;multiparametric-sampling&quot;&gt;Multiparametric sampling&lt;/h2&gt;
+
+&lt;p&gt;Let us switch to another example.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Problem&lt;/strong&gt;. Generate uniformly at random rooted trees with given number of
+nodes, leaves and vertices with 3 chlidren.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/pic/polynomial-tuning/27-08-17-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let us construct a trivariate generating function
+\[
+    T(x, y, z) = \sum_{n, j, k \geq 0}
+    a_{njk} x^n y^j z^k
+\]
+where \( a_{njk} \) stands for the number of trees with given number \( n
+\) of nodes, \( j \) leaves, and \( k \) nodes with 3 children.&lt;/p&gt;
+
+&lt;p&gt;\[
+    T(x, y, z) = x y + x \left( \dfrac{1}{1 - T} - T^3 \right) + x z T^3 
+\]
+This is a 4-th degree equation on \( T \) which is not obvious to solve.&lt;/p&gt;
+
+&lt;p&gt;In fact, the best known solution to the mentioned problem (in case of
+arbitrarily large number of parameters) is to generate random objects with
+approximate parameter values and reject the objects if the size is not equal to
+the given one. The complexity of such a sampling is exponential in the number of
+parameters.&lt;/p&gt;
+
+&lt;p&gt;However, if we allow for approximate parameter values, the problem doesn’t seem
+to be impossible.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Problem&lt;/strong&gt;. Generate uniformly at random rooted trees with given approximate number of
+nodes, leaves and vertices with 3 chlidren. The word «approximate» means that
+the expected values of all the parameters should coincide with the given ones.
+The word «uniformly» means that conditioned on size and parameter values, the
+objects are drawn uniformly at random.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Exercise&lt;/strong&gt;.
+Suppose that some magician gave us the variable values \( x, y, z \) depending on
+given expected values of parameters. Verify that the algorithm for Boltzmann
+sampling can be generalized in a straghtforward manner, and the uniformity
+conditions are verified automatically.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Exercise&lt;/strong&gt;.
+Verify that changing the weights in the recursive sampling algorithm, also gives
+exact-size approximate parameter random generation procedure, which is also
+uniform conditioned on parameter values.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The idea of tuning expected values of parameteres is not completely meaningless.
+The distributions of most parameters in the system follow a Gaussian behaviour
+with \( \sqrt n \)-deviation.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/pic/polynomial-tuning/27-08-17-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;multiparametric-tuning&quot;&gt;Multiparametric tuning&lt;/h2&gt;
+
+&lt;p&gt;The problem of univariate tuning is to find a value \( z \) such that expected
+size is equal to \( n \). As we discussed before, when \( z \) increases,
+the expected size increases as well. This happens in multivariate case as well:
+if we increase the value of some variable \( y \), then the expected values of
+all other parameters should increase or stay the same. Unfortunately, it is not
+possible to tune each value separately because each «handle» can influence
+each expectation.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/pic/polynomial-tuning/27-08-17-06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The first naive approach requires nested binary searches, and this algorithm
+still has an exponential complexity on the number of parameters. We propose a
+different strategy which results in a polynomial tuning algorithm.&lt;/p&gt;
+
+&lt;h3 id=&quot;combinatorial-specifications&quot;&gt;Combinatorial specifications&lt;/h3&gt;
+
+&lt;p&gt;Let’s imagine ugly enough combinatorial systems involving several combinatorial
+classes and variables (it is not necessary to try to understand the
+combinatorics behind).&lt;/p&gt;
+
+&lt;p&gt;\[
+\begin{cases}
+    A &amp;amp;= 1 + xy^2 B^2 + \dfrac{z BC}{1 - y C} + ABD^2 , \&lt;br /&gt;
+    B &amp;amp;= x + A^3 + CD , \&lt;br /&gt;
+    C &amp;amp;= \dfrac{y}{1 - yz} + C^3 + AD , \&lt;br /&gt;
+    D &amp;amp;= B + C^4 \enspace .
+\end{cases}
+\]&lt;/p&gt;
+
+&lt;p&gt;Each variable is replaced by an exponential, and equations are converted into
+inequalities:
+\[
+    A = e^\alpha, B = e^\beta, C = e^\gamma, D = e^\delta,
+    x = e^\xi, y = e^\eta, z = e^\zeta
+\]
+Suppose that \( i, j, k \) are random variables, corresponding to parameters
+of objects from combinatorial class \( A \). Suppose that the values 
+\( \mathbb E i, \mathbb E j, \mathbb E k \) are given.
+Then \( \xi, \eta, \zeta \) can be obtained from a convex optimisation problem
+\[
+\begin{cases}
+           \alpha
+            - \mathbb E i \cdot \xi
+            - \mathbb E j \cdot \eta
+            - \mathbb E k \cdot \zeta
+            \to \min ,\&lt;br /&gt;
+    \alpha \geq
+    \log\left(
+            1 + e^{\xi + 2 \eta + 2 \beta}
+            + \dfrac{e^{\zeta + \beta + \gamma}}{1 - e^{\eta+\gamma}}
+            + e^{\alpha + \beta + 2 \delta}
+    \right)
+    , \&lt;br /&gt;
+    \beta  \geq
+    \log\left(
+            e^\xi
+            + e^{3 \alpha}
+            + e^{\gamma + \delta}
+    \right)
+    , \&lt;br /&gt;
+    \gamma \geq
+    \log\left(
+            \dfrac{e^\eta}{1 - e^{\eta + \zeta}}
+            + e^{3 \gamma}
+            + e^{\alpha + \delta}
+    \right)
+    , \&lt;br /&gt;
+    \delta \geq
+    \log\left(
+        e^\beta + e^{4 \gamma}
+    \right)
+    \enspace .
+\end{cases}
+\]&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Theorem&lt;/strong&gt;. This approach works for a very general class of combinatorial
+systems, including rational, algebraic systems and some systems involving Polya
+structures as well.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The geometry of this transform is well illustrated by an example of binary
+trees.
+\[
+    \begin{cases}
+        z \to \max , \&lt;br /&gt;
+        T \geq z + z T^2
+    \end{cases}
+    \quad \Rightarrow \quad &lt;br /&gt;
+    \begin{cases}
+        \zeta \to \max , \&lt;br /&gt;
+        b \geq \log(e^\zeta + e^\zeta e^{2b})
+    \end{cases}
+\]&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/pic/polynomial-tuning/27-08-17-07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The point of singularity \( z = 0.5 \) corresponds to the right-most point of
+the feasible set. After log-exp transform the feasible set becomes convex, which
+makes it possible to apply polynomial optimisation algorithm.&lt;/p&gt;
+
+&lt;h2 id=&quot;examples&quot;&gt;Examples&lt;/h2&gt;
+
+&lt;p&gt;Many of the examples may look a bit «artificial» but we are aware of a few
+more, which may be possibly included into an extended version of the paper.&lt;/p&gt;
+
+&lt;h3 id=&quot;random-tilings&quot;&gt;Random tilings&lt;/h3&gt;
+
+&lt;p&gt;Consider a rectangle \( 7 \times n \). We construct a set of 126 possible
+tiles, some exemplary tiles are shown below. The principle of construction is to
+attach a subset of unit squares to the base layer which is a single connected
+block.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/pic/polynomial-tuning/27-08-17-08.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A random tiling is generated from a rational grammar with a huge number of
+states (more than 28000).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/pic/polynomial-tuning/27-08-17-09.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tree-like-structures-with-given-degree-distribution&quot;&gt;Tree-like structures with given degree distribution&lt;/h3&gt;
+
+&lt;p&gt;Tree-like structures include rooted trees and also lambda terms in natural
+size notion.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/pic/polynomial-tuning/27-08-17-10.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Don’t be confused about observed frequency: this is a random variable with
+expectation exactly equal to 8 percent.&lt;/p&gt;
+
+&lt;h3 id=&quot;weighted-partitions&quot;&gt;Weighted partitions.&lt;/h3&gt;
+
+&lt;p&gt;In the last example, we recall that an &lt;em&gt;integer partition&lt;/em&gt; is a multiset of
+integer numbers:
+\[
+    16 = 1 + 1 + 3 + 4 + 7
+\]
+This partition can be represented as a Young diagram, a pyramid of 5 rows, with
+respectively \( 1, 1, 3, 4, 7 \) unit squares in rows. A &lt;strong&gt;coloured
+partition&lt;/strong&gt; is a similar thing, but each row is itself a multiset of several
+different colours (the total number of colours is fixed).&lt;/p&gt;
+
+&lt;p&gt;The model appears in various texts on statistical physics, and in short, the
+total number of unit squares represents an enegry of the system of bosons,
+the number of colours represents dimension of the space, and each row represents
+a particle.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/pic/polynomial-tuning/27-08-17-11.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 27 Aug 2017 00:00:00 +0200</pubDate>
+        <link>/2017/08/27/multiparametric-combinatorial-tuning.html</link>
+        <guid isPermaLink="true">/2017/08/27/multiparametric-combinatorial-tuning.html</guid>
+        
+        
       </item>
-    {% endfor %}
+    
+      <item>
+        <title>Factor Graphs, Sum-Product Algorithm. Part 1.</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;Mood: &lt;a href=&quot;https://music.yandex.ru/album/215667&quot; target=&quot;_blank&quot;&gt;
+The Mars Volta, «De-Loused in Comatorium»
+&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Estimated time: 60-90 minutes.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;what-is-this-about&quot;&gt;What is this about?&lt;/h1&gt;
+
+&lt;p&gt;In Moscow we have a joint seminar on &lt;a href=&quot;http://www.machinelearning.ru/wiki/index.php?title=Статистический_кластерный_анализ_(регулярный_семинар)&quot;&gt;Statistical Clustering Analysis&lt;/a&gt; for students from MSU, HSE, MIPT, IITP. Recently I have had a report on this seminar on Sum-Product Algorithm and Factor Graphs. I am not a specialist in the field, but gratefully, the report gave birth to some fruitful discussion on influence of Bayesian methods and Statistical Physics in Image Processing. After brief googling I found two rather profound articles (in Russian):
+&lt;a href=&quot;http://www.jip.ru/2013/141-170-2013.pdf&quot;&gt;(1) Gibbs Random Fields&lt;/a&gt; and &lt;a href=&quot;http://osmf.sscc.ru/~smp/Winkler-2rus-2008.pdf&quot;&gt;(2) Random Fields and Markov Chains in Image Processing&lt;/a&gt;. The first one is purely theoretically-physical, the second one is more about image processing and Bayesian inference.&lt;/p&gt;
+
+&lt;p&gt;The whole story is based upon the article «&lt;a href=&quot;http://vision.unipv.it/IA2/Factor%20graphs%20and%20the%20sum-product%20algorithm.pdf&quot;&gt;Factor Graphs and the Sum-Product Algorithm (2001)&lt;/a&gt;» by Kschischang, Frey, Loeliger. Initially, I have studied this article in order to understand the idea standing behind a clustering algorithm «&lt;a href=&quot;https://en.wikipedia.org/wiki/Affinity_propagation&quot;&gt;Affinity Propagation&lt;/a&gt;». There is also a couple of publications concerning Affinity Propagation, by Frey and Dueck. The Affinity Propagation is a direct competitor of our Adaptive Weight Clustering algorithm, so we wanted to «know the enemy in person».&lt;/p&gt;
+
+&lt;p&gt;It turned out that idea of factor graphs is much more general than a single clustering algorithm, and it is a very beautiful piece of math. The difference between the original article and this post is the following: 
+here I will try to emphasize the key points of my report at our clustering seminar, and refine some unclear points. Some technicalities and proofs might be omitted. However, it is worth noticing that the original article is almost perfect, so there is not much I can do. Much of the material is simply copy-pasted from there.&lt;/p&gt;
+
+&lt;p&gt;I should also warn a reader that, as already been said, I am not a specialist in Bayesian theory and graphical models. It is completely possible that I have missed some natural analogies – please do not hesitate to point that out in comments!&lt;/p&gt;
+
+&lt;p&gt;The sum-product algorithm for factor graphs, in fact, generalize the following things: Forward-Backward Algorithm, Viterbi Algorithm for Markov Chains, Kalman Filter, Fast Fourier Transform, and some algotihms from Linear Code Theory. It is quite a lot, so I will try to exhibit, how all this things can be incorporated in a pretty simple model of message passing in a bipartite graph. This is only the first part, so only one application will be covered.&lt;/p&gt;
+
+&lt;h1 id=&quot;sum-product-algorithm-for-marginal-functions&quot;&gt;Sum-product algorithm for marginal functions&lt;/h1&gt;
+
+&lt;p&gt;Let us start with the following problem.&lt;/p&gt;
+
+&lt;p&gt;Let \( x_1, \ldots, x_n \)  be a collection of variables, in which, each variable takes values only in some finite alphabet
+$ \Sigma $.
+Let \( g(x_1, \ldots, x_n) \) be some real-valued function with some specific internal structure that we will discuss later.
+We are interested in computing the &lt;em&gt;marginal&lt;/em&gt; functions:
+\[
+    g_i(x_i) \overset{def}= \sum_{x_1} \cdots \sum_{x_{i-1}} \sum_{x_{i+1}} \cdots \sum_{x_{n}} g(x_1, \ldots, x_n),
+\]
+where the value \( g_i(a) \) is obtained by summing \( g(x_1, \ldots, x_n) \) over all configurations of the variables with \( x_i = a \). The authors of the original article invented a special notation for the sums of this kind:
+\[
+    g_i (x_i) = \sum_{\sim \{ x_i \}} g(x_1, \ldots, x_n)
+\]
+For example, if \( h \) is a function of three variables, then
+\[
+    h_2(x_2) = \sum_{\sim \{ x_2 \}} h(x_1, x_2, x_3) = \sum_{x_1} \sum_{x_3} h(x_1, x_2, x_3).
+\]
+In general, one needs to take exponential number of steps to compute the function. So, we need some assumptions, which exhibit the underlying structure of the function. We suppose that the function \( g(x_1, \ldots, x_n) \) factors into a product of several &lt;em&gt;local functions&lt;/em&gt;, i.e.
+\[
+    g(x_1, \ldots, x_n) = \prod_{j \in J} f_j (X_j),
+\]
+where each \( X_j \) is a subset of \( \{ x_1, \ldots, x_n \} \), and \( J \) is a discrete index set. You can find an example several lines below.&lt;/p&gt;
+
+&lt;p&gt;Why this problem is interesting? Why do we consider this particular structure? Do we often meet such factorizations in reality?&lt;/p&gt;
+
+&lt;p&gt;Well, later we will show that such factorizations occur quite often in various problems, as was promised at the beginning of the post. However, the problem of finding a marginal sum is only one of the possibilities. Once we get the idea of marginal sums, we will be able to move further.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Definition.&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;A &lt;em&gt;factor graph&lt;/em&gt; is a bipartite graph that expresses the structure of the factorization. The first part represents the variables, and the second part represents the functions. There is an edge from variable node \( x_i \) to &lt;em&gt;factor node&lt;/em&gt; \( f_j \) if and only if \( x_i \) is an argument of \( f_j \).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Example.&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;Let \[ g(x_1, x_2, x_3, x_4, x_5) = f_A(x_1) f_B(x_2) f_C(x_1, x_2, x_3) f_D(x_3, x_4) f_E(x_3, x_5). \] Then the factor graph corresponds to the one shown in the figure:&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;center&gt;
+&lt;img src=&quot;/pic/factor_graphs/2016-03-03-1.png&quot; /&gt;
+
+&lt;/center&gt;
+
+&lt;h2 id=&quot;expression-tree&quot;&gt;Expression tree&lt;/h2&gt;
+
+&lt;p&gt;If the factor graph does not contain cycles, then it can be represented as a tree.&lt;/p&gt;
+
+&lt;center&gt;
+&lt;img src=&quot;/pic/factor_graphs/2016-03-03-3.png&quot; /&gt;
+&lt;/center&gt;
+
+&lt;p&gt;It is not always true that graph does not contain cycles. We shall begin with the situation where factor graph is a tree, and then we will provide some ideas of how it could be generalized. In fact, most insteresting situations are described by graphs that do contain cycles!&lt;/p&gt;
+
+&lt;p&gt;The situation can be used to simplify the computations using the distributive law. Suppose we want to find \( g_1(x_1) \) from the previous example. Then we can compute marginal sums for nodes \( x_4, x_5 \) first, then «pass the messages» from \( f_D, f_E \) to node \( x_3 \) (we shall see later what exactly this message passing means), then compute marginal sums for \( x_3 \) and so on.&lt;/p&gt;
+
+&lt;p&gt;More formally, using the distributive law, the marginal for \( g_1(x_1) \) can be expressed as following:
+\[
+    g_1 (x_1) = f_A (x_1) 
+    \Big( \sum_{x_2} f_B(x_2) 
+    \Big( \sum_{x_3} f_C(x_1, x_2, x_3) 
+    \Big( \sum_{x_4} f_D(x_3, x_4)
+    \Big) 
+    \Big( \sum_{x_5} f_E(x_3, x_5)
+    \Big)
+    \Big) 
+    \Big)
+\]
+Moreover, in summary notation, i.e. using \( \sum_{\sim \{ x \}} \) instead of \(\sum_{x}\), the same sum can be expressed as
+\[
+    g_1(x_1) = f_A (x_1) \sum_{\sim \{x_1 \}} \Big(
+    f_B(x_2)f_C(x_1, x_2, x_3)&lt;br /&gt;
+    \Big(
+        \sum_{\sim \{x_3\}} f_D(x_3, x_4)
+    \Big)
+    \Big(
+        \sum_{\sim \{x_3\}} f_E(x_3, x_5)
+    \Big)
+    \Big)
+\]&lt;/p&gt;
+
+&lt;p&gt;It can take a while until one checks the correctness of the expression.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Exercise.&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;Write the decomposition of the same kind for \( g_3 (x_3) \).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Proposition.&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;When a factor graph is cycle-free, the factor graph not only encodes
+in its structure the factorization of the global function, but also
+encodes arithmetic expressions by which the marginal functions
+associated with the global function may be computed.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Exercise.&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;Do we reduce the complexity of the computation of marginal sums using such decompositions
+instead of brute-force summation?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;computing-marginal-functions&quot;&gt;Computing marginal functions&lt;/h2&gt;
+
+&lt;p&gt;As for now, the tree has been «hanged» by the node \( x_1 \), and we managed to calculate the marginal sum \( g_1(x_1) \). If we want to compute marginal sum \( g_3(x_3) \), current technique allows only to re-hang the tree and re-do the whole procedure with another decomposition. Firstly, we will understand how to make the process automatical for one marginal sum, and then we will modify the procedure to make it possible to calculate all the marginal sums.&lt;/p&gt;
+
+&lt;p&gt;In order to compute all the marginal functions, we can initiate the message-passing procedure at the leaves. Any vertex waits for all the messages from children to come, i.e. remains idle until messages have arrived on all but one of the edges incident on \( v \).&lt;/p&gt;
+
+&lt;p&gt;What is the &lt;em&gt;message&lt;/em&gt;? Suppose there is an edge \( \{x, f\} \), connecting variable \( x\) to function node \( f\). No matter which direction points the edge, the message will always be some function of single variable \( x\), say \( \varphi_{ \{x, f\} }(x) \). Each node receives some messages and then sends one message.&lt;/p&gt;
+
+&lt;p&gt;We initialize the process at leaves.
+During the initialization,
+each leaf &lt;em&gt;variable&lt;/em&gt; node \( x\) sends a trivial «identity function» (\( \varphi(x) \equiv 1 \)) message to its parent, and each leaf &lt;em&gt;factor&lt;/em&gt; node \( f\), sends a description of \( f \) to its parent. Note that if \( f\) is a leaf node, then the function \( f\) depends on a single variable.&lt;/p&gt;
+
+&lt;p&gt;Let us introduce the following update rules:&lt;/p&gt;
+
+&lt;center&gt;
+&lt;img src=&quot;/pic/factor_graphs/2016-03-03-2.png&quot; /&gt;
+&lt;/center&gt;
+
+&lt;p&gt;During each step, each &lt;em&gt;variable&lt;/em&gt; node waits for the messages from all the children, and then simply sends the product of messages received from its children.&lt;/p&gt;
+
+&lt;p&gt;A &lt;em&gt;factor&lt;/em&gt; node \( f \) with parent \( x \) forms the product of \( f \) with the messages received by the children, and then operates on the result with a \( \sum_{\sim \{ x \}} \) summary operator.&lt;/p&gt;
+
+&lt;p&gt;Let \( n(v) \) denote the set of neighbors of a given node \( v\).
+ The message computation can be expressed as following:&lt;/p&gt;
+
+&lt;h3 id=&quot;variable-to-local-function&quot;&gt;variable to local function:&lt;/h3&gt;
+&lt;p&gt;\[
+    \mu_{x \to f} (x) = \prod_{h \in n(x) \backslash \{f\}} \mu_{h \to x} (x)
+\]&lt;/p&gt;
+
+&lt;h3 id=&quot;local-function-to-variable&quot;&gt;local function to variable:&lt;/h3&gt;
+&lt;p&gt;\[
+    \mu_{f \to x} (x) = \sum_{\sim \{x\}} \Big(
+    f(X) \prod_{y \in n(f) \backslash \{x\}} \mu_{y \to f} (y)
+    \Big)
+\]&lt;/p&gt;
+
+&lt;p&gt;In this framework, the computation terminates at the root node \( x_i \), because the tree is hanged by the node \( x_i \). The marginal function \( g_i (x_i) \) is obtained as the product of all messages received at \( x_i \).&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Exercise.&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;Check that for the above example the suggested message-passing procedure leads to correct decomposition for \( g_1(x_1) \).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This procedure is perfect if we want only one marginal, but let us think how it could be modified for multiple marginals.&lt;/p&gt;
+
+&lt;p&gt;If we want to compute all the marginals, then no particular vertex is taken as a root vertex. Thus, there is no more child-parent relationship between nodes. Therefore, we need to change our message-passing scheme.&lt;/p&gt;
+
+&lt;p&gt;Message passing is again initiated at the leaves. Again, each vertex remains idle until messages have arrived on all but one of the edges incident on \( v \). Once the messages have arrived, \( v \) is able to compute a message to be sent on the one remaining edge to its neighbor. After sending a message, vertex \( v \) returns to the idle state, waiting for the return message. Once the message has arrived, the vertex is able to compute and send messages to its other neighbors. The algorithm terminates once two messages have been passed over every edge, one in each direction.&lt;/p&gt;
+
+&lt;center&gt;
+&lt;img src=&quot;/pic/factor_graphs/2016-03-03-4.png&quot; /&gt;
+&lt;/center&gt;
+
+&lt;h2 id=&quot;example-of-message-passing-procedure&quot;&gt;Example of message-passing procedure&lt;/h2&gt;
+
+&lt;p&gt;For the function mentioned in the very beginning, we can depict the order in which the messages are passed:&lt;/p&gt;
+
+&lt;center&gt;
+&lt;img src=&quot;/pic/factor_graphs/2016-03-03-5.png&quot; /&gt;
+&lt;/center&gt;
+
+&lt;p&gt;In detail, the messages are generated as follows:&lt;/p&gt;
+&lt;h4 id=&quot;step-1&quot;&gt;Step 1.&lt;/h4&gt;
+&lt;p&gt;\begin{align}
+    \mu_{A \to 1} (x_1) &amp;amp;= \sum_{\sim \{x_1 \}} f_A(x_1) = f_A (x_1)  \&lt;br /&gt;
+    \mu_{B \to 2} (x_2) &amp;amp;= \sum_{\sim \{x_2 \}} f_B(x_2) = f_B (x_2)  \&lt;br /&gt;
+    \mu_{4 \to D} (x_4) &amp;amp;= 1                                                  \&lt;br /&gt;
+    \mu_{5 \to E} (x_5) &amp;amp;= 1.
+\end{align}&lt;/p&gt;
+&lt;h4 id=&quot;step-2&quot;&gt;Step 2.&lt;/h4&gt;
+&lt;p&gt;\begin{align}
+    \mu_{1 \to С} (x_1) &amp;amp;= \mu_{A \to 1} (x_1)  \&lt;br /&gt;
+    \mu_{2 \to С} (x_2) &amp;amp;= \mu_{B \to 2} (x_2)  \&lt;br /&gt;
+    \mu_{D \to 3} (x_3) &amp;amp;= \sum_{\sim \{x_3\}} \mu_{4 \to D} (x_4) f_D (x_3, x_4)                                                  \&lt;br /&gt;
+    \mu_{E \to 3} (x_3) &amp;amp;= \sum_{\sim \{x_3\}} \mu_{5 \to E} (x_5) f_E (x_3, x_5) .
+\end{align}&lt;/p&gt;
+
+&lt;h4 id=&quot;step-3&quot;&gt;Step 3.&lt;/h4&gt;
+&lt;p&gt;\begin{align}
+    \mu_{C \to 3} (x_3) &amp;amp;= \sum_{\sim \{x_3\}} \mu_{1 \to C} (x_1) \mu_{2 \to C} (x_2) f_C (x_1, x_2, x_3) \&lt;br /&gt;
+    \mu_{3 \to C} (x_3) &amp;amp;= \mu_{D \to 3} (x_3) \mu_{E \to 3}  (x_3)
+\end{align}&lt;/p&gt;
+
+&lt;h4 id=&quot;step-4&quot;&gt;Step 4.&lt;/h4&gt;
+&lt;p&gt;\begin{align}
+    \mu_{C \to 1} (x_1) &amp;amp;= \sum_{\sim \{x_1\}} \mu_{3 \to C} (x_3) \mu_{2 \to C} (x_2) f_C (x_1, x_2, x_3) \&lt;br /&gt;
+    \mu_{C \to 2} (x_2) &amp;amp;= \sum_{\sim \{x_2\}} \mu_{3 \to C} (x_3) \mu_{1 \to C} (x_1) f_C (x_1, x_2, x_3) \&lt;br /&gt;
+    \mu_{3 \to D} (x_3) &amp;amp;= \mu_{C \to 3} (x_3) \mu_{E \to 3} (x_3) \&lt;br /&gt;
+    \mu_{3 \to E} (x_3) &amp;amp;= \mu_{C \to 3} (x_3) \mu_{D \to 3} (x_3).
+\end{align}&lt;/p&gt;
+
+&lt;h4 id=&quot;step-5&quot;&gt;Step 5.&lt;/h4&gt;
+
+&lt;p&gt;\begin{align}
+    \mu_{1 \to A} (x_1) &amp;amp;= \mu_{C \to 1} (x_1) \&lt;br /&gt;
+    \mu_{2 \to B} (x_2) &amp;amp;= \mu_{C \to 2} (x_2) \&lt;br /&gt;
+    \mu_{D \to 4} (x_4) &amp;amp;= \sum_{\sim \{x_4\}} \mu_{3 \to D} (x_3) f_D (x_3, x_4)                                                  \&lt;br /&gt;
+    \mu_{E \to 4} (x_5) &amp;amp;= \sum_{\sim \{x_5\}} \mu_{3 \to E} (x_3) f_E (x_3, x_5)                                                  \&lt;br /&gt;
+\end{align}&lt;/p&gt;
+
+&lt;h4 id=&quot;termination&quot;&gt;Termination.&lt;/h4&gt;
+
+&lt;p&gt;\begin{align}
+    g_1(x_1) &amp;amp;= \mu_{A \to 1} (x_1) \mu_{C \to 1} (x_1)\&lt;br /&gt;
+    g_2(x_2) &amp;amp;= \mu_{B \to 2} (x_2) \mu_{C \to 2} (x_2)\&lt;br /&gt;
+    g_3(x_3) &amp;amp;= \mu_{C \to 3} (x_3) \mu_{D \to 3} (x_3) \mu_{E \to 3} (x_3)\&lt;br /&gt;
+    g_4(x_4) &amp;amp;= \mu_{D \to 4} (x_4) \&lt;br /&gt;
+    g_5(x_5) &amp;amp;= \mu_{E \to 5} (x_5)
+\end{align}&lt;/p&gt;
+
+&lt;h1 id=&quot;some-remarks&quot;&gt;Some remarks&lt;/h1&gt;
+
+&lt;h2 id=&quot;semiring-trick&quot;&gt;Semiring trick&lt;/h2&gt;
+
+&lt;p&gt;One can note that marginal sums involve two operations: \( \{+, \times\} \) and these two operations satisfy distributive law. In fact, we can use any two operations that satisfy the distributive law, and this is the case of &lt;em&gt;commutative semiring&lt;/em&gt;. For example, if we are searching for maxima \( \max f(x_1, \ldots, x_n) \), we can use the family \( \{\max, \times\} \), where \( \max \) now plays the role of sum. This allows to formulate another interesting optimization algorithm in terms of factor graph!&lt;/p&gt;
+
+&lt;h2 id=&quot;factor-graphs-with-cycles&quot;&gt;Factor graphs with cycles&lt;/h2&gt;
+
+&lt;p&gt;If we want to allow cycles in the graph, there will be no simple terminating condition, and hence, messages might pass  miltiple times on each edge, and this is ok. Many interesting applications involve the situations where graph &lt;em&gt;does have cycles&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;We convent that every node should pass a message along every edge at every time, assuming that passing of the messages in synchronized with some «global clock». In fact there are possible many message-scheduling strategies, and several of them are described in the original article.&lt;/p&gt;
+
+&lt;p&gt;It is important to emphasize that we do not initialize nodes, but we do initialize edges. So, during the initialization
+ we assume that a unit message has arrived on every edge incident on any given vertex.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Exercise.&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;Check that if the graph does not have any cycles, then this initialization does not affect the final result, and does not affect the number of steps until convergence.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So, the factor graphs obtained from this function, contains cycles, but which guarantees can be given for such an algorithm? It turns out that iterations of Sum-Product algorithm minimize some Kullback-Leibler divergence. So, there exists some invariant that is minimized by our procedure. Let us do it step by step.&lt;/p&gt;
+
+&lt;h1 id=&quot;bethe-method&quot;&gt;Bethe method&lt;/h1&gt;
+
+&lt;p&gt;The following theorem claims that there exists a certain structure in probability distributions, which can be represented as a product in case when factor graph does not have cycles. We will not concentrate on the particular form of the expression in the theorem.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Proposition&lt;/strong&gt; (Mean Field Approximation)&lt;/p&gt;
+
+  &lt;p&gt;Let us denote by \( N(a) \) the set of arguments of function with index \( a\), and by \( d_i \) – the cardinality of neighbors of \( x_i \).&lt;/p&gt;
+
+  &lt;p&gt;Suppose \( p(\boldsymbol x) \) is a probability function in the factor form, i.e.
+\[
+  p(\boldsymbol x) = \prod_{a = 1}^{M} q_a(\boldsymbol x_{N(a)})
+\]
+and the corresponding factor graph has no cycles.
+Then it can be expressed as follows:
+\[
+  p(\boldsymbol x) = \dfrac{\prod_{a=1}^M p_a(\boldsymbol x_{N(a)})}{\prod_{i=1}^N (p_i(x_i))^{d_i - 1}},&lt;br /&gt;
+\]
+where the functions \( p_n (x_n) \) and \( p_{a}(\boldsymbol x_{N(a)}) \) obey the following restrictions:
+\begin{align}
+    \sum_{x_n} p_n (x_n) &amp;amp;= 1 \quad \forall n \in [1, N], \&lt;br /&gt;
+    \sum_{\boldsymbol x_{N(a)}} p_a(\boldsymbol x_{N(a)}) &amp;amp;= 1,\&lt;br /&gt;
+    \sum_{\boldsymbol x_{N(a) \backslash n}} p_a(\boldsymbol x_{N(a)}) &amp;amp;= p_n(x_n) \quad \forall n \in [1, N].
+\end{align}&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Exercise.&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;Find the Bethe decomposition for the function from the example, assuming that it is a probability function.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Recall that all the variables \( x_1, \ldots, x_n \) take values only in some finite alphabet \( \Sigma \).
+It means that function of a single variable \( x_i \) can be represented as a vector of length \( |\Sigma| \). It means that Bethe decomposition can be parametrized with some fixed number of parameters.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Theorem.&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;If the factor graph for \(p(\boldsymbol x)\) has cycles, then the sum-product updates are equivalent to coordinate descent minimization of the KL-divergence between \( p(\boldsymbol x)\) and bethe-type distribution.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The proof and detailed formulation of the theorem can be found in the Appendix A of &lt;a href=&quot;http://www.cs.columbia.edu/~delbert/docs/DDueck-thesis_small.pdf&quot;&gt;PhD Thesis of Delbert Dueck&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now we are ready for some applications.&lt;/p&gt;
+
+&lt;h1 id=&quot;modeling-systems-with-factor-graphs&quot;&gt;Modeling Systems with Factor Graphs&lt;/h1&gt;
+
+&lt;h2 id=&quot;affinity-propagation&quot;&gt;Affinity propagation.&lt;/h2&gt;
+
+&lt;p&gt;Affinity propagation is a clustering algorithm. Its goal is to maximize &lt;em&gt;net similarity&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;The problem is formulated as follows: we are given a set of observations \( X_1, \ldots, X_n \), and a matrix of similarities \( s(i, j) \). We often cannot observe the variables \( X_1, \ldots, X_n \) themselves, but we always observe the similarity matrix.&lt;/p&gt;
+
+&lt;p&gt;In case of metric clusterization problem, i.e. \( X_j \in \mathbb R^d\) we can choose similarities like \( s(i, j) = - d(X_i, X_j) \) for \( i \neq j\), but for \( i = j\) we must have \( s(X_i, X_j) \neq 0 \). In fact, there are several possible strategies to define similarity of a vertex to itself:
+\[
+    s(i, i) = -\lambda; \quad \text{or} \quad
+    s(i, i) = \mathrm{Median}_{j}(s(i, j))
+\]                           &lt;br /&gt;
+We would like to choose &lt;em&gt;exemplars&lt;/em&gt; \( c_1, c_2, \ldots, c_n \) among the points of dataset, \( c_i \in \{X_1, \ldots, X_n \} \) such that the sum of similarities
+\[
+    \sum_{i = 1}^{n} s(i, c_i)
+\]
+is maximal. However, there is one restriction, preventing us from the greedy assignment.
+\[
+    (c_i = k) \, \Rightarrow \, (c_k = k),
+\] 
+i.e. the assignment of exemplars is correct. If point \( X_k \) is an exemplar for point \( X_i \), then it should be an exemplar for itself. The requirement can be re-formulated as follows: the set of points is splitted into disjoint sets of points, where each set has its own unique exemplar.&lt;/p&gt;
+
+&lt;center&gt;
+&lt;img src=&quot;/pic/factor_graphs/2016-03-03-7.png&quot; alt=&quot;Reference: Brendan J. Frey and Delbert Dueck, Clustering by Passing Messages Between Data Points, Science Feb. 2007&quot; /&gt; &lt;br /&gt;
+Reference: Brendan J. Frey and Delbert Dueck, “Clustering by Passing Messages Between Data Points”, Science Feb. 2007
+&lt;/center&gt;
+
+&lt;p&gt;The optimization problem can also be interpreted as the &lt;a href=&quot;https://en.wikipedia.org/wiki/Facility_location_problem&quot;&gt;&lt;em&gt;Facility Location Problem&lt;/em&gt;&lt;/a&gt;, which is known to be NP-hard.&lt;/p&gt;
+
+&lt;p&gt;It turns out that the optimized function with the correctness restriction can be modified and turned into another single function with no restrictions. Namely, we consider 
+\[
+    F(\boldsymbol c, \boldsymbol s) = \prod_{i=1}^{N} e^{s(i, c_i)} \prod_{k=1}^{N} f_k (\underbrace{c_1, \ldots, c_N}_{\boldsymbol c})
+\]
+The second term contains a correctness constraint defined as follows:
+\[
+    f_k(\boldsymbol c) = \begin{cases}
+    0, &amp;amp; c_k \neq k, \, \exists i \colon c_i = k\&lt;br /&gt;
+    1, &amp;amp; \mathrm{otherwise}
+\end{cases}
+\]&lt;/p&gt;
+
+&lt;p&gt;This function naturally produces the factor graph:&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&quot;/pic/factor_graphs/2016-03-03-8.png&quot; /&gt;
+&lt;/center&gt;
+
+&lt;p&gt;In fact, the analysis of message-passing for this function \( F(\boldsymbol c, \boldsymbol s) \) is quite cubersome, we need to consider several cases for valid and invalid configurations. The messages passing between \( c_i\) and \( f_j \) are most important, while messages between \( s(i, c_i) \) and \( c_i \) can be easily eliminated. The authors of Affinity Propagation show that max-product algorithm update equations for the functional, after some variable notation change, can be transformed into very simple form:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Affinity Propagation&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;Set \( a(i, k) \) to zero (availabilities).&lt;/li&gt;
+    &lt;li&gt;Repeat until convergence:
+      &lt;ul&gt;
+        &lt;li&gt;\( \forall i, k \colon r(i, k) = s(i, k) - \max_{k’ \neq k} [s(i, k’) + a(i, k’)] \)&lt;/li&gt;
+        &lt;li&gt;\( \forall i, k \colon a(i, k) = \begin{cases}
+  \sum_{i’ \neq i} [r(i’, k)]_{+}, &amp;amp; k = i\&lt;br /&gt;
+  [r(k,k) + [r(i’, k)]_{+}]_{-}, &amp;amp; k \neq i
+  \end{cases} \)&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Output: cluster assignments.
+      &lt;ul&gt;
+        &lt;li&gt;\( \hat{\boldsymbol c} = (\hat c_{1}, \ldots, \hat c_{N}) \), where&lt;/li&gt;
+        &lt;li&gt;\( \hat c_i = \arg\max_{k} [a(i,k) + r(i,k)] \)&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Note that this algorithm is rather heuristic than theoretically justified, because of the several reasons:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;There is justification via KL-divergence only for Sum-Product algorithm, but not for Max-Product. One can use the Sum-Product version of Affinity Propagation,  but it neither makes sense, nor is computational as simple as Max-Product version.&lt;/li&gt;
+  &lt;li&gt;Algorithm may converge to invalid configuration. In this case, one needs to restart it, until we get valid configuration. There are no theoretical guarantees on the number of restarts.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;However, it is claimed to have great practical performance.&lt;/p&gt;
+
+&lt;p&gt;Other interpretations of Affinity Propagation, including some probabilistic ones, can be found on its &lt;a href=&quot;http://www.psi.toronto.edu/affinitypropagation/faq.html&quot;&gt;FAQ Page&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 03 Mar 2016 00:00:00 +0100</pubDate>
+        <link>/2016/03/03/sum-product-algorithm-part1.html</link>
+        <guid isPermaLink="true">/2016/03/03/sum-product-algorithm-part1.html</guid>
+        
+        <category>statistics</category>
+        
+        <category>clustering</category>
+        
+        
+      </item>
+    
   </channel>
 </rss>

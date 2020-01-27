@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG"></script>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Factor Graphs, Sum-Product Algorithm. Part 1.</title>
+  <meta name="description" content="  Mood: The Mars Volta, «De-Loused in Comatorium»  Estimated time: 60-90 minutes.">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/2016/03/03/sum-product-algorithm-part1.html">
+  
+  <link rel="alternate" hreflang="en" href="/2016/03/03/sum-product-algorithm-part1.html" />
+  <link rel="alternate" hreflang="ru" href="/2016/03/03/sum-product-algorithm-part1-ru.html" />
+  
+  <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="//index.html"></a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+
+        <!--<a class="page-link" href="/index.html">[home]</a>-->
+        
+          <a class="page-link" href="/index.html">[home]</a>
+        
+          <a class="page-link" href="/research.html">[research]</a>
+        
+          <a class="page-link" href="/teaching.html">[teaching]</a>
+        
+          <a class="page-link" href="/software.html">[software]</a>
+        
+          <a class="page-link" href="/biography.html">[biography]</a>
+        
+      </div>
+
+      <!--
+      <div class="trigger">
+        
+        
+          
+          <a class="page-link" href="/archive.html">Posts</a>
+          
+        
+          
+          <a class="page-link" href="/biography.html">Biography</a>
+          
+        
+          
+        
+          
+          <a class="page-link" href="/">Sergey Dovgal</a>
+          
+        
+          
+        
+          
+          <a class="page-link" href="/research.html">Research</a>
+          
+        
+          
+          <a class="page-link" href="/software.html">Software</a>
+          
+        
+          
+          <a class="page-link" href="/teaching.html">Teaching</a>
+          
+        
+      </div>
+      -->
+    </nav>
+
+  </div>
+
+
+<div class="wrapper" style="text-align: right; line-height: 2em">
+  
+   <a href="/2016/03/03/sum-product-algorithm-part1.html" class="en">en</a>  <a href="/2016/03/03/sum-product-algorithm-part1-ru.html" class="ru">ru</a> 
+
+  
+  
+</div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Factor Graphs, Sum-Product Algorithm. Part 1.</h1>
+    <p class="post-meta"><time datetime="2016-03-03T00:00:00+01:00" itemprop="datePublished">Mar 3, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <ul>
+  <li>Mood: <a href="https://music.yandex.ru/album/215667" target="_blank">
+The Mars Volta, «De-Loused in Comatorium»
+</a></li>
+  <li>Estimated time: 60-90 minutes.</li>
+</ul>
+
+<h1 id="what-is-this-about">What is this about?</h1>
+
+<p>In Moscow we have a joint seminar on <a href="http://www.machinelearning.ru/wiki/index.php?title=Статистический_кластерный_анализ_(регулярный_семинар)">Statistical Clustering Analysis</a> for students from MSU, HSE, MIPT, IITP. Recently I have had a report on this seminar on Sum-Product Algorithm and Factor Graphs. I am not a specialist in the field, but gratefully, the report gave birth to some fruitful discussion on influence of Bayesian methods and Statistical Physics in Image Processing. After brief googling I found two rather profound articles (in Russian):
+<a href="http://www.jip.ru/2013/141-170-2013.pdf">(1) Gibbs Random Fields</a> and <a href="http://osmf.sscc.ru/~smp/Winkler-2rus-2008.pdf">(2) Random Fields and Markov Chains in Image Processing</a>. The first one is purely theoretically-physical, the second one is more about image processing and Bayesian inference.</p>
+
+<p>The whole story is based upon the article «<a href="http://vision.unipv.it/IA2/Factor%20graphs%20and%20the%20sum-product%20algorithm.pdf">Factor Graphs and the Sum-Product Algorithm (2001)</a>» by Kschischang, Frey, Loeliger. Initially, I have studied this article in order to understand the idea standing behind a clustering algorithm «<a href="https://en.wikipedia.org/wiki/Affinity_propagation">Affinity Propagation</a>». There is also a couple of publications concerning Affinity Propagation, by Frey and Dueck. The Affinity Propagation is a direct competitor of our Adaptive Weight Clustering algorithm, so we wanted to «know the enemy in person».</p>
+
+<p>It turned out that idea of factor graphs is much more general than a single clustering algorithm, and it is a very beautiful piece of math. The difference between the original article and this post is the following: 
+here I will try to emphasize the key points of my report at our clustering seminar, and refine some unclear points. Some technicalities and proofs might be omitted. However, it is worth noticing that the original article is almost perfect, so there is not much I can do. Much of the material is simply copy-pasted from there.</p>
+
+<p>I should also warn a reader that, as already been said, I am not a specialist in Bayesian theory and graphical models. It is completely possible that I have missed some natural analogies – please do not hesitate to point that out in comments!</p>
+
+<p>The sum-product algorithm for factor graphs, in fact, generalize the following things: Forward-Backward Algorithm, Viterbi Algorithm for Markov Chains, Kalman Filter, Fast Fourier Transform, and some algotihms from Linear Code Theory. It is quite a lot, so I will try to exhibit, how all this things can be incorporated in a pretty simple model of message passing in a bipartite graph. This is only the first part, so only one application will be covered.</p>
+
+<h1 id="sum-product-algorithm-for-marginal-functions">Sum-product algorithm for marginal functions</h1>
+
+<p>Let us start with the following problem.</p>
+
+<p>Let \( x_1, \ldots, x_n \)  be a collection of variables, in which, each variable takes values only in some finite alphabet
+$ \Sigma $.
+Let \( g(x_1, \ldots, x_n) \) be some real-valued function with some specific internal structure that we will discuss later.
+We are interested in computing the <em>marginal</em> functions:
+\[
+    g_i(x_i) \overset{def}= \sum_{x_1} \cdots \sum_{x_{i-1}} \sum_{x_{i+1}} \cdots \sum_{x_{n}} g(x_1, \ldots, x_n),
+\]
+where the value \( g_i(a) \) is obtained by summing \( g(x_1, \ldots, x_n) \) over all configurations of the variables with \( x_i = a \). The authors of the original article invented a special notation for the sums of this kind:
+\[
+    g_i (x_i) = \sum_{\sim \{ x_i \}} g(x_1, \ldots, x_n)
+\]
+For example, if \( h \) is a function of three variables, then
+\[
+    h_2(x_2) = \sum_{\sim \{ x_2 \}} h(x_1, x_2, x_3) = \sum_{x_1} \sum_{x_3} h(x_1, x_2, x_3).
+\]
+In general, one needs to take exponential number of steps to compute the function. So, we need some assumptions, which exhibit the underlying structure of the function. We suppose that the function \( g(x_1, \ldots, x_n) \) factors into a product of several <em>local functions</em>, i.e.
+\[
+    g(x_1, \ldots, x_n) = \prod_{j \in J} f_j (X_j),
+\]
+where each \( X_j \) is a subset of \( \{ x_1, \ldots, x_n \} \), and \( J \) is a discrete index set. You can find an example several lines below.</p>
+
+<p>Why this problem is interesting? Why do we consider this particular structure? Do we often meet such factorizations in reality?</p>
+
+<p>Well, later we will show that such factorizations occur quite often in various problems, as was promised at the beginning of the post. However, the problem of finding a marginal sum is only one of the possibilities. Once we get the idea of marginal sums, we will be able to move further.</p>
+
+<blockquote>
+  <p><strong>Definition.</strong></p>
+
+  <p>A <em>factor graph</em> is a bipartite graph that expresses the structure of the factorization. The first part represents the variables, and the second part represents the functions. There is an edge from variable node \( x_i \) to <em>factor node</em> \( f_j \) if and only if \( x_i \) is an argument of \( f_j \).</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Example.</strong></p>
+
+  <p>Let \[ g(x_1, x_2, x_3, x_4, x_5) = f_A(x_1) f_B(x_2) f_C(x_1, x_2, x_3) f_D(x_3, x_4) f_E(x_3, x_5). \] Then the factor graph corresponds to the one shown in the figure:</p>
+
+</blockquote>
+<center>
+<img src="/pic/factor_graphs/2016-03-03-1.png" />
+
+</center>
+
+<h2 id="expression-tree">Expression tree</h2>
+
+<p>If the factor graph does not contain cycles, then it can be represented as a tree.</p>
+
+<center>
+<img src="/pic/factor_graphs/2016-03-03-3.png" />
+</center>
+
+<p>It is not always true that graph does not contain cycles. We shall begin with the situation where factor graph is a tree, and then we will provide some ideas of how it could be generalized. In fact, most insteresting situations are described by graphs that do contain cycles!</p>
+
+<p>The situation can be used to simplify the computations using the distributive law. Suppose we want to find \( g_1(x_1) \) from the previous example. Then we can compute marginal sums for nodes \( x_4, x_5 \) first, then «pass the messages» from \( f_D, f_E \) to node \( x_3 \) (we shall see later what exactly this message passing means), then compute marginal sums for \( x_3 \) and so on.</p>
+
+<p>More formally, using the distributive law, the marginal for \( g_1(x_1) \) can be expressed as following:
+\[
+    g_1 (x_1) = f_A (x_1) 
+    \Big( \sum_{x_2} f_B(x_2) 
+    \Big( \sum_{x_3} f_C(x_1, x_2, x_3) 
+    \Big( \sum_{x_4} f_D(x_3, x_4)
+    \Big) 
+    \Big( \sum_{x_5} f_E(x_3, x_5)
+    \Big)
+    \Big) 
+    \Big)
+\]
+Moreover, in summary notation, i.e. using \( \sum_{\sim \{ x \}} \) instead of \(\sum_{x}\), the same sum can be expressed as
+\[
+    g_1(x_1) = f_A (x_1) \sum_{\sim \{x_1 \}} \Big(
+    f_B(x_2)f_C(x_1, x_2, x_3)<br />
+    \Big(
+        \sum_{\sim \{x_3\}} f_D(x_3, x_4)
+    \Big)
+    \Big(
+        \sum_{\sim \{x_3\}} f_E(x_3, x_5)
+    \Big)
+    \Big)
+\]</p>
+
+<p>It can take a while until one checks the correctness of the expression.</p>
+
+<blockquote>
+  <p><strong>Exercise.</strong></p>
+
+  <p>Write the decomposition of the same kind for \( g_3 (x_3) \).</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Proposition.</strong></p>
+
+  <p>When a factor graph is cycle-free, the factor graph not only encodes
+in its structure the factorization of the global function, but also
+encodes arithmetic expressions by which the marginal functions
+associated with the global function may be computed.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Exercise.</strong></p>
+
+  <p>Do we reduce the complexity of the computation of marginal sums using such decompositions
+instead of brute-force summation?</p>
+</blockquote>
+
+<h2 id="computing-marginal-functions">Computing marginal functions</h2>
+
+<p>As for now, the tree has been «hanged» by the node \( x_1 \), and we managed to calculate the marginal sum \( g_1(x_1) \). If we want to compute marginal sum \( g_3(x_3) \), current technique allows only to re-hang the tree and re-do the whole procedure with another decomposition. Firstly, we will understand how to make the process automatical for one marginal sum, and then we will modify the procedure to make it possible to calculate all the marginal sums.</p>
+
+<p>In order to compute all the marginal functions, we can initiate the message-passing procedure at the leaves. Any vertex waits for all the messages from children to come, i.e. remains idle until messages have arrived on all but one of the edges incident on \( v \).</p>
+
+<p>What is the <em>message</em>? Suppose there is an edge \( \{x, f\} \), connecting variable \( x\) to function node \( f\). No matter which direction points the edge, the message will always be some function of single variable \( x\), say \( \varphi_{ \{x, f\} }(x) \). Each node receives some messages and then sends one message.</p>
+
+<p>We initialize the process at leaves.
+During the initialization,
+each leaf <em>variable</em> node \( x\) sends a trivial «identity function» (\( \varphi(x) \equiv 1 \)) message to its parent, and each leaf <em>factor</em> node \( f\), sends a description of \( f \) to its parent. Note that if \( f\) is a leaf node, then the function \( f\) depends on a single variable.</p>
+
+<p>Let us introduce the following update rules:</p>
+
+<center>
+<img src="/pic/factor_graphs/2016-03-03-2.png" />
+</center>
+
+<p>During each step, each <em>variable</em> node waits for the messages from all the children, and then simply sends the product of messages received from its children.</p>
+
+<p>A <em>factor</em> node \( f \) with parent \( x \) forms the product of \( f \) with the messages received by the children, and then operates on the result with a \( \sum_{\sim \{ x \}} \) summary operator.</p>
+
+<p>Let \( n(v) \) denote the set of neighbors of a given node \( v\).
+ The message computation can be expressed as following:</p>
+
+<h3 id="variable-to-local-function">variable to local function:</h3>
+<p>\[
+    \mu_{x \to f} (x) = \prod_{h \in n(x) \backslash \{f\}} \mu_{h \to x} (x)
+\]</p>
+
+<h3 id="local-function-to-variable">local function to variable:</h3>
+<p>\[
+    \mu_{f \to x} (x) = \sum_{\sim \{x\}} \Big(
+    f(X) \prod_{y \in n(f) \backslash \{x\}} \mu_{y \to f} (y)
+    \Big)
+\]</p>
+
+<p>In this framework, the computation terminates at the root node \( x_i \), because the tree is hanged by the node \( x_i \). The marginal function \( g_i (x_i) \) is obtained as the product of all messages received at \( x_i \).</p>
+
+<blockquote>
+  <p><strong>Exercise.</strong></p>
+
+  <p>Check that for the above example the suggested message-passing procedure leads to correct decomposition for \( g_1(x_1) \).</p>
+</blockquote>
+
+<p>This procedure is perfect if we want only one marginal, but let us think how it could be modified for multiple marginals.</p>
+
+<p>If we want to compute all the marginals, then no particular vertex is taken as a root vertex. Thus, there is no more child-parent relationship between nodes. Therefore, we need to change our message-passing scheme.</p>
+
+<p>Message passing is again initiated at the leaves. Again, each vertex remains idle until messages have arrived on all but one of the edges incident on \( v \). Once the messages have arrived, \( v \) is able to compute a message to be sent on the one remaining edge to its neighbor. After sending a message, vertex \( v \) returns to the idle state, waiting for the return message. Once the message has arrived, the vertex is able to compute and send messages to its other neighbors. The algorithm terminates once two messages have been passed over every edge, one in each direction.</p>
+
+<center>
+<img src="/pic/factor_graphs/2016-03-03-4.png" />
+</center>
+
+<h2 id="example-of-message-passing-procedure">Example of message-passing procedure</h2>
+
+<p>For the function mentioned in the very beginning, we can depict the order in which the messages are passed:</p>
+
+<center>
+<img src="/pic/factor_graphs/2016-03-03-5.png" />
+</center>
+
+<p>In detail, the messages are generated as follows:</p>
+<h4 id="step-1">Step 1.</h4>
+<p>\begin{align}
+    \mu_{A \to 1} (x_1) &amp;= \sum_{\sim \{x_1 \}} f_A(x_1) = f_A (x_1)  \<br />
+    \mu_{B \to 2} (x_2) &amp;= \sum_{\sim \{x_2 \}} f_B(x_2) = f_B (x_2)  \<br />
+    \mu_{4 \to D} (x_4) &amp;= 1                                                  \<br />
+    \mu_{5 \to E} (x_5) &amp;= 1.
+\end{align}</p>
+<h4 id="step-2">Step 2.</h4>
+<p>\begin{align}
+    \mu_{1 \to С} (x_1) &amp;= \mu_{A \to 1} (x_1)  \<br />
+    \mu_{2 \to С} (x_2) &amp;= \mu_{B \to 2} (x_2)  \<br />
+    \mu_{D \to 3} (x_3) &amp;= \sum_{\sim \{x_3\}} \mu_{4 \to D} (x_4) f_D (x_3, x_4)                                                  \<br />
+    \mu_{E \to 3} (x_3) &amp;= \sum_{\sim \{x_3\}} \mu_{5 \to E} (x_5) f_E (x_3, x_5) .
+\end{align}</p>
+
+<h4 id="step-3">Step 3.</h4>
+<p>\begin{align}
+    \mu_{C \to 3} (x_3) &amp;= \sum_{\sim \{x_3\}} \mu_{1 \to C} (x_1) \mu_{2 \to C} (x_2) f_C (x_1, x_2, x_3) \<br />
+    \mu_{3 \to C} (x_3) &amp;= \mu_{D \to 3} (x_3) \mu_{E \to 3}  (x_3)
+\end{align}</p>
+
+<h4 id="step-4">Step 4.</h4>
+<p>\begin{align}
+    \mu_{C \to 1} (x_1) &amp;= \sum_{\sim \{x_1\}} \mu_{3 \to C} (x_3) \mu_{2 \to C} (x_2) f_C (x_1, x_2, x_3) \<br />
+    \mu_{C \to 2} (x_2) &amp;= \sum_{\sim \{x_2\}} \mu_{3 \to C} (x_3) \mu_{1 \to C} (x_1) f_C (x_1, x_2, x_3) \<br />
+    \mu_{3 \to D} (x_3) &amp;= \mu_{C \to 3} (x_3) \mu_{E \to 3} (x_3) \<br />
+    \mu_{3 \to E} (x_3) &amp;= \mu_{C \to 3} (x_3) \mu_{D \to 3} (x_3).
+\end{align}</p>
+
+<h4 id="step-5">Step 5.</h4>
+
+<p>\begin{align}
+    \mu_{1 \to A} (x_1) &amp;= \mu_{C \to 1} (x_1) \<br />
+    \mu_{2 \to B} (x_2) &amp;= \mu_{C \to 2} (x_2) \<br />
+    \mu_{D \to 4} (x_4) &amp;= \sum_{\sim \{x_4\}} \mu_{3 \to D} (x_3) f_D (x_3, x_4)                                                  \<br />
+    \mu_{E \to 4} (x_5) &amp;= \sum_{\sim \{x_5\}} \mu_{3 \to E} (x_3) f_E (x_3, x_5)                                                  \<br />
+\end{align}</p>
+
+<h4 id="termination">Termination.</h4>
+
+<p>\begin{align}
+    g_1(x_1) &amp;= \mu_{A \to 1} (x_1) \mu_{C \to 1} (x_1)\<br />
+    g_2(x_2) &amp;= \mu_{B \to 2} (x_2) \mu_{C \to 2} (x_2)\<br />
+    g_3(x_3) &amp;= \mu_{C \to 3} (x_3) \mu_{D \to 3} (x_3) \mu_{E \to 3} (x_3)\<br />
+    g_4(x_4) &amp;= \mu_{D \to 4} (x_4) \<br />
+    g_5(x_5) &amp;= \mu_{E \to 5} (x_5)
+\end{align}</p>
+
+<h1 id="some-remarks">Some remarks</h1>
+
+<h2 id="semiring-trick">Semiring trick</h2>
+
+<p>One can note that marginal sums involve two operations: \( \{+, \times\} \) and these two operations satisfy distributive law. In fact, we can use any two operations that satisfy the distributive law, and this is the case of <em>commutative semiring</em>. For example, if we are searching for maxima \( \max f(x_1, \ldots, x_n) \), we can use the family \( \{\max, \times\} \), where \( \max \) now plays the role of sum. This allows to formulate another interesting optimization algorithm in terms of factor graph!</p>
+
+<h2 id="factor-graphs-with-cycles">Factor graphs with cycles</h2>
+
+<p>If we want to allow cycles in the graph, there will be no simple terminating condition, and hence, messages might pass  miltiple times on each edge, and this is ok. Many interesting applications involve the situations where graph <em>does have cycles</em>.</p>
+
+<p>We convent that every node should pass a message along every edge at every time, assuming that passing of the messages in synchronized with some «global clock». In fact there are possible many message-scheduling strategies, and several of them are described in the original article.</p>
+
+<p>It is important to emphasize that we do not initialize nodes, but we do initialize edges. So, during the initialization
+ we assume that a unit message has arrived on every edge incident on any given vertex.</p>
+
+<blockquote>
+  <p><strong>Exercise.</strong></p>
+
+  <p>Check that if the graph does not have any cycles, then this initialization does not affect the final result, and does not affect the number of steps until convergence.</p>
+</blockquote>
+
+<p>So, the factor graphs obtained from this function, contains cycles, but which guarantees can be given for such an algorithm? It turns out that iterations of Sum-Product algorithm minimize some Kullback-Leibler divergence. So, there exists some invariant that is minimized by our procedure. Let us do it step by step.</p>
+
+<h1 id="bethe-method">Bethe method</h1>
+
+<p>The following theorem claims that there exists a certain structure in probability distributions, which can be represented as a product in case when factor graph does not have cycles. We will not concentrate on the particular form of the expression in the theorem.</p>
+
+<blockquote>
+  <p><strong>Proposition</strong> (Mean Field Approximation)</p>
+
+  <p>Let us denote by \( N(a) \) the set of arguments of function with index \( a\), and by \( d_i \) – the cardinality of neighbors of \( x_i \).</p>
+
+  <p>Suppose \( p(\boldsymbol x) \) is a probability function in the factor form, i.e.
+\[
+  p(\boldsymbol x) = \prod_{a = 1}^{M} q_a(\boldsymbol x_{N(a)})
+\]
+and the corresponding factor graph has no cycles.
+Then it can be expressed as follows:
+\[
+  p(\boldsymbol x) = \dfrac{\prod_{a=1}^M p_a(\boldsymbol x_{N(a)})}{\prod_{i=1}^N (p_i(x_i))^{d_i - 1}},<br />
+\]
+where the functions \( p_n (x_n) \) and \( p_{a}(\boldsymbol x_{N(a)}) \) obey the following restrictions:
+\begin{align}
+    \sum_{x_n} p_n (x_n) &amp;= 1 \quad \forall n \in [1, N], \<br />
+    \sum_{\boldsymbol x_{N(a)}} p_a(\boldsymbol x_{N(a)}) &amp;= 1,\<br />
+    \sum_{\boldsymbol x_{N(a) \backslash n}} p_a(\boldsymbol x_{N(a)}) &amp;= p_n(x_n) \quad \forall n \in [1, N].
+\end{align}</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Exercise.</strong></p>
+
+  <p>Find the Bethe decomposition for the function from the example, assuming that it is a probability function.</p>
+</blockquote>
+
+<p>Recall that all the variables \( x_1, \ldots, x_n \) take values only in some finite alphabet \( \Sigma \).
+It means that function of a single variable \( x_i \) can be represented as a vector of length \( |\Sigma| \). It means that Bethe decomposition can be parametrized with some fixed number of parameters.</p>
+
+<blockquote>
+  <p><strong>Theorem.</strong></p>
+
+  <p>If the factor graph for \(p(\boldsymbol x)\) has cycles, then the sum-product updates are equivalent to coordinate descent minimization of the KL-divergence between \( p(\boldsymbol x)\) and bethe-type distribution.</p>
+</blockquote>
+
+<p>The proof and detailed formulation of the theorem can be found in the Appendix A of <a href="http://www.cs.columbia.edu/~delbert/docs/DDueck-thesis_small.pdf">PhD Thesis of Delbert Dueck</a>.</p>
+
+<p>Now we are ready for some applications.</p>
+
+<h1 id="modeling-systems-with-factor-graphs">Modeling Systems with Factor Graphs</h1>
+
+<h2 id="affinity-propagation">Affinity propagation.</h2>
+
+<p>Affinity propagation is a clustering algorithm. Its goal is to maximize <em>net similarity</em>.</p>
+
+<p>The problem is formulated as follows: we are given a set of observations \( X_1, \ldots, X_n \), and a matrix of similarities \( s(i, j) \). We often cannot observe the variables \( X_1, \ldots, X_n \) themselves, but we always observe the similarity matrix.</p>
+
+<p>In case of metric clusterization problem, i.e. \( X_j \in \mathbb R^d\) we can choose similarities like \( s(i, j) = - d(X_i, X_j) \) for \( i \neq j\), but for \( i = j\) we must have \( s(X_i, X_j) \neq 0 \). In fact, there are several possible strategies to define similarity of a vertex to itself:
+\[
+    s(i, i) = -\lambda; \quad \text{or} \quad
+    s(i, i) = \mathrm{Median}_{j}(s(i, j))
+\]                           <br />
+We would like to choose <em>exemplars</em> \( c_1, c_2, \ldots, c_n \) among the points of dataset, \( c_i \in \{X_1, \ldots, X_n \} \) such that the sum of similarities
+\[
+    \sum_{i = 1}^{n} s(i, c_i)
+\]
+is maximal. However, there is one restriction, preventing us from the greedy assignment.
+\[
+    (c_i = k) \, \Rightarrow \, (c_k = k),
+\] 
+i.e. the assignment of exemplars is correct. If point \( X_k \) is an exemplar for point \( X_i \), then it should be an exemplar for itself. The requirement can be re-formulated as follows: the set of points is splitted into disjoint sets of points, where each set has its own unique exemplar.</p>
+
+<center>
+<img src="/pic/factor_graphs/2016-03-03-7.png" alt="Reference: Brendan J. Frey and Delbert Dueck, Clustering by Passing Messages Between Data Points, Science Feb. 2007" /> <br />
+Reference: Brendan J. Frey and Delbert Dueck, “Clustering by Passing Messages Between Data Points”, Science Feb. 2007
+</center>
+
+<p>The optimization problem can also be interpreted as the <a href="https://en.wikipedia.org/wiki/Facility_location_problem"><em>Facility Location Problem</em></a>, which is known to be NP-hard.</p>
+
+<p>It turns out that the optimized function with the correctness restriction can be modified and turned into another single function with no restrictions. Namely, we consider 
+\[
+    F(\boldsymbol c, \boldsymbol s) = \prod_{i=1}^{N} e^{s(i, c_i)} \prod_{k=1}^{N} f_k (\underbrace{c_1, \ldots, c_N}_{\boldsymbol c})
+\]
+The second term contains a correctness constraint defined as follows:
+\[
+    f_k(\boldsymbol c) = \begin{cases}
+    0, &amp; c_k \neq k, \, \exists i \colon c_i = k\<br />
+    1, &amp; \mathrm{otherwise}
+\end{cases}
+\]</p>
+
+<p>This function naturally produces the factor graph:</p>
+<center>
+<img src="/pic/factor_graphs/2016-03-03-8.png" />
+</center>
+
+<p>In fact, the analysis of message-passing for this function \( F(\boldsymbol c, \boldsymbol s) \) is quite cubersome, we need to consider several cases for valid and invalid configurations. The messages passing between \( c_i\) and \( f_j \) are most important, while messages between \( s(i, c_i) \) and \( c_i \) can be easily eliminated. The authors of Affinity Propagation show that max-product algorithm update equations for the functional, after some variable notation change, can be transformed into very simple form:</p>
+
+<blockquote>
+  <p><strong>Affinity Propagation</strong></p>
+
+  <ol>
+    <li>Set \( a(i, k) \) to zero (availabilities).</li>
+    <li>Repeat until convergence:
+      <ul>
+        <li>\( \forall i, k \colon r(i, k) = s(i, k) - \max_{k’ \neq k} [s(i, k’) + a(i, k’)] \)</li>
+        <li>\( \forall i, k \colon a(i, k) = \begin{cases}
+  \sum_{i’ \neq i} [r(i’, k)]_{+}, &amp; k = i\<br />
+  [r(k,k) + [r(i’, k)]_{+}]_{-}, &amp; k \neq i
+  \end{cases} \)</li>
+      </ul>
+    </li>
+    <li>Output: cluster assignments.
+      <ul>
+        <li>\( \hat{\boldsymbol c} = (\hat c_{1}, \ldots, \hat c_{N}) \), where</li>
+        <li>\( \hat c_i = \arg\max_{k} [a(i,k) + r(i,k)] \)</li>
+      </ul>
+    </li>
+  </ol>
+</blockquote>
+
+<p>Note that this algorithm is rather heuristic than theoretically justified, because of the several reasons:</p>
+
+<ul>
+  <li>There is justification via KL-divergence only for Sum-Product algorithm, but not for Max-Product. One can use the Sum-Product version of Affinity Propagation,  but it neither makes sense, nor is computational as simple as Max-Product version.</li>
+  <li>Algorithm may converge to invalid configuration. In this case, one needs to restart it, until we get valid configuration. There are no theoretical guarantees on the number of restarts.</li>
+</ul>
+
+<p>However, it is claimed to have great practical performance.</p>
+
+<p>Other interpretations of Affinity Propagation, including some probabilistic ones, can be found on its <a href="http://www.psi.toronto.edu/affinitypropagation/faq.html">FAQ Page</a>.</p>
+
+
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'electrictric-github';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/electric-tric"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">electric-tric</span></a>
+
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Sergey Dovgal's personal homepage</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

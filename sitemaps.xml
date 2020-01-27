@@ -1,32 +1,311 @@
----
-layout:
-permalink: /sitemaps.xml
----
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  {% for post in site.posts %}
-    {% if post.id contains "404" %}{% else %}
+  
+    
       <url>
-        <loc>{{site.base}}{{ post.url }}</loc>
-        {% assign versions=site.posts | where:"ref", post.ref %}
-        {% for version in versions %}
-          <xhtml:link rel="alternate" hreflang="{{ version.lang }}" href="{{site.base}}{{ version.url }}" />
-        {% endfor %}
-        <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+        <loc>/2018/02/11/sketches.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/2018/02/11/sketches.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/2016/01/27/discr-genf-group.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/2015/10/27/stochanalysis-machine-learning.html" />
+        
+        <lastmod>2018-02-11T00:00:00+01:00</lastmod>
         <changefreq>weekly</changefreq>
       </url>
-    {% endif %}
-  {% endfor %}
-  {% for page in site.pages %}
-    {% if page.id contains "404" %}{% else %}
+    
+  
+    
       <url>
-        <loc>{{site.base}}{{ page.url }}</loc>
-        {% assign versions=site.pages | where:"ref", page.ref %}
-        {% for version in versions %}
-          <xhtml:link rel="alternate" hreflang="{{ version.lang }}" href="{{site.base}}{{ version.url }}" />
-        {% endfor %}
+        <loc>/2017/08/27/multiparametric-combinatorial-tuning.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/2017/08/27/multiparametric-combinatorial-tuning.html" />
+        
+        <lastmod>2017-08-27T00:00:00+02:00</lastmod>
         <changefreq>weekly</changefreq>
       </url>
-    {% endif %}
-  {% endfor %}
+    
+  
+    
+      <url>
+        <loc>/2016/03/03/sum-product-algorithm-part1.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/2016/03/03/sum-product-algorithm-part1.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/2016/03/03/sum-product-algorithm-part1-ru.html" />
+        
+        <lastmod>2016-03-03T00:00:00+01:00</lastmod>
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/2016/03/03/sum-product-algorithm-part1-ru.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/2016/03/03/sum-product-algorithm-part1.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/2016/03/03/sum-product-algorithm-part1-ru.html" />
+        
+        <lastmod>2016-03-03T00:00:00+01:00</lastmod>
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/2016/01/27/discr-genf-group.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/2018/02/11/sketches.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/2016/01/27/discr-genf-group.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/2015/10/27/stochanalysis-machine-learning.html" />
+        
+        <lastmod>2016-01-27T00:00:00+01:00</lastmod>
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/2015/10/27/stochanalysis-machine-learning.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/2018/02/11/sketches.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/2016/01/27/discr-genf-group.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/2015/10/27/stochanalysis-machine-learning.html" />
+        
+        <lastmod>2015-10-27T00:00:00+01:00</lastmod>
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+  
+    
+      <url>
+        <loc>/archive.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/archive.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/archive_ru.html" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/archive_ru.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/archive.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/archive_ru.html" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/biography.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/biography.html" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/feed.xml</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/feed.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/old_site/index_old.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/old_site/index_old_ru.html" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/sitemaps.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css.map" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/old_site/index_old.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/feed.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/old_site/index_old.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/old_site/index_old_ru.html" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/sitemaps.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css.map" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/old_site/index_old_ru.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/feed.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/old_site/index_old.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/old_site/index_old_ru.html" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/sitemaps.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css.map" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/old_site/index_ru.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/old_site/index_ru.html" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/css/main.css</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/feed.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/old_site/index_old.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/old_site/index_old_ru.html" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/sitemaps.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css.map" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/research.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/research.html" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/sitemaps.xml</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/feed.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/old_site/index_old.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/old_site/index_old_ru.html" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/sitemaps.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css.map" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/software.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/software.html" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/teaching.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/teaching.html" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
+        <loc>/css/main.css.map</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/feed.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/old_site/index_old.html" />
+        
+          <xhtml:link rel="alternate" hreflang="ru" href="/old_site/index_old_ru.html" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/sitemaps.xml" />
+        
+          <xhtml:link rel="alternate" hreflang="" href="/css/main.css.map" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
   </urlset>

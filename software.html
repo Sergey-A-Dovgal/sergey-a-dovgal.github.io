@@ -7,21 +7,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title></title>
+  <title>Software</title>
   <meta name="description" content="Sergey Dovgal's personal homepage">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="/old_site/index_old.html">
+  <link rel="canonical" href="/software.html">
   
-  <link rel="alternate" hreflang="ru" href="/2018/02/11/sketches.html" />
-  <link rel="alternate" hreflang="ru" href="/2016/01/27/discr-genf-group.html" />
-  <link rel="alternate" hreflang="ru" href="/2015/10/27/stochanalysis-machine-learning.html" />
   
-  <link rel="alternate" hreflang="" href="/css/main.css" />
-  <link rel="alternate" hreflang="" href="/sitemaps.xml" />
-  <link rel="alternate" hreflang="en" href="/feed.xml" />
-  <link rel="alternate" hreflang="en" href="/old_site/index_old.html" />
-  <link rel="alternate" hreflang="ru" href="/old_site/index_old_ru.html" />
+  <link rel="alternate" hreflang="en" href="/software.html" />
   <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
 </head>
 
@@ -100,10 +93,10 @@
 
 <div class="wrapper" style="text-align: right; line-height: 2em">
   
-   <a href="/2018/02/11/sketches.html" class="ru">ru</a>  <a href="/2016/01/27/discr-genf-group.html" class="ru">ru</a>  <a href="/2015/10/27/stochanalysis-machine-learning.html" class="ru">ru</a> 
+  
 
   
-   <a href="/css/main.css" class=""></a>  <a href="/sitemaps.xml" class=""></a>  <a href="/feed.xml" class="en">en</a>  <a href="/old_site/index_old.html" class="en">en</a>  <a href="/old_site/index_old_ru.html" class="ru">ru</a> 
+   <a href="/software.html" class="en">en</a> 
 </div>
 
 </header>
@@ -111,34 +104,92 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Software</h1>
+  </header>
 
-  <ul class="post-list">
-    
-    
-      <li>
-        <span class="post-meta">Aug 27, 2017</span>
+  <div class="post-content">
+    <h1 id="paganini">Paganini</h1>
 
-        <h2>
-          <a class="post-link" href="/2017/08/27/multiparametric-combinatorial-tuning.html">Multiparametric combinatorial tuning</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Mar 3, 2016</span>
+<p><em>paganini</em> is a lightweight <em>python</em> library for tuning multiparametric
+combinatorial specifications. Installation is easy:</p>
 
-        <h2>
-          <a class="post-link" href="/2016/03/03/sum-product-algorithm-part1.html">Factor Graphs, Sum-Product Algorithm. Part 1.</a>
-        </h2>
-      </li>
-    
-  </ul>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install --user paganini
+</code></pre></div></div>
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
+<ul>
+  <li>
+    <p><a href="https://paganini.readthedocs.io/en/latest/tutorial.html">[Tutorial]</a></p>
+  </li>
+  <li>
+    <p><a href="https://paganini.readthedocs.io">[Documentation]</a></p>
+  </li>
+  <li>
+    <p>Source code on <a href="https://github.com/maciej-bendkowski/paganini">[Github]</a></p>
+  </li>
+  <li>
+    <p>If you use <code class="highlighter-rouge">paganini</code> or its components for published work, we encourage you
+to cite the accompanying paper <a href="https://epubs.siam.org/doi/10.1137/1.9781611975062.9">Polynomial tuning of multiparametric
+combinatorial samplers</a>.
+You can import the following BibTeX citation:</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> @inproceedings{paganini,
+   title        = {Polynomial tuning of multiparametric combinatorial samplers},
+   author       = {Bendkowski, Maciej and Bodini, Olivier and Dovgal, Sergey},
+   booktitle    = {2018 Proceedings of the Fifteenth Workshop on Analytic Algorithmics and Combinatorics (ANALCO)},
+   pages        = {92--106},
+   year         = {2018},
+   organization = {SIAM}
+ }
+</code></pre></div>    </div>
+  </li>
+</ul>
 
-</div>
+<h1 id="boltzmann-brain">Boltzmann Brain</h1>
+
+<p><em>Boltzmann Brain</em> is a Haskell library and standalone application meant for
+random generation of combinatorial structures. It can be used together with
+<em>paganini</em> for multiparametric random generation.</p>
+
+<ul>
+  <li>The input specification format mimics that of <a href="https://wiki.haskell.org/Algebraic_data_type">Haskell algebraic data types</a> where in addition each
+type constructor may be annotated with an additional <em>weight</em> parameter. For instance:
+    <div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Motzkin trees</span>
+<span class="kt">MotzkinTree</span> <span class="o">=</span> <span class="kt">Leaf</span>
+          <span class="o">|</span> <span class="kt">Unary</span> <span class="kt">MotzkinTree</span> <span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">]</span>
+          <span class="o">|</span> <span class="kt">Binary</span> <span class="kt">MotzkinTree</span> <span class="kt">MotzkinTree</span><span class="o">.</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>In the above example, a <code class="highlighter-rouge">MotzkinTree</code> data type is defined. It contains three
+constructors:</p>
+
+    <ul>
+      <li>a constant <code class="highlighter-rouge">Leaf</code> of weight one (default value if not
+  annotated);</li>
+      <li>a unary <code class="highlighter-rouge">Unary</code> constructor of weight two, and</li>
+      <li>a binary contructor <code class="highlighter-rouge">Binary</code> of default weight one.</li>
+    </ul>
+
+    <p>Here, the <code class="highlighter-rouge">Unary</code> construct is given weight <em>2</em> and a target frequency of
+  <em>0.3</em>. In consequence, the system is to be <strong>tuned</strong> such that the <code class="highlighter-rouge">Unary</code>
+  node contributes, on average, <em>30%</em> of the total size of constructed Motzkin
+  trees.  It is hence possible to distort the natural frequency of each
+  constructor in the given system.</p>
+  </li>
+  <li>
+    <p>See the source code and installation instructions on
+<a href="https://github.com/maciej-bendkowski/boltzmann-brain">[Github]</a></p>
+  </li>
+  <li>You can find a bunch of combinatorial examples <a href="https://github.com/maciej-bendkowski/multiparametric-combinatorial-samplers">[in another
+repository]</a>.</li>
+</ul>
+
+
+  </div>
+
+</article>
 
       </div>
     </div>

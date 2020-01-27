@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG"></script>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Multiparametric combinatorial tuning</title>
+  <meta name="description" content="This note accompanies our recent paper[Polynomial tuning of multiparametric combinatorial samplers]with Olivier Bodini and Maciej Bendkowski.">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/2017/08/27/multiparametric-combinatorial-tuning.html">
+  
+  <link rel="alternate" hreflang="en" href="/2017/08/27/multiparametric-combinatorial-tuning.html" />
+  
+  <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="//index.html"></a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+
+        <!--<a class="page-link" href="/index.html">[home]</a>-->
+        
+          <a class="page-link" href="/index.html">[home]</a>
+        
+          <a class="page-link" href="/research.html">[research]</a>
+        
+          <a class="page-link" href="/teaching.html">[teaching]</a>
+        
+          <a class="page-link" href="/software.html">[software]</a>
+        
+          <a class="page-link" href="/biography.html">[biography]</a>
+        
+      </div>
+
+      <!--
+      <div class="trigger">
+        
+        
+          
+          <a class="page-link" href="/archive.html">Posts</a>
+          
+        
+          
+          <a class="page-link" href="/biography.html">Biography</a>
+          
+        
+          
+        
+          
+          <a class="page-link" href="/">Sergey Dovgal</a>
+          
+        
+          
+        
+          
+          <a class="page-link" href="/research.html">Research</a>
+          
+        
+          
+          <a class="page-link" href="/software.html">Software</a>
+          
+        
+          
+          <a class="page-link" href="/teaching.html">Teaching</a>
+          
+        
+      </div>
+      -->
+    </nav>
+
+  </div>
+
+
+<div class="wrapper" style="text-align: right; line-height: 2em">
+  
+   <a href="/2017/08/27/multiparametric-combinatorial-tuning.html" class="en">en</a> 
+
+  
+  
+</div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Multiparametric combinatorial tuning</h1>
+    <p class="post-meta"><time datetime="2017-08-27T00:00:00+02:00" itemprop="datePublished">Aug 27, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>This note accompanies our recent paper
+<a href="https://arxiv.org/abs/1708.01212" target="\_blank">[Polynomial tuning of multiparametric combinatorial samplers]</a>
+with Olivier Bodini and Maciej Bendkowski.</p>
+
+<p>Here I present the main statements (not proofs) illustrated by examples.
+This note is also accompanied by an <code class="highlighter-rouge">ipython</code> notebook with clarifying simulations and code examples.
+<a href="https://nbviewer.jupyter.org/github/Electric-tric/electric-tric.github.io/blob/gh-pages/ipynb/Recursive%20generation.ipynb#" target="\_blank">[Try the code online!]</a></p>
+
+<p>We also wrote implementation which became a part of Maciej’s sampler <code class="highlighter-rouge">boltzmann-brain</code>.
+The implementation is a mixture of <code class="highlighter-rouge">Haskell</code> and <code class="highlighter-rouge">python</code> so it’s a bit tricky
+to configure and make it work, but <a href="https://github.com/maciej-bendkowski/boltzmann-brain">[you can
+try]</a>. You can find a
+bunch of combinatorial examples <a href="https://github.com/maciej-bendkowski/multiparametric-combinatorial-samplers">[in another repository]</a>.</p>
+
+<p>Finally, I invite you to start a discussion / participate at the bottom of
+the page.</p>
+
+<h2 id="warm-up-example-binary-trees-and-catalan-numbers">Warm-up example: binary trees and Catalan numbers</h2>
+
+<p>First, define a binary tree. In principle, we are all familiar from graph theory
+with the concept of tree, which is a graph without cycles. In rooted trees,
+there is one distinguished vertex that we call a <em>root</em>.
+The height of a node is the distance from this node to the root. If two nodes
+are adjacent then the node with greater height is calles a <strong>child</strong>, and the
+other one is called a <strong>parent</strong>.
+Binary trees are those trees whose nodes have either zero or two children.</p>
+
+<p>Then, binary trees admit a kind of recursive definition:</p>
+
+<blockquote>
+  <p><strong>Definition.</strong></p>
+
+  <p>A binary tree is either a <em>leaf</em> or a <em>root</em> with two <em>binary trees</em>
+<img src="/pic/polynomial-tuning/27-08-17-01.png" alt="" /></p>
+</blockquote>
+
+<p>Binary trees can be also represented by an unambiguous context-free grammar:
+\[
+    B = \mathcal Z \mid (B) \mathcal Z (B)
+\]
+The symbol \( \mathcal Z \) is a terminal symbol of this grammar (a leaf
+vertex), and the brackets «(», «)» are auxilliary symbols.
+Thus, this grammar describes the set of words
+\(
+    \def\Z{\mathcal Z}
+\)
+\[
+    \{
+        \Z,
+        (\Z)\Z (\Z),
+        ((\Z)\Z (\Z)) \Z (\Z),
+        (\Z) \Z ((\Z)\Z (\Z)),
+        \ldots
+    \}
+\]</p>
+
+<blockquote>
+  <p><strong>Problem.</strong></p>
+
+  <p>Generate uniformly at random binary trees with \( n \) nodes.</p>
+</blockquote>
+
+<p>In the long run, the problem of random generation will become a bit more general
+than this, but we need to start with a simple example.
+Essentially, we consider two algorithms which solve this problem.</p>
+
+<h3 id="offtopic-random-facts-about-catalan-numbers-that-you-maybe-didnt-know">offtopic. Random facts about Catalan numbers that you maybe didn’t know</h3>
+<p>Let \( T_k \) denote the number of binary trees with \( n \)
+nodes. The sequence of nonzero \( T_k \), i.e. the subsequence with
+odd indices, is called a sequence of <strong>Catalan numbers</strong>.</p>
+
+<blockquote>
+  <p><strong>Random fact 1.</strong> 
+\[
+    T_{2n + 1} = \dfrac{1}{2 \pi} \int_0^4 x^n
+    \sqrt{ \dfrac{4-x}{x}} dx
+\]</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Random fact 2.</strong> 
+If \( T_{2n+1} \) is an odd number then \( n = 2^k - 1 \).</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Random fact 3.</strong> Matrix \( n \times n \) whose entries at index \( (i,j) \)
+are \( T_{2i+2j-1} \) has determinant \(1\):
+\[
+    \det \begin{bmatrix}
+        1  &amp; 2  &amp; 5   &amp; 14 \<br />
+        2  &amp; 5  &amp; 14  &amp; 42 \<br />
+        5  &amp; 14 &amp; 42  &amp; 132 \<br />
+        14 &amp; 42 &amp; 132 &amp; 429 \<br />
+    \end{bmatrix} = 1
+\]</p>
+</blockquote>
+
+<h2 id="the-recursive-method">The recursive method</h2>
+
+<p>The recursive method is a kind of algorithm which uses dynamic programming.
+In order to generate a tree of size \( n \), we choose some \( k \)
+at random, and generate left subtree with \( k \) nodes and right subtree with
+\( n-k-1 \) nodes. But what should be the distribution of random variable \( k \)?</p>
+
+<p>In order to give the answer, let’s turn to combinatorics.
+Suppose that the number of binary trees with \( k \) nodes is equal to \( T_k \)
+and has been precomputed for all \( k \leq n \).
+How to compute the number of trees of size \( n \)
+if all the numbers \( T_k \) are known for \( k &lt; n \)?
+After summing over all possible \( k \), we obtain:
+\[
+    T_n = \sum_{k=1}^n T_k T_{n-k-1}
+    \enspace .
+\]
+The probability of having \( k \) vertices in the left subtree should be
+proportional to \( k \)-th summand in the previous sum:
+\[
+    \mathbb P(k \text{ nodes in the left subtree}) = \dfrac{T_k T_{n-k-1}}{T_n}
+\]
+Once all the values \( T_1, \ldots, T_{n-1} \) are precomputed, it is
+possible to recursively generate each required probability distribution on the
+number of nodes in the left subtree. The tree is generated from the root until
+each «subprocess» becomes a leaf node.</p>
+
+<blockquote>
+  <p><strong>Recursive algorithm for binary trees</strong>.
+<a href="https://nbviewer.jupyter.org/github/Electric-tric/electric-tric.github.io/blob/gh-pages/ipynb/Recursive%20generation.ipynb#" target="_blank">[Try this code online!]</a></p>
+
+  <ul>
+    <li>Precompute array \( (T_k)_{k=1}^n \) using the reccurence
+\[
+  T_n = \sum_{k=1}^n T_k T_{n-k-1}
+  \enspace ,
+  \quad
+  T_1 = 1 
+\]</li>
+    <li>For each \( n \), precompute the probability distribution \( \mathcal P_n \):
+\[
+  p_k^{(n)} = \dfrac{T_k T_{n-k-1}}{T_n}
+\]</li>
+    <li>Input: \( n \), target tree size</li>
+    <li>Function <code class="highlighter-rouge">generate(n)</code>:
+      <ul>
+        <li>If \( n = 1 \) return \( \mathcal Z \).</li>
+        <li>Generate \( k \) from the probability distribution \( \mathcal P_n \).</li>
+        <li>Left subtree <code class="highlighter-rouge">L := generate(k)</code></li>
+        <li>Right subtree <code class="highlighter-rouge">R := generate(n-k-1)</code></li>
+        <li>Return <code class="highlighter-rouge">(L)Z(R)</code>, where <code class="highlighter-rouge">Z</code> stands for root node.</li>
+      </ul>
+    </li>
+  </ul>
+</blockquote>
+
+<blockquote>
+  <p><strong>Remark</strong>. We use quadratic algorithm to precompute the values \( T_k \).
+In fact, this can be done in linear time
+using a recursive formula
+\[
+    T_{2n+1} = \dfrac{2(2n-1)}{n+1} T_{2n-1}
+\]
+Moreover, for any combinatorial
+system corresponding to <em>unambiguous context-free grammar</em> this can be done in
+linear arithmetic time (using so-called <em>holonomic specifications</em>).</p>
+</blockquote>
+
+<h2 id="the-boltzmann-sampler">The Boltzmann sampler</h2>
+
+<p>As often happens, the sampler named after Boltzmann, was not invented by him.
+This sampler is an invention of Duchon, Flajolet, Louchard and Schaeffer.
+The name <em>Boltzmann</em> stands for Boltzmann distribution.</p>
+
+<p>In contrast to the previous sampler, Boltzmann sampler doesn’t return objects of
+fixed size, the size is a random variable. Hovewer, the sampler has an
+additional parameter as an input, and this parameter can be changed to give
+different expected values of size.</p>
+
+<p>At this point we need to define <em>generating function</em> of binary trees.
+Generating function is a formal power series that contains information about all
+the coefficients \( T_k \) in the following way:
+\[
+    T(z) := T_0 + T_1 z + T_2 z^2 + \ldots
+\]
+This function can be even computed at some points \( z \), for example
+\( T(0.5) = 1 \). Pure magic and beauty.</p>
+
+<p>There is a famous formula for Catalan numbers.
+\[
+    T(z) = \dfrac{1 - \sqrt{1 - 4z^2}}{2z}
+\]
+which can be proved by solving quadratic equation with respect to \( T \)
+\[
+    T(z) = z + z T^2(z)
+\]
+which, in its turn, follows from the reccurence relation on its coefficients.</p>
+
+<blockquote>
+  <p><strong>Boltzmann sampler algorithm for binary trees</strong>.
+<a href="https://nbviewer.jupyter.org/github/Electric-tric/electric-tric.github.io/blob/gh-pages/ipynb/Recursive%20generation.ipynb#" target="\_blank">[Try the code online!]</a></p>
+
+  <ul>
+    <li>Input \(n\), target <em>expected</em> tree size.</li>
+    <li>Choose \( z = z_n \) depending on \( n \), we will discuss this below.</li>
+    <li>Function <code class="highlighter-rouge">generate(z)</code>:
+      <ul>
+        <li>Carefully look at the equation
+  \[
+  T(z) = z + zT^2(z)
+  \]</li>
+        <li>Generate Bernoulli random choice with probability
+  \[
+  \begin{cases}
+      \mathbb P(X = 0) &amp;= \dfrac{z}{z + z T^2(z)} \<br />
+      \mathbb P(X = 1) &amp;= \dfrac{zT^2(z)}{z + z T^2(z)} 
+  \end{cases}
+  \]
+          <ul>
+            <li>If \( X = 0 \) then return <code class="highlighter-rouge">Z</code> (tree with one node)</li>
+            <li>If \( X = 1 \) then
+              <ul>
+                <li>Left subtree <code class="highlighter-rouge">L := generate(z)</code></li>
+                <li>Right subtree <code class="highlighter-rouge">R := generate(z)</code></li>
+                <li>Return <code class="highlighter-rouge">(L)Z(R)</code> where <code class="highlighter-rouge">Z</code> stands for root node.</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</blockquote>
+
+<p>Let us look at the distribution of size when \( z \) is close to \( 0.5 \).</p>
+
+<p><img src="/pic/polynomial-tuning/27-08-17-02.png" alt="" /></p>
+
+<blockquote>
+  <p><strong>Exercise</strong>. The expected size of a generated object
+from a Boltzmann sampler is equal to \( z \dfrac{T’(z)}{T(z)} \).
+\( T(z) \) is the generating function associated with the class of objects.
+Moreover, \( z T’(z) / T(z) \) is a non-decreasing function on \( z \), and
+therefore, the tuning parameter \( z_n \) depending on given expected size \(
+n \) can be computed with binary search.</p>
+</blockquote>
+
+<p>Although the distribution depicted above, has expectation,
+it is not very «useful» in practice if we want to obtain
+objects of size approximately \( 8 \). For this reason, people use <strong>rejection
+sampling</strong>, where objects with size not in
+\( [n(1 - \varepsilon), n(1 + \varepsilon)] \) are rejected.</p>
+
+<p><img src="/pic/polynomial-tuning/27-08-17-03.png" alt="" /></p>
+
+<blockquote>
+  <p><strong>Exercise</strong>. Boltzmann samplers with approximate-size rejection return an
+object of size \( n(1 + \delta) \), \( \delta \in [-\varepsilon,
+\varepsilon] \) in linear time \( C_\varepsilon n \).</p>
+</blockquote>
+
+<h2 id="multiparametric-sampling">Multiparametric sampling</h2>
+
+<p>Let us switch to another example.</p>
+
+<blockquote>
+  <p><strong>Problem</strong>. Generate uniformly at random rooted trees with given number of
+nodes, leaves and vertices with 3 chlidren.</p>
+</blockquote>
+
+<p><img src="/pic/polynomial-tuning/27-08-17-04.png" alt="" /></p>
+
+<p>Let us construct a trivariate generating function
+\[
+    T(x, y, z) = \sum_{n, j, k \geq 0}
+    a_{njk} x^n y^j z^k
+\]
+where \( a_{njk} \) stands for the number of trees with given number \( n
+\) of nodes, \( j \) leaves, and \( k \) nodes with 3 children.</p>
+
+<p>\[
+    T(x, y, z) = x y + x \left( \dfrac{1}{1 - T} - T^3 \right) + x z T^3 
+\]
+This is a 4-th degree equation on \( T \) which is not obvious to solve.</p>
+
+<p>In fact, the best known solution to the mentioned problem (in case of
+arbitrarily large number of parameters) is to generate random objects with
+approximate parameter values and reject the objects if the size is not equal to
+the given one. The complexity of such a sampling is exponential in the number of
+parameters.</p>
+
+<p>However, if we allow for approximate parameter values, the problem doesn’t seem
+to be impossible.</p>
+
+<blockquote>
+  <p><strong>Problem</strong>. Generate uniformly at random rooted trees with given approximate number of
+nodes, leaves and vertices with 3 chlidren. The word «approximate» means that
+the expected values of all the parameters should coincide with the given ones.
+The word «uniformly» means that conditioned on size and parameter values, the
+objects are drawn uniformly at random.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Exercise</strong>.
+Suppose that some magician gave us the variable values \( x, y, z \) depending on
+given expected values of parameters. Verify that the algorithm for Boltzmann
+sampling can be generalized in a straghtforward manner, and the uniformity
+conditions are verified automatically.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Exercise</strong>.
+Verify that changing the weights in the recursive sampling algorithm, also gives
+exact-size approximate parameter random generation procedure, which is also
+uniform conditioned on parameter values.</p>
+</blockquote>
+
+<p>The idea of tuning expected values of parameteres is not completely meaningless.
+The distributions of most parameters in the system follow a Gaussian behaviour
+with \( \sqrt n \)-deviation.</p>
+
+<p><img src="/pic/polynomial-tuning/27-08-17-05.png" alt="" /></p>
+
+<h2 id="multiparametric-tuning">Multiparametric tuning</h2>
+
+<p>The problem of univariate tuning is to find a value \( z \) such that expected
+size is equal to \( n \). As we discussed before, when \( z \) increases,
+the expected size increases as well. This happens in multivariate case as well:
+if we increase the value of some variable \( y \), then the expected values of
+all other parameters should increase or stay the same. Unfortunately, it is not
+possible to tune each value separately because each «handle» can influence
+each expectation.</p>
+
+<p><img src="/pic/polynomial-tuning/27-08-17-06.png" alt="" /></p>
+
+<p>The first naive approach requires nested binary searches, and this algorithm
+still has an exponential complexity on the number of parameters. We propose a
+different strategy which results in a polynomial tuning algorithm.</p>
+
+<h3 id="combinatorial-specifications">Combinatorial specifications</h3>
+
+<p>Let’s imagine ugly enough combinatorial systems involving several combinatorial
+classes and variables (it is not necessary to try to understand the
+combinatorics behind).</p>
+
+<p>\[
+\begin{cases}
+    A &amp;= 1 + xy^2 B^2 + \dfrac{z BC}{1 - y C} + ABD^2 , \<br />
+    B &amp;= x + A^3 + CD , \<br />
+    C &amp;= \dfrac{y}{1 - yz} + C^3 + AD , \<br />
+    D &amp;= B + C^4 \enspace .
+\end{cases}
+\]</p>
+
+<p>Each variable is replaced by an exponential, and equations are converted into
+inequalities:
+\[
+    A = e^\alpha, B = e^\beta, C = e^\gamma, D = e^\delta,
+    x = e^\xi, y = e^\eta, z = e^\zeta
+\]
+Suppose that \( i, j, k \) are random variables, corresponding to parameters
+of objects from combinatorial class \( A \). Suppose that the values 
+\( \mathbb E i, \mathbb E j, \mathbb E k \) are given.
+Then \( \xi, \eta, \zeta \) can be obtained from a convex optimisation problem
+\[
+\begin{cases}
+           \alpha
+            - \mathbb E i \cdot \xi
+            - \mathbb E j \cdot \eta
+            - \mathbb E k \cdot \zeta
+            \to \min ,\<br />
+    \alpha \geq
+    \log\left(
+            1 + e^{\xi + 2 \eta + 2 \beta}
+            + \dfrac{e^{\zeta + \beta + \gamma}}{1 - e^{\eta+\gamma}}
+            + e^{\alpha + \beta + 2 \delta}
+    \right)
+    , \<br />
+    \beta  \geq
+    \log\left(
+            e^\xi
+            + e^{3 \alpha}
+            + e^{\gamma + \delta}
+    \right)
+    , \<br />
+    \gamma \geq
+    \log\left(
+            \dfrac{e^\eta}{1 - e^{\eta + \zeta}}
+            + e^{3 \gamma}
+            + e^{\alpha + \delta}
+    \right)
+    , \<br />
+    \delta \geq
+    \log\left(
+        e^\beta + e^{4 \gamma}
+    \right)
+    \enspace .
+\end{cases}
+\]</p>
+
+<blockquote>
+  <p><strong>Theorem</strong>. This approach works for a very general class of combinatorial
+systems, including rational, algebraic systems and some systems involving Polya
+structures as well.</p>
+</blockquote>
+
+<p>The geometry of this transform is well illustrated by an example of binary
+trees.
+\[
+    \begin{cases}
+        z \to \max , \<br />
+        T \geq z + z T^2
+    \end{cases}
+    \quad \Rightarrow \quad <br />
+    \begin{cases}
+        \zeta \to \max , \<br />
+        b \geq \log(e^\zeta + e^\zeta e^{2b})
+    \end{cases}
+\]</p>
+
+<p><img src="/pic/polynomial-tuning/27-08-17-07.png" alt="" /></p>
+
+<p>The point of singularity \( z = 0.5 \) corresponds to the right-most point of
+the feasible set. After log-exp transform the feasible set becomes convex, which
+makes it possible to apply polynomial optimisation algorithm.</p>
+
+<h2 id="examples">Examples</h2>
+
+<p>Many of the examples may look a bit «artificial» but we are aware of a few
+more, which may be possibly included into an extended version of the paper.</p>
+
+<h3 id="random-tilings">Random tilings</h3>
+
+<p>Consider a rectangle \( 7 \times n \). We construct a set of 126 possible
+tiles, some exemplary tiles are shown below. The principle of construction is to
+attach a subset of unit squares to the base layer which is a single connected
+block.</p>
+
+<p><img src="/pic/polynomial-tuning/27-08-17-08.png" alt="" /></p>
+
+<p>A random tiling is generated from a rational grammar with a huge number of
+states (more than 28000).</p>
+
+<p><img src="/pic/polynomial-tuning/27-08-17-09.png" alt="" /></p>
+
+<h3 id="tree-like-structures-with-given-degree-distribution">Tree-like structures with given degree distribution</h3>
+
+<p>Tree-like structures include rooted trees and also lambda terms in natural
+size notion.</p>
+
+<p><img src="/pic/polynomial-tuning/27-08-17-10.png" alt="" /></p>
+
+<p>Don’t be confused about observed frequency: this is a random variable with
+expectation exactly equal to 8 percent.</p>
+
+<h3 id="weighted-partitions">Weighted partitions.</h3>
+
+<p>In the last example, we recall that an <em>integer partition</em> is a multiset of
+integer numbers:
+\[
+    16 = 1 + 1 + 3 + 4 + 7
+\]
+This partition can be represented as a Young diagram, a pyramid of 5 rows, with
+respectively \( 1, 1, 3, 4, 7 \) unit squares in rows. A <strong>coloured
+partition</strong> is a similar thing, but each row is itself a multiset of several
+different colours (the total number of colours is fixed).</p>
+
+<p>The model appears in various texts on statistical physics, and in short, the
+total number of unit squares represents an enegry of the system of bosons,
+the number of colours represents dimension of the space, and each row represents
+a particle.</p>
+
+<p><img src="/pic/polynomial-tuning/27-08-17-11.png" alt="" /></p>
+
+
+
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'electrictric-github';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/electric-tric"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">electric-tric</span></a>
+
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Sergey Dovgal's personal homepage</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
