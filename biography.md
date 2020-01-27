@@ -26,7 +26,7 @@ Download complete CV as [[pdf]](files/cv_dovgal.pdf).
 <li>
 <b>Bachelor degree and Master thesis with distinction</b><br />
 <i>Moscow Institute of Physics and Technology</i><br />
-2014 – 2016
+2010 – 2016
 </li>
 
 </ul>
