@@ -1,0 +1,141 @@
+\documentclass[crop,tikz,convert=pdf2svg]{standalone}
+
+%------------- TIKZ --------------------
+\usepackage{xcolor}
+\definecolor{bblue}{rgb}{0.2, 0.4, 0.8}
+\definecolor{bgreen}{rgb}{0.2, 0.6, 0.4}
+\definecolor{bred}{rgb}{0.8, 0.4, 0.2}
+\definecolor{bviolet}{rgb}{0.7, 0.2, 0.7}
+\definecolor{blackred}{rgb}{0.6, 0.3, 0.3}
+\definecolor{blackblue}{rgb}{0.3, 0.3, 0.6}
+\definecolor{blackgreen}{rgb}{0.2, 0.4, 0.1}
+\definecolor{byellow}{rgb}{0.8, 0.6, 0.0}
+
+\usepackage{xargs} % to customize tikz command which require a lot of args
+
+\usepackage{tikz}
+\usetikzlibrary{fit,arrows,trees,shapes,snakes,
+shapes.geometric,calc,decorations.markings}
+\tikzset{
+  treenode/.style = {align=center, inner sep=0pt, text centered,
+    font=\sffamily},
+  arnBleuPetit/.style = {treenode, circle, black, draw=bblue,
+    fill=bblue!08,
+    minimum width=0.8em, minimum height=0.5em
+  },
+  arnRougePetit/.style = {treenode, circle, black, draw=bred,
+    fill=bred!20,
+    minimum width=0.8em, minimum height=0.5em
+  },
+  arnVertPetit/.style = {treenode, circle, black, draw=bgreen,
+    fill=bgreen!20,
+    minimum width=0.8em, minimum height=0.5em
+  },
+  arnBleuGrande/.style = {treenode, circle, bblue, draw=bblue,
+    text width=1.5em, very thick,
+    fill=bblue!10},
+  arnVioletGrande/.style = {treenode, circle, bviolet, draw=bviolet,
+    text width=1.5em, very thick,
+    fill=bblue!10},
+  arn_n/.style = {treenode, circle, black, draw=bblue,
+    text width=1.25em, very thick,
+    fill=bblue!08},
+  arn_r/.style = {treenode, circle, black, draw=bred,
+    text width=1.15em, very thick,
+    fill=red!08},
+  arn_v/.style = {treenode, circle, bviolet, draw=bviolet,
+    text width=1.5em, very thick,
+    fill=bviolet!10},
+  arn_g/.style = {treenode, circle, bgreen, draw=bgreen,
+    text width=1.5em, very thick,
+    fill=bblue!10},
+  arn_y/.style = {treenode, circle, byellow, draw=byellow, 
+    text width=1.5em, very thick,
+    fill=byellow!10},% arbre rouge noir, noeud rouge
+  triangle/.style = {treenode, black, draw=bred, fill=bred!20, regular polygon, regular polygon
+    sides=3, very thick, text width=1.5em },
+  vtriangle/.style = {treenode, bviolet, draw=bviolet, fill=bviolet!20, regular polygon, regular polygon
+    sides=3, very thick, text width=1.5em },
+  btriangle/.style = {treenode, bblue, draw=bblue, fill=bblue!20, regular polygon, regular polygon
+    sides=3, very thick, text width=1.5em },
+  arn_rr/.style = {treenode, circle, bred, draw=bred, 
+    fill=bred!10,
+    minimum width=0.9em, minimum height=0.9em
+  },% arbre rouge noir, noeud rouge
+  arn_nn/.style = {treenode, circle, bblue, draw=bblue, 
+    fill=bblue!10,
+    minimum width=0.5em, minimum height=0.5em
+  },% arbre rouge noir, noeud rouge
+  triangle_b/.style = {treenode, bblue, draw=bblue,
+    fill=bblue!20, regular polygon, regular polygon
+    sides=3, very thick, text width=1.5em },
+  triangle_g/.style = {treenode, bgreen, draw=bgreen,
+    fill=bgreen!20, regular polygon, regular polygon
+    sides=3, very thick, text width=1.5em },
+  triangle_v/.style = {treenode, bviolet, draw=bviolet,
+    fill=bviolet!20, regular polygon, regular polygon
+    sides=3, very thick, text width=1.5em },
+  triangle_h/.style = {treenode, bblue, draw=bblue,
+    fill=gray!20, regular polygon, regular polygon
+    sides=3, very thick, text width=1.5em },
+  arn_e/.style = {treenode, blackblue, draw=blackblue,
+    fill=bblue!10, circle,
+    very thick, text width=1.5em },
+  arn_w/.style = {treenode, black, draw=black,
+    fill=white, circle,
+    densely dashed, thick, text width=1.5em }
+}
+
+\newcommand{\aprod}[2]{
+    \path (#1) edge [blackred,thick,
+    decoration={markings,mark=at position 1 with
+    {\arrow[ultra thick,blackred, rotate=0]{>}}}, postaction={decorate}
+    ] node {} (#2);
+}
+
+\newcommandx*{\fromto}[7][3=black,4=black,5=0,6=0,7=.995,usedefault]{
+    \path (#1) edge [thick,#4,bend right=#5,
+    decoration={markings,mark=at position #7 with
+    {\arrow[thick,#3, rotate=-#6]{>}}}, postaction={decorate}
+    ] node {} (#2);
+}
+
+\newcommandx*{\sedge}[4][3=blackblue,4=0,usedefault]{
+    \path (#1) edge [thick,#3,bend right=#4] node {} (#2);
+}
+
+\makeatletter
+\begin{document}
+\begin{tikzpicture}[>=stealth',thick, node distance=1.0cm]
+\draw
+node[arnBleuPetit](a) at ( 0, 0)  { }
+node[arnBleuPetit](s) at ( 1,-1)  { }
+node[arnBleuPetit](d) at ( 2, 0)  { }
+node[arnBleuPetit](f) at ( 1, 1)  { }
+;
+\fromto{a}{d};
+\fromto{a}{f};
+\fromto{s}{a};
+\fromto{d}{s};
+\fromto{f}{d};
+\draw
+node[arnBleuPetit](q)  at (3.8, 0)  { }
+node[arnBleuPetit](w)  at (3,  -1)  { }
+node[arnBleuPetit](e)  at (4.8,-1)  { }
+node[arnBleuPetit](r)  at (4.8, 0)  { }
+node[arnBleuPetit](t)  at (3.8, 1)  { }
+;
+\fromto{q}{w};
+\fromto{q}{r};
+\fromto{e}{r};
+\fromto{r}{t};
+\fromto{t}{q};
+\aprod{d}{t};
+\aprod{d}{q};
+\aprod{s}{w};
+\node[rectangle,dashed,draw,fit=(a)(s)(d)(f), very thick,
+      rounded corners=5mm,inner sep= 5pt, bgreen] {};
+\node[rectangle,dashed,draw,fit=(q)(w)(e)(r)(t), very thick,
+      rounded corners=5mm,inner sep= 5pt, bgreen] {};
+\end{tikzpicture}
+\end{document}

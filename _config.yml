@@ -8,17 +8,17 @@
 # Site settings
 title:
   en: 
-  ru: 
+#  ru: 
 # email: 
 description:
   en: Sergey Dovgal's personal homepage
-  ru: Личная страница Серёжи Довгаля
+#  ru: Личная страница Серёжи Довгаля
 index:
   en: /index.html
-  ru: /index_ru.html
+#  ru: /index_ru.html
 feed:
   en: /feed.xml
-  ru: /feed.xml
+#  ru: /feed.xml
 baseurl: "" # the subpath of your site, e.g. /blog
 #url: "http://yourdomain.com" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
@@ -29,4 +29,4 @@ markdown: kramdown
 
 home:
   en: "[home]"
-  ru: "[в начало]"
+#  ru: "[в начало]"

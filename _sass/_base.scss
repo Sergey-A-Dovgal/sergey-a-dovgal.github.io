@@ -78,6 +78,15 @@ li {
     }
 }
 
+/**
+ * Reused from Thijs Laarhoven's website
+ * http://www.thijs.com/publications.html
+ */
+
+.pre{list-style-image: url('/pic/css/pre.png');}
+.conf{list-style-image: url("/pic/css/conf.png"); }
+.jour{list-style-image: url("/pic/css/jour.png"); }
+.thes{list-style-image: url("/pic/css/thes.png"); }
 
 
 /**
@@ -94,15 +103,11 @@ h1, h2, h3, h4, h5, h6 {
  */
 a {
     color: $brand-color;
-    text-decoration: none;
-
-    &:visited {
-        color: darken($brand-color, 15%);
-    }
+    text-decoration: underline;
 
     &:hover {
         color: $text-color;
-        text-decoration: underline;
+        text-decoration: none;
     }
 }
 
@@ -156,6 +161,13 @@ pre {
 }
 
 
+/**
+ * Myblock
+ */
+.myblock {
+    margin-left: 20px;
+    margin-top: 10px;
+}
 
 /**
  * Wrapper
