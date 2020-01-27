@@ -5,37 +5,23 @@ ref: teaching
 lang: en
 ---
 
+## Survey talks
+
+* Polya enumeration theorem from scratch
+    * CALIN seminar 20.02.2018 – 20.03.2018
+    [[notes]](files/teach/polya.pdf)
+
+* Boltzmann samplers and beyond
+    * Caen seminar 26.02.2019
+    [[notes]](files/teach/boltzmann.pdf)
+
 ## Assistant teaching in 2018-2020 (in French)
 
-* L1 programmation, éléments d'informatique
-
-* L2 specifications algébriques et test logiciel
-
-* L2 programmation, structures des données et algorithmes
-
-* L2 introduction au calcul scientifique
-    * [Course notes](https://lipn.fr/~pournin/ICS/NotesDeCours.pdf) and exercises by Lionel Pournin:
-    [TD1](https://lipn.fr/~pournin/ICS/TD1.pdf)
-    [TD2](https://lipn.fr/~pournin/ICS/TD2.pdf)
-    [TD3](https://lipn.fr/~pournin/ICS/TD3.pdf)
-    [TD4](https://lipn.fr/~pournin/ICS/TD4.pdf)
-    [TP1](https://lipn.fr/~pournin/ICS/TP1.pdf)
-    [TP2](https://lipn.fr/~pournin/ICS/TP2.pdf)
-    [TP3](https://lipn.fr/~pournin/ICS/TP3.pdf)
+* Introduction au calcul scientifique (L2, 2019-2020)
     * [Tutorial on differential equations
 and Euler's method](files/teach/l2-spi-td5.pdf)
 
-* M1 structures des données avancées
-
-* L1 programmation fonctionelle
-
-* L2 logique
-
-* M1 cryptographie
-
-* CPII algorithmique
-
-* M1 introduction aux algorithmes
+* Introduction aux algorithmes (M1, 2018-2019)
     * [Tutorial on Turing machines and
       reductions](files/teach/m1-tm-preexam.pdf)
 
