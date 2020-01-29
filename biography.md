@@ -81,6 +81,11 @@ March 2013, 2014
 
 </ul>
 
+## Referral work
+
+* Electronic Journal of Combinatorics
+* Discrete Mathematics and Theoretical Computer Science
+
 ## Social
 
 [[YouTube]](https://www.youtube.com/channel/UCD4gnkkUbiDyynaYqR_cK3w)

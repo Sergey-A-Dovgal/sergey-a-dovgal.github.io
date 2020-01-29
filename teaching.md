@@ -25,6 +25,16 @@ and Euler's method](files/teach/l2-spi-td5.pdf)
     * [Tutorial on Turing machines and
       reductions](files/teach/m1-tm-preexam.pdf)
 
+* Programmation (L1, 2019-2020)
+* Structures de données avancées (L2, 2019-2020)
+* Structures de données avancées (M1, 2019-2020)
+* Specifications algébriques et verification de logiciels (L2, 2019-2020)
+* Sécurité (M1, 2019-2020)
+* Algorithmique (Cours Preparatoire II, 2019-2020)
+* Logique (L1, 2019-2020)
+* Programmation fonctionelle (L2, 2019-2020)
+* Compilation (M1, 2019-2020)
+
 ## Teaching before 2018 (in Russian)
 
 * 2016-2017 
