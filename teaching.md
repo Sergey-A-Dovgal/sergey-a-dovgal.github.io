@@ -25,11 +25,15 @@ and Euler's method](files/teach/l2-spi-td5.pdf)
     * [Tutorial on Turing machines and
       reductions](files/teach/m1-tm-preexam.pdf)
 
+* Sécurité (M1, 2019-2020)
+    * [TD2. Basic number theory and RSA
+      encryption](files/teach/m1-crypto-td2.pdf)
+    * [TD3. Attacks on RSA](files/teach/m1-crypto-td3.pdf)
+
 * Programmation (L1, 2019-2020)
 * Structures de données avancées (L2, 2019-2020)
 * Structures de données avancées (M1, 2019-2020)
 * Specifications algébriques et verification de logiciels (L2, 2019-2020)
-* Sécurité (M1, 2019-2020)
 * Algorithmique (Cours Preparatoire II, 2019-2020)
 * Logique (L1, 2019-2020)
 * Programmation fonctionelle (L2, 2019-2020)
