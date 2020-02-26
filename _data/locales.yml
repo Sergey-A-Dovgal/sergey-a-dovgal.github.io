@@ -8,6 +8,8 @@ en:
       url:          "/teaching.html"
     - text:         "[software]"
       url:          "/software.html"
+    - text:         "[events]"
+      url:          "/events.html"
     - text:         "[biography]"
       url:          "/biography.html"
 #    - text:         "&laquo;/&raquo;"
