@@ -4,6 +4,8 @@ en:
       url:          "/index.html"
     - text:         "[research]"
       url:          "/research.html"
+    - text:         "[talks]"
+      url:          "/talks.html"
     - text:         "[teaching]"
       url:          "/teaching.html"
     - text:         "[software]"

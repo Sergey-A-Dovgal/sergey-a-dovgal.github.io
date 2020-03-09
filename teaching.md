@@ -5,16 +5,6 @@ ref: teaching
 lang: en
 ---
 
-## Survey talks
-
-* Polya enumeration theorem from scratch
-    * CALIN seminar 20.02.2018 – 20.03.2018
-    [[notes]](files/teach/polya.pdf)
-
-* Boltzmann samplers and beyond
-    * Caen seminar 26.02.2019
-    [[notes]](files/teach/boltzmann.pdf)
-
 ## Assistant teaching in 2018-2020 (in French)
 
 * Introduction au calcul scientifique (L2, 2019-2020)
