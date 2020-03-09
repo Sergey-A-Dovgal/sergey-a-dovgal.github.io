@@ -311,6 +311,17 @@
   
     
       <url>
+        <loc>/talks.html</loc>
+        
+        
+          <xhtml:link rel="alternate" hreflang="en" href="/talks.html" />
+        
+        <changefreq>weekly</changefreq>
+      </url>
+    
+  
+    
+      <url>
         <loc>/teaching.html</loc>
         
         

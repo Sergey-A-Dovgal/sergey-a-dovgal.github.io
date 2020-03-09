@@ -1,0 +1,27 @@
+en:
+    nav:
+    - text:         "[home]"
+      url:          "/index.html"
+    - text:         "[research]"
+      url:          "/research.html"
+    - text:         "[talks]"
+      url:          "/talks.html"
+    - text:         "[teaching]"
+      url:          "/teaching.html"
+    - text:         "[software]"
+      url:          "/software.html"
+    - text:         "[biography]"
+      url:          "/biography.html"
+#    - text:         "&laquo;/&raquo;"
+#      url:          "/folders.html"
+
+#ru:
+#    nav:
+##    - text:         "[в начало]"
+##      url:          "/index_ru.html"
+##    - text:         "[блог]"
+##      url:          "/archive_ru.html"
+#    - text:         "[резюме]"
+#      url:          "/about_ru.html"
+##    - text:         "&laquo;/&raquo;"
+##      url:          "/folders.html"
