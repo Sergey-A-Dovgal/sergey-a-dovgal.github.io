@@ -14,14 +14,14 @@ All the available preprints are collected on
 <ul class="pre">
 
 <li><b>
-Counting directed acyclic and elementary digraphs
+Tuning as convex optimisation: a polynomial tuner for multi-parametric combinatorial samplers 
 </b><div style="float: right">
-<a href="https://arxiv.org/abs/2001.08659">[arxiv]</a>
+<a href="https://arxiv.org/abs/2002.12771">[arxiv]</a>
 <!--<a href="">[slides]</a>-->
 </div><br /><i>
-Élie de Panafieu, Sergey Dovgal
+Maciej Bendkowski, Olivier Bodini, Sergey Dovgal
 </i><br />
-Preprint, January 2020
+Preprint, February 2020
 </li>
 
 <li><b>
@@ -39,6 +39,17 @@ Preprint, April 2019
 
 # Conference proceedings
 <ul class="conf">
+
+<li><b>
+Counting directed acyclic and elementary digraphs
+</b><div style="float: right">
+<a href="https://arxiv.org/abs/2001.08659">[arxiv]</a>
+<!--<a href="">[slides]</a>-->
+</div><br /><i>
+Élie de Panafieu, Sergey Dovgal
+</i><br />
+FPSAC, 2020 as poster presentation (to appear)
+</li>
 
 <li><b>
 Symbolic method and directed graph enumeration
