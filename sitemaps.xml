@@ -152,17 +152,6 @@
   
     
       <url>
-        <loc>/events.html</loc>
-        
-        
-          <xhtml:link rel="alternate" hreflang="en" href="/events.html" />
-        
-        <changefreq>weekly</changefreq>
-      </url>
-    
-  
-    
-      <url>
         <loc>/feed.xml</loc>
         
         
