@@ -19,6 +19,7 @@ and Euler's method](files/teach/l2-spi-td5.pdf)
     * [TD2. Basic number theory and RSA
       encryption](files/teach/m1-crypto-td2.pdf)
     * [TD3. Attacks on RSA](files/teach/m1-crypto-td3.pdf)
+    * [TD4. Pads and Hashes](files/teach/m1-crypto-td4.pdf)
 
 * Programmation (L1, 2019-2020)
 * Structures de données avancées (L2, 2019-2020)
