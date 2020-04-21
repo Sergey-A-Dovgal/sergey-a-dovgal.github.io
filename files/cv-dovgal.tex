@@ -1,0 +1,441 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Plasmati Graduate CV
+% LaTeX Template
+% Version 1.0 (24/3/13)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Alessandro Plasmati (alessandro.plasmati@gmail.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% Important note:
+% This template needs to be compiled with XeLaTeX.
+% The main document font is called Fontin and can be downloaded for free
+% from here: http://www.exljbris.com/fontin.html
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[a4paper,10pt]{article} % Default font size and paper size
+
+\usepackage{fontspec} % For loading fonts
+\usepackage{amssymb}
+\defaultfontfeatures{Mapping=tex-text}
+%\setmainfont[SmallCapsFont = Fontin SmallCaps]{Fontin} % Main document font
+
+\usepackage{xunicode,xltxtra,url,parskip} % Formatting packages
+
+\usepackage[usenames,dvipsnames]{xcolor} % Required for specifying custom colors
+
+%\usepackage[big]{layaureo} % Margin formatting of the A4 page, an alternative to layaureo can be
+%\usepackage{fullpage}
+% To reduce the height of the top margin uncomment:
+%\addtolength{\voffset}{-1.3cm}
+\usepackage[margin=0.5in]{geometry}
+
+\usepackage{hyperref} % Required for adding links	and customizing them
+\definecolor{linkcolour}{rgb}{0,0.2,0.6} % Link color
+\hypersetup{colorlinks,breaklinks,urlcolor=linkcolour,linkcolor=linkcolour} % Set link colors throughout the document
+
+\usepackage{titlesec} % Used to customize the \section command
+\titleformat{\section}{\Large\scshape\raggedright}{}{0em}{}[\titlerule] % Text formatting of sections
+\titlespacing{\section}{0pt}{3pt}{3pt} % Spacing around sections
+
+\begin{document}
+
+\pagestyle{empty} % Removes page numbering
+
+\font\fb=''[cmr10]'' % Change the font of the \LaTeX command under the skills section
+
+\vfill
+
+%----------------------------------------------------------------------------------------
+%	NAME AND CONTACT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\par{\centering{\Huge Sergey \textsc{Dovgal}}\bigskip\par} % Your name
+
+\vfill
+
+\section{Données Personnelles}
+
+\begin{tabular}{rl}
+\textsc{Lieu et date de naissance:}     & \textbf{Bélarus}  | 06 Janvier 1993 \\
+\textsc{Téléphone:} & +33 6 17 57 58 98 \\
+\textsc{email:} &
+\href{mailto:vit.north@gmail.com}{\texttt{vit.north@gmail.com}} \\
+\textsc{website:} &
+\url{https://electric-tric.github.io}
+\\
+
+\end{tabular}
+
+\vfill
+
+%----------------------------------------------------------------------------------------
+%	EDUCATION
+%----------------------------------------------------------------------------------------
+
+\section{Éducation}
+
+\begin{tabular}{rl}	
+2016--2019 & Thèse de Doctorat. Laboratoire Informatique Paris Nord,\\
+& \textbf{Université Paris 13, 99 avenue
+Jean-Baptiste Clément, 93430 Villetaneuse}\\
+& Sujet: <<Une image interdisciplinaire de la Combinatoire Analytique>>\\
+& Directeurs: Prof. Olivier \textsc{Bodiny}, Prof. Vlady \textsc{Ravelomanana}
+\\
+&Jury:
+Mireille \textsc{Bousquet-Mélou},
+Éric \textsc{Fusy},
+Andrea \textsc{Sportiello},
+Brigitte \textsc{Vallée}.
+\\
+&Rapporteurs:
+Éric \textsc{Fusy},
+Valeriy \textsc{Liskovets},
+Konstantinos \textsc{Panagiotou}.
+\\&\\
+
+\iffalse
+Avril--Juin 2016 & Stage M2, Laboratoire d'Informatique Algorithmique:
+Fondements et Applications \\
+& \textbf{LIAFA, Université Paris 7, 8
+Place Aurélie Nemours, 75013 Paris}\\
+& Sujet: <<Graphs with degree constraints>>\\
+& Directeur: Prof. Vlady \textsc{Ravelomanana}\\
+&\\
+\fi
+
+2014--2016 & Master avec distinction. 
+Département de Contrôle et de Mathématiques Appliquées,\\
+& \textbf{Institut de Physique et des Technologies de Moscou} \\
+& Sujet: <<Fisher and Wilks Theorems for Local Log-Density Estimation>>\\
+& Directeur: Prof. Vladimir \textsc{Spokoiny}\\
+&\\
+
+%------------------------------------------------
+
+2013--2016 & Département Informatique \\
+& \textbf {Ecole d'analyse des données Yandex} \\
+&\\
+
+%------------------------------------------------
+
+2010--2014 & Bachelor Degree. Département de Contrôle et de
+Mathématiques Appliquées, \\
+& \textbf{Institut de Physique et des Technologies de Moscou} \\
+& Sujet: <<Bootstrap Credible Sets for Local Maximum Likelihood Approach>>\\
+& Directeurs: Prof. Vladimir \textsc{Spokoiny}, Evgeny \textsc{Burnaev}\\
+\end{tabular}
+
+\vfill
+
+%----------------------------------------------------------------------------------------
+%	RESEARCH
+%----------------------------------------------------------------------------------------
+
+\section{Recherche}
+\begin{tabular}{rl}
+arxiv & \textit{Submitted.} Maciej Bendkowski, Olivier Bodini, Sergey Dovgal:
+    \\&
+    <<\textbf{Tuning as convex optimisation: a polynomial tuner for
+    multiparametric}\\
+    &\textbf{combinatorial samplers}>>
+%\url{https://arxiv.org/abs/1904.10266}
+\\
+arxiv & \textit{Submitted.} Sergey Dovgal:
+    \\&
+<<\textbf{The birth of the contradictory component in random 2-SAT}>>
+%\url{https://arxiv.org/abs/1904.10266}
+\\
+conf & \textit{FPSAC '2020.} Élie de Panafieu, Sergey Dovgal:
+    \\&
+<<\textbf{Counting directed acyclic and elementary digraphs}>>
+%\url{https://arxiv.org/abs/2001.08659}
+\\
+conf. & \textit{EUROCOMB '2019.} Élie de Panafieu, Sergey Dovgal:
+    \\&
+<<\textbf{Symbolic method and directed graph enumeration}>>
+%\url{https://arxiv.org/abs/1903.09454}
+\\
+journ. & \textit{Electronic Joural of Combinatorics '2019.}
+Maciej Bendkowski, Olivier Bodini, Sergey
+     Dovgal:\\&
+<<\textbf{Statistical properties of closed lambda-terms}>>
+%\url{https://arxiv.org/abs/1805.09419}
+\\
+conf. & \textit{AofA '2018.} Olivier Bodini, Julien Courtiel, Sergey Dovgal, Hsien-Kuei Hwang:\\&
+<<\textbf{Asymptotic Distribution of Parameters in Random Maps}>>
+%\url{https://arxiv.org/abs/1802.07112}
+\\
+conf. & \textit{ANALCO '2018.} Maciej Bendkowski, Olivier Bodini, Sergey
+    Dovgal:
+%\url{https://arxiv.org/abs/1708.01212}
+\\
+& <<\textbf{Polynomial tuning 
+of multiparametric combinatorial samplers}>>.
+%\\
+%& Implementation available \url{https://github.com/maciej-bendkowski/boltzmann-brain}
+\\
+conf. & \textit{LATIN '2018.} Sergey Dovgal, Vlady Ravelomanana:
+ <<\textbf{Shifting the Phase Transition Threshold}\\
+& \textbf{for Random Graphs using
+Degree Constraints}>>.
+%\url{https://arxiv.org/abs/1704.06683}
+\\
+arxiv & \textit{Master Thesis.} Sergey Dovgal:
+ <<\textbf{Towards Model Selection for Local Log-Density Estimation.}\\
+&\textbf{Fisher and Wilks-type theorems}>>.
+%\url{https://arxiv.org/abs/1607.00806}
+\\
+conf. & \textit{ITAS '2015} Conference. Sergey Dovgal, Vladimir Spokoiny: 
+ <<\textbf{Fisher and Wilks Theorems}\\&\textbf{for Likelihood-Based Density
+Estimation}>>.
+%\url{http://itas2015.iitp.ru/en/statistics.html}
+
+\end{tabular}
+
+\vfill
+
+Page 1/2
+
+\newpage
+
+%%----------------------------------------------------------------------------------------
+%%	PROFESSIONAL AFFILIATIONS & ACTIVITIES
+%%----------------------------------------------------------------------------------------
+%
+\section{Associations professionnelles et activités}
+%
+\begin{tabular}{rl}
+2019 --- Present & \textbf {LIPN, Institut Galilée, Université Paris 13}~---
+    A.T.E.R. (192 h)\\
+2018 & \textbf {LIPN, Institut Galilée, Université Paris 13}~---
+    Enseignant vacataire (20h)\\
+%2014 --- \textsc{Present} & \textbf{\href{http://premolab.ru/?lang=en}{Laboratory of Structural Methods of Data Analysis in Predictive Modeling}}\\&Junior Researcher \\
+%
+2014 --- 2016 & \textbf{Institut pour les Problèmes de Transmission de
+     l'Information}~--- Chercheur junior \\
+%
+2014 --- 2016 & \textbf {Institut de physique et de technologie de Moscou}~---
+     Enseignant adjoint (108 h)\\
+%
+2014 --- 2016 & \textbf{Institut pour les Problèmes de Transmission de
+     l'Information}~--- Chercheur junior \\
+%
+\end{tabular}
+
+\vfill
+
+%----------------------------------------------------------------------------------------
+%	SCHOLARSHIPS AND AWARDS
+%----------------------------------------------------------------------------------------
+
+\section{Honeurs et Prix}
+
+\begin{tabular}{rl}
+\textsc{Juillet} 2009, 2010 & \textbf{Olympiade Internationale de
+Mathématiques}~---
+\href{https://www.imo-official.org/participant_r.aspx?id=18778&column=year&order=desc&language=en}{Médailles
+d'Argent et de Bronze} \\
+
+\textsc{Avril} 2011 & \textbf{Olympiade étudiante en mathématiques discrètes au
+MIPT}~--- \href{https://mipt.ru/dcam/news/n_50milb}{Certificat du gagnant}\\
+\textsc{Février} 2012 & \textbf{Ivanilov bourse d'études}~--- 
+Bourse de la faculté pour étudiants distingués \\
+
+\textsc{Mai} 2012 & \textbf{Tout-russe Olympiade mathématique pour étudiants au
+MIPT}~--- \href{http://www.rkarasev.ru/note/22}{3ème place}. \\
+
+\textsc{Mars} 2013, 2014 & \textbf{Olympiade de programmation intercollégiale à
+Vologda}~--- \href{http://olympiads.vologda-uni.ru/interuni/2013.htm}{4iéme} et
+\href{http://olympiads.vologda-uni.ru/interuni/2014.htm}{8iéme} place.
+
+\end{tabular}
+
+\vfill
+
+%----------------------------------------------------------------------------------------
+%	INTERNSHIPS AND SCHOOLS
+%----------------------------------------------------------------------------------------                       
+% \vspace{1.2cm}
+% 
+% \section{Thematic Workshops and Research Schools Attended}
+% 
+% \begin{tabular}{rl}
+% 2017 & Barcelona, Discrete Random Structures and Beyond\\
+% 2017 & Goteburg, Computational Logic and Applications\\
+% 2017 & Marseille, Journées ALEA 2017\\
+% 2017 & Bordeaux, Journées Combinatoires 2017\\
+% 2016 & Marseille, Mathematical Statistics and Inverse Problems\\
+% 2015 & Sochi, Summer School \textbf{<<\href{http://itas2015.iitp.ru/en/}{Information Technologies and Systems}>>}\\
+% 2015 & Sylt, Spring School \textbf{<<\href{https://www.mathematik.hu-berlin.de/de/for1735/prior-events/spring-school-2015}{Structural Inference in Statistics}>>} \\
+% 2013 & Kazan, Summer School on High-Performance Computing\\& with Applications in Biology and Medicine, \textbf{\href{http://habrahabr.ru/company/innopolis_university/blog/192948/}{Innopolis University, MIPT}} \\
+% 2012 & Dubna, Summer School \textbf{<<\href{http://www.mccme.ru/dubna/eng/}{Contemporary Mathematics}>>} \\
+% \end{tabular}
+
+
+%----------------------------------------------------------------------------------------
+%	TEACHING EXPERIENCE
+%----------------------------------------------------------------------------------------
+
+\section{Enseignement, projets éducatifs}
+
+\begin{tabular}{rl}
+2018-2020 & Université Paris 13, Institut Galilée.
+Compilation,
+Programmation fonctionnelle,
+\\
+&
+Logique,
+Algorithmique,
+Specifications algébriques,
+Structures de données avancés,
+\\
+&
+Programmation,
+Sécurité,
+Introduction au calcul scientifique (L1 -- M1)
+\\
+2012-2015 & École-Lycée N5, Dolgoprudny.
+\href{https://drive.google.com/folderview?id=0B733JIZxEnkNNXFZcEp5QWlTY0k&usp=sharing}
+{\textbf{Le coin des Olympiades Mathématiques}} \\
+
+\textsc{Automne} 2016 & MIPT,
+\href{https://github.com/Electric-tric/mipt-teach-enum-comb}
+{\textbf{Cours avancé sur la combinatoire énumérative}} \\
+\textsc{Automne} 2014 & MIPT,
+\href{https://drive.google.com/folderview?id=0B733JIZxEnkNVFJ1azljVmtpTDA&usp=sharing}
+{\textbf{Séminaires en mathématiques discrètes}} \\
+\textsc{Automne 2014} & MIPT,
+\href{https://drive.google.com/folderview?id=0B733JIZxEnkNdnJ4S1JWTlJRQjA&usp=sharing}
+{\textbf{Sujets avancés en analyse mathématique et fonctionnelle}} \\
+\textsc{Printemps} 2015 & MIPT,
+\href{https://drive.google.com/folderview?id=0B733JIZxEnkNM1NLVE96dXJGT1k&usp=sharing}
+{\textbf{Séminaires d'algèbre abstraite et de la théorie du codage}} \\
+\textsc{Automne} 2015 & MIPT,
+\href{https://drive.google.com/folderview?id=0B733JIZxEnkNRFhQdW5Nak5FRUU&usp=sharing}
+{\textbf{Séminaires en mathématiques discrètes}} \\
+\textsc{Automne} 2015 & MIPT,
+\href{https://drive.google.com/folderview?id=0B733JIZxEnkNWVVDVjdYVk1tclE&usp=sharing}
+{\textbf{Séminaires en optimisation convexe}} \\
+2012-2014 & MIPT,
+\href{http://www.youtube.com/channel/UC_D60LCndYzZWxr_ZgRhQ0Q}
+{\textbf{Cours de théorie de la musique et acoustique}}
+\\
+2013-2014 &
+\href{https://sites.google.com/site/maolesh/study/kursy-procitannye-na-les-2013}{École
+d'écologie d'été, Département de mathématiques.}\\
+& Mini-cours (4 séances  chacun) pour écoliers. \\
+& \textbf{Fonctions génératrices avec applications en combinatoire}. \\
+& \textbf{Fondements mathématiques de la cryptographie et analyse}
+\\&
+\textbf{de la complexité des algorithmes}.
+\\
+2011-2015 & \textit{Prise de notes de cours en LaTeX de divers cours
+(notes de cours complètes)}:\\&
+Equations différentielles (deux semestres), Mécanique quantique (deux semestres), \\ & Advanced Topics on Discrete Analysis,
+Fondements de la statistique mathématique, \\ &
+Fondements de la théorie ergodique. \\
+\iffalse
+2012-2015 & \textbf{MIPT Assistant Teaching.}\\
+& Seminars in Discrete Mathematics, Advanced Topics in Mathematical and Functional Analysis, \\&
+Seminars in Higher Algebra and Coding Theory,  Seminars in Convex Optimization, \\
+&Course in Music Theory and Acoustics. Advanced course on Enumerative
+Combinatorics.\\
+2013-2014 & \textbf{Summer Ecological School, 4-lecture Mini-courses}\\&
+Generating Functions with Application in Combinatorics,\\& Mathematical Foundations of Cryptography and Computation.
+\fi
+Total & plus de $ \sim $260 heures d'enseignement (université, lycée, écoles
+d'été, etc)
+
+\end{tabular}
+
+%----------------------------------------------------------------------------------------
+%	LaTeX Conspects
+%----------------------------------------------------------------------------------------
+
+%\section{Other Educational Projects}
+%
+%\begin{tabular}{rl}
+%2011-2012 & Implemented Algorithm for LaTeX Equation Search in Database of Scientific Articles.\\& Construction of Reverse Polish Notation from Arbitrary Set of Operations.\\
+%2013-2014 & Client-Server Algorithm for Genre-Based Music Classification.\\& Project on Network Technologies.\\
+%2014 & Building a Statistical Model of Solar Flames Prediction. Project on Applied Statistics.\\
+%2014 & Building a Statistical Model of Wine Taste. Project on Applied Statistics.\\
+%\end{tabular}
+
+\vfill
+
+%----------------------------------------------------------------------------------------
+%	LANGUAGES
+%----------------------------------------------------------------------------------------
+
+\section{Languages}
+
+\begin{tabular}{rl}
+\textsc{Russe:} & Maternelle\\
+
+\textsc{Anglais:} & $\sim$B2. IELTS 7/9: Speaking 6, Reading 9, Writing 6.5, Listening 6.5\\
+
+\textsc{Français:} & $\sim$B2.\\
+
+\textsc{Allemande:} & $\sim$A1.\\
+
+\textsc{Compétences informatiques:} & \texttt{C/C++, Python, LaTeX, Git,
+Matlab}
+\\
+\end{tabular}
+
+\vfill
+
+%%----------------------------------------------------------------------------------------
+%%	INTERESTS AND ACTIVITIES
+%%----------------------------------------------------------------------------------------
+%
+%\section{Interests and Activities}
+%
+%Fluently play musical instruments (Balalaika, Piano, Accordion, Guitar, Flute).\\
+%Collect books for children in foreign languages.\\
+%I am also fond of nature, hiking, cycling, running and cross-country skiing.
+%
+%----------------------------------------------------------------------------------------
+%	ELECTRONIC VERSION OF THIS CV
+%----------------------------------------------------------------------------------------
+
+
+\iffalse
+\section{Social network profiles and hobbies}
+
+\begin{tabular}{rl}
+\textsc{Personal website:} & \url{lipn.fr/~dovgal}\\
+
+\textsc{Github:} & \url{github.com/electric-tric}\\
+
+\textsc{StackExchange:} &
+\url{stackexchange.com/users/4050661/?tab=accounts}
+\\
+
+\textsc{YouTube:} & \url{goo.gl/maEMwx}\\
+
+\textsc{Soundcloud:} & \url{soundcloud.com/electric-tric/}\\
+
+\textsc{Telegram:} & \texttt{+33617575898}\\
+
+\textsc{During free time:} &
+doing research, writing music, climbing, hiking,
+\\ & trailrunning, learning French, making Gong-Fu Cha.
+\end{tabular}
+%----------------------------------------------------------------------------------------
+\fi
+
+Page 2/2
+
+\end{document}
