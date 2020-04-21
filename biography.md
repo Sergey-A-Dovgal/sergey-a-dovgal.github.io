@@ -5,7 +5,7 @@ ref: biography
 lang: en
 ---
 
-Download complete CV as [[pdf]](files/cv_dovgal.pdf).
+Download complete CV as [[pdf]](files/cv-dovgal.pdf).
 
 
 # Affiliations and activities
