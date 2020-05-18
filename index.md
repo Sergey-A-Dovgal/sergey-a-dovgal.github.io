@@ -42,6 +42,9 @@ C(z) =
 c\_n := \sum\_{k = 0}^n {n \choose k} a\_k b\_{n-k} 2^{k(n-k)}
 \\]
 
+A survey of my research (in Russian) for non-scientists is available
+[[here]](https://www.youtube.com/watch?v=E4fvXP0ck_k)
+
 ### Two major applications of Analytic Combinatorics
 
 [Generating
@@ -89,7 +92,10 @@ cycles](pic/directed-graphs/curve.png)
 Sampling words uniformly at random from non-ambiguous
 [context-free grammars](https://en.wikipedia.org/wiki/Context-free_grammar)
 gives a solid basis for more advanced [applications](https://en.wikipedia.org/wiki/Monte_Carlo_method#Applications).
-The principle of Boltzmann sampling can be most easily illustrated using the example of Catalan binary trees, which are defined as rooted binary trees. 
+The principle of [Boltzmann
+sampling](https://en.wikipedia.org/wiki/Boltzmann_sampler) can be most easily
+illustrated using the example of Catalan binary trees, which are defined as
+rooted binary trees. 
 The method consists of taking the equation whose generation function
 \\( T(z) = \sum\_{n \geq 0} T\_n z^n \\)
 satisfies

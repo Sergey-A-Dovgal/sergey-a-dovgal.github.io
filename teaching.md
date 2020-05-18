@@ -23,18 +23,20 @@ and Euler's method](files/teach/l2-spi-td5.pdf)
 
 * Programmation fonctionelle (L2, 2019-2020)
     * [TD1. Les bases du calcul lambda](files/teach/l1-ocaml-td1.pdf)
+[[video]](https://www.youtube.com/watch?v=QHhPxGjp_Bs)
     * [TD2. Operations arithmetiques dans le calcul lambda](files/teach/m1-ocaml-td2.pdf)
+[[video]](https://youtu.be/1l4InelfLZI)
 
 * Algorithmique (Cours Preparatoire II, 2019-2020)
     * [TP. Fast Fourier Transform](files/teach/cpii-fft.pdf)
     [[Code en C]](files/teach/cpii-fft.pdf)
 
+* Logique (L1, 2019-2020)
 
 * Programmation (L1, 2019-2020)
 * Structures de données avancées (L2, 2019-2020)
 * Structures de données avancées (M1, 2019-2020)
 * Specifications algébriques et verification de logiciels (L2, 2019-2020)
-* Logique (L1, 2019-2020)
 * Compilation (M1, 2019-2020)
 
 ## Teaching before 2018 (in Russian)
