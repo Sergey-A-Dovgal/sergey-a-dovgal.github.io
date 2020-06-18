@@ -83,8 +83,9 @@ March 2013, 2014
 
 ## Referral work
 
-* Electronic Journal of Combinatorics
+* Combinatorics, Probability and Computing
 * Discrete Mathematics and Theoretical Computer Science
+* Electronic Journal of Combinatorics
 
 ## Social
 
