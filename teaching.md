@@ -25,6 +25,7 @@ and Euler's method](files/teach/l2-spi-td5.pdf)
     * [TD1. Les bases du calcul lambda](files/teach/l1-ocaml-td1.pdf)
 [[video]](https://www.youtube.com/watch?v=QHhPxGjp_Bs)
     * [TD2. Operations arithmetiques dans le calcul lambda](files/teach/m1-ocaml-td2.pdf)
+    * [TD3. Typage simple: video](https://www.youtube.com/watch?v=boVjNrI1gU0)
 [[video]](https://youtu.be/1l4InelfLZI)
 
 * Algorithmique (Cours Preparatoire II, 2019-2020)
@@ -32,7 +33,6 @@ and Euler's method](files/teach/l2-spi-td5.pdf)
     [[Code en C]](files/teach/cpii-fft.pdf)
 
 * Logique (L1, 2019-2020)
-
 * Programmation (L1, 2019-2020)
 * Structures de données avancées (L2, 2019-2020)
 * Structures de données avancées (M1, 2019-2020)
