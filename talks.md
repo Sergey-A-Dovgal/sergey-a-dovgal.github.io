@@ -12,6 +12,17 @@ same time. This list will be updated gradually over time.
 <ul class="pre">
 
 <li><b>
+The birth of the strong components
+</b><div style="float: right">
+<a href="files/slides/birth-strong-component.pdf">[slides]</a>
+<!--<a href="">[slides]</a>-->
+</div><br /><i>
+Seminar Plateau de Saclay, École Polytechnique
+</i><br />
+17.06.2020
+</li>
+
+<li><b>
 Subcritical phases of random structures
 </b><div style="float: right">
 <a href="files/irif-critical.pdf">[slides]</a>
