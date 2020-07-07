@@ -70,6 +70,17 @@ Caen seminar 26.02.2019
 # Conference talks
 <ul class="conf">
 <li><b>
+Counting directed acyclic and elementary digraphs
+</b><div style="float: right">
+<a href="files/slides/fpsac-poster.pdf">[poster]</a>
+<a href="https://arxiv.org/abs/2001.08659">[arxiv]</a>
+<!--<a href="">[slides]</a>-->
+</div><br /><i>
+FPSAC 2020 (online poster session)
+</i><br />
+08.07.2020
+</li>
+<li><b>
 Symbolic method for directed graphs
 </b><div style="float: right">
 <a href="files/eurocomb.pdf">[slides]</a>
