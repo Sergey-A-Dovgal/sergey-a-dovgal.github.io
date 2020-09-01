@@ -12,9 +12,15 @@ Download complete CV as [[pdf]](files/cv-dovgal.pdf).
 <ul class="jour">
 
 <li>
+<b>Postdoc</b><br />
+<i>Université de Bordeaux</i><br />
+2020 – Present
+</li>
+
+<li>
 <b>Attaché temporaire d'enseignement et de recherche</b><br />
 <i>Université Sorbonne Paris Nord</i><br />
-2019 – Present
+2019 – 2020
 </li>
 
 <li>
