@@ -6,9 +6,8 @@ lang: en
 ---
 
 
-My current affiliation is *attaché temporaire d'enseignement et de recherche* (one-year postdoc with 192h [teaching duty](teaching.html))
-in **Université Sorbonne Paris Nord**, *Laboratoire d'Informatique de Paris Nord*,
-former Université Paris 13.
+My current affiliation is a *postdoc*
+at the **University of Bordeaux**, **Laboratoire Bordelais de Recherche en Informatique**.
 
 <p align="center">
 <img src="pic/up13.jpg" height=250vh
