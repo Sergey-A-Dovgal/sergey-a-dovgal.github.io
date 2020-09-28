@@ -14,6 +14,22 @@ All the available preprints are collected on
 <ul class="pre">
 
 <li><b>
+The birth of the strong components
+</b><div style="float: right">
+<a href="http://arxiv.org/abs/2009.12127">[arxiv]</a>
+<a href="https://gitlab.com/vit.north/strong-components-aux">[ipython]</a>
+<!--<a href="">[slides]</a>-->
+</div><br /><i>
+Élie de Panafieu,
+Sergey Dovgal,
+Dimbinaina Ralaivaosaona,
+Vonjy Rasendrahasina,
+and Stephan Wagner
+</i><br />
+Preprint, September 2020
+</li>
+
+<li><b>
 Tuning as convex optimisation: a polynomial tuner for<br> multi-parametric combinatorial samplers 
 </b><div style="float: right">
 <a href="https://arxiv.org/abs/2002.12771">[arxiv]</a>
