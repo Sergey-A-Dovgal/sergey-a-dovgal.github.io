@@ -25,6 +25,8 @@ Seminar Plateau de Saclay, École Polytechnique
 </div>
 <br />
 17.06.2020
+<div style="float: right">
+<a href="https://visio.u-bordeaux.fr/playback/presentation/2.0/playback.html?meetingId=bfe00d5046e9d24d0c256a9acfb841c176461c85-1600675771035">[video-21.09.2020]</a></div>
 <br /><i>
 Seminaire Combinatoire Énumérative et Algébrique, LaBRI
 </i><br />
