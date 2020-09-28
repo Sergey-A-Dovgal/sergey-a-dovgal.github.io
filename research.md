@@ -68,7 +68,7 @@ Counting directed acyclic and elementary digraphs
 </div><br /><i>
 Élie de Panafieu, Sergey Dovgal
 </i><br />
-FPSAC, 2020 as poster presentation (to appear)
+FPSAC, 2020 as poster presentation
 </li>
 
 <li><b>
