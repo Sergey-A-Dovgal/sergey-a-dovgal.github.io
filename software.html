@@ -122,7 +122,7 @@
 <p><em>paganini</em> is a lightweight <em>python</em> library for tuning multiparametric
 combinatorial specifications. Installation is easy:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install --user paganini
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install --user paganini
 </code></pre></div></div>
 
 <ul>
@@ -136,11 +136,11 @@ combinatorial specifications. Installation is easy:</p>
     <p>Source code on <a href="https://github.com/maciej-bendkowski/paganini">[Github]</a></p>
   </li>
   <li>
-    <p>If you use <code class="highlighter-rouge">paganini</code> or its components for published work, we encourage you
+    <p>If you use <code class="language-plaintext highlighter-rouge">paganini</code> or its components for published work, we encourage you
 to cite the accompanying paper <a href="https://epubs.siam.org/doi/10.1137/1.9781611975062.9">Polynomial tuning of multiparametric
 combinatorial samplers</a>.
 You can import the following BibTeX citation:</p>
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> @inproceedings{paganini,
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> @inproceedings{paganini,
    title        = {Polynomial tuning of multiparametric combinatorial samplers},
    author       = {Bendkowski, Maciej and Bodini, Olivier and Dovgal, Sergey},
    booktitle    = {2018 Proceedings of the Fifteenth Workshop on Analytic Algorithmics and Combinatorics (ANALCO)},
@@ -168,18 +168,18 @@ type constructor may be annotated with an additional <em>weight</em> parameter. 
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>In the above example, a <code class="highlighter-rouge">MotzkinTree</code> data type is defined. It contains three
+    <p>In the above example, a <code class="language-plaintext highlighter-rouge">MotzkinTree</code> data type is defined. It contains three
 constructors:</p>
 
     <ul>
-      <li>a constant <code class="highlighter-rouge">Leaf</code> of weight one (default value if not
+      <li>a constant <code class="language-plaintext highlighter-rouge">Leaf</code> of weight one (default value if not
   annotated);</li>
-      <li>a unary <code class="highlighter-rouge">Unary</code> constructor of weight two, and</li>
-      <li>a binary contructor <code class="highlighter-rouge">Binary</code> of default weight one.</li>
+      <li>a unary <code class="language-plaintext highlighter-rouge">Unary</code> constructor of weight two, and</li>
+      <li>a binary contructor <code class="language-plaintext highlighter-rouge">Binary</code> of default weight one.</li>
     </ul>
 
-    <p>Here, the <code class="highlighter-rouge">Unary</code> construct is given weight <em>2</em> and a target frequency of
-  <em>0.3</em>. In consequence, the system is to be <strong>tuned</strong> such that the <code class="highlighter-rouge">Unary</code>
+    <p>Here, the <code class="language-plaintext highlighter-rouge">Unary</code> construct is given weight <em>2</em> and a target frequency of
+  <em>0.3</em>. In consequence, the system is to be <strong>tuned</strong> such that the <code class="language-plaintext highlighter-rouge">Unary</code>
   node contributes, on average, <em>30%</em> of the total size of constructed Motzkin
   trees.  It is hence possible to distort the natural frequency of each
   constructor in the given system.</p>

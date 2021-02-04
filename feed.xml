@@ -5,9 +5,9 @@
     <description>Sergey Dovgal's personal homepage</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 04 Feb 2021 14:02:14 +0100</pubDate>
-    <lastBuildDate>Thu, 04 Feb 2021 14:02:14 +0100</lastBuildDate>
-    <generator>Jekyll v4.0.0</generator>
+    <pubDate>Thu, 04 Feb 2021 14:14:25 +0100</pubDate>
+    <lastBuildDate>Thu, 04 Feb 2021 14:14:25 +0100</lastBuildDate>
+    <generator>Jekyll v4.2.0</generator>
     
     
       <item>
@@ -17,11 +17,11 @@
 with Olivier Bodini and Maciej Bendkowski.&lt;/p&gt;
 
 &lt;p&gt;Here I present the main statements (not proofs) illustrated by examples.
-This note is also accompanied by an &lt;code class=&quot;highlighter-rouge&quot;&gt;ipython&lt;/code&gt; notebook with clarifying simulations and code examples.
+This note is also accompanied by an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ipython&lt;/code&gt; notebook with clarifying simulations and code examples.
 &lt;a href=&quot;https://nbviewer.jupyter.org/github/Electric-tric/electric-tric.github.io/blob/gh-pages/ipynb/Recursive%20generation.ipynb#&quot; target=&quot;\_blank&quot;&gt;[Try the code online!]&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;We also wrote implementation which became a part of Maciej’s sampler &lt;code class=&quot;highlighter-rouge&quot;&gt;boltzmann-brain&lt;/code&gt;.
-The implementation is a mixture of &lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;python&lt;/code&gt; so it’s a bit tricky
+&lt;p&gt;We also wrote implementation which became a part of Maciej’s sampler &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;boltzmann-brain&lt;/code&gt;.
+The implementation is a mixture of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Haskell&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python&lt;/code&gt; so it’s a bit tricky
 to configure and make it work, but &lt;a href=&quot;https://github.com/maciej-bendkowski/boltzmann-brain&quot;&gt;[you can
 try]&lt;/a&gt;. You can find a
 bunch of combinatorial examples &lt;a href=&quot;https://github.com/maciej-bendkowski/multiparametric-combinatorial-samplers&quot;&gt;[in another repository]&lt;/a&gt;.&lt;/p&gt;
@@ -153,13 +153,13 @@ each «subprocess» becomes a leaf node.&lt;/p&gt;
   p_k^{(n)} = \dfrac{T_k T_{n-k-1}}{T_n}
 \]&lt;/li&gt;
     &lt;li&gt;Input: \( n \), target tree size&lt;/li&gt;
-    &lt;li&gt;Function &lt;code class=&quot;highlighter-rouge&quot;&gt;generate(n)&lt;/code&gt;:
+    &lt;li&gt;Function &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;generate(n)&lt;/code&gt;:
       &lt;ul&gt;
         &lt;li&gt;If \( n = 1 \) return \( \mathcal Z \).&lt;/li&gt;
         &lt;li&gt;Generate \( k \) from the probability distribution \( \mathcal P_n \).&lt;/li&gt;
-        &lt;li&gt;Left subtree &lt;code class=&quot;highlighter-rouge&quot;&gt;L := generate(k)&lt;/code&gt;&lt;/li&gt;
-        &lt;li&gt;Right subtree &lt;code class=&quot;highlighter-rouge&quot;&gt;R := generate(n-k-1)&lt;/code&gt;&lt;/li&gt;
-        &lt;li&gt;Return &lt;code class=&quot;highlighter-rouge&quot;&gt;(L)Z(R)&lt;/code&gt;, where &lt;code class=&quot;highlighter-rouge&quot;&gt;Z&lt;/code&gt; stands for root node.&lt;/li&gt;
+        &lt;li&gt;Left subtree &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;L := generate(k)&lt;/code&gt;&lt;/li&gt;
+        &lt;li&gt;Right subtree &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;R := generate(n-k-1)&lt;/code&gt;&lt;/li&gt;
+        &lt;li&gt;Return &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(L)Z(R)&lt;/code&gt;, where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Z&lt;/code&gt; stands for root node.&lt;/li&gt;
       &lt;/ul&gt;
     &lt;/li&gt;
   &lt;/ul&gt;
@@ -214,7 +214,7 @@ which, in its turn, follows from the reccurence relation on its coefficients.&lt
   &lt;ul&gt;
     &lt;li&gt;Input \(n\), target &lt;em&gt;expected&lt;/em&gt; tree size.&lt;/li&gt;
     &lt;li&gt;Choose \( z = z_n \) depending on \( n \), we will discuss this below.&lt;/li&gt;
-    &lt;li&gt;Function &lt;code class=&quot;highlighter-rouge&quot;&gt;generate(z)&lt;/code&gt;:
+    &lt;li&gt;Function &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;generate(z)&lt;/code&gt;:
       &lt;ul&gt;
         &lt;li&gt;Carefully look at the equation
   \[
@@ -228,12 +228,12 @@ which, in its turn, follows from the reccurence relation on its coefficients.&lt
   \end{cases}
   \]
           &lt;ul&gt;
-            &lt;li&gt;If \( X = 0 \) then return &lt;code class=&quot;highlighter-rouge&quot;&gt;Z&lt;/code&gt; (tree with one node)&lt;/li&gt;
+            &lt;li&gt;If \( X = 0 \) then return &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Z&lt;/code&gt; (tree with one node)&lt;/li&gt;
             &lt;li&gt;If \( X = 1 \) then
               &lt;ul&gt;
-                &lt;li&gt;Left subtree &lt;code class=&quot;highlighter-rouge&quot;&gt;L := generate(z)&lt;/code&gt;&lt;/li&gt;
-                &lt;li&gt;Right subtree &lt;code class=&quot;highlighter-rouge&quot;&gt;R := generate(z)&lt;/code&gt;&lt;/li&gt;
-                &lt;li&gt;Return &lt;code class=&quot;highlighter-rouge&quot;&gt;(L)Z(R)&lt;/code&gt; where &lt;code class=&quot;highlighter-rouge&quot;&gt;Z&lt;/code&gt; stands for root node.&lt;/li&gt;
+                &lt;li&gt;Left subtree &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;L := generate(z)&lt;/code&gt;&lt;/li&gt;
+                &lt;li&gt;Right subtree &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;R := generate(z)&lt;/code&gt;&lt;/li&gt;
+                &lt;li&gt;Return &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(L)Z(R)&lt;/code&gt; where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Z&lt;/code&gt; stands for root node.&lt;/li&gt;
               &lt;/ul&gt;
             &lt;/li&gt;
           &lt;/ul&gt;

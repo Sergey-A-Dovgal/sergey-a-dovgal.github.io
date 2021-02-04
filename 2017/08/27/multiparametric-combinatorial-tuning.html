@@ -123,11 +123,11 @@
 with Olivier Bodini and Maciej Bendkowski.</p>
 
 <p>Here I present the main statements (not proofs) illustrated by examples.
-This note is also accompanied by an <code class="highlighter-rouge">ipython</code> notebook with clarifying simulations and code examples.
+This note is also accompanied by an <code class="language-plaintext highlighter-rouge">ipython</code> notebook with clarifying simulations and code examples.
 <a href="https://nbviewer.jupyter.org/github/Electric-tric/electric-tric.github.io/blob/gh-pages/ipynb/Recursive%20generation.ipynb#" target="\_blank">[Try the code online!]</a></p>
 
-<p>We also wrote implementation which became a part of Maciej’s sampler <code class="highlighter-rouge">boltzmann-brain</code>.
-The implementation is a mixture of <code class="highlighter-rouge">Haskell</code> and <code class="highlighter-rouge">python</code> so it’s a bit tricky
+<p>We also wrote implementation which became a part of Maciej’s sampler <code class="language-plaintext highlighter-rouge">boltzmann-brain</code>.
+The implementation is a mixture of <code class="language-plaintext highlighter-rouge">Haskell</code> and <code class="language-plaintext highlighter-rouge">python</code> so it’s a bit tricky
 to configure and make it work, but <a href="https://github.com/maciej-bendkowski/boltzmann-brain">[you can
 try]</a>. You can find a
 bunch of combinatorial examples <a href="https://github.com/maciej-bendkowski/multiparametric-combinatorial-samplers">[in another repository]</a>.</p>
@@ -259,13 +259,13 @@ each «subprocess» becomes a leaf node.</p>
   p_k^{(n)} = \dfrac{T_k T_{n-k-1}}{T_n}
 \]</li>
     <li>Input: \( n \), target tree size</li>
-    <li>Function <code class="highlighter-rouge">generate(n)</code>:
+    <li>Function <code class="language-plaintext highlighter-rouge">generate(n)</code>:
       <ul>
         <li>If \( n = 1 \) return \( \mathcal Z \).</li>
         <li>Generate \( k \) from the probability distribution \( \mathcal P_n \).</li>
-        <li>Left subtree <code class="highlighter-rouge">L := generate(k)</code></li>
-        <li>Right subtree <code class="highlighter-rouge">R := generate(n-k-1)</code></li>
-        <li>Return <code class="highlighter-rouge">(L)Z(R)</code>, where <code class="highlighter-rouge">Z</code> stands for root node.</li>
+        <li>Left subtree <code class="language-plaintext highlighter-rouge">L := generate(k)</code></li>
+        <li>Right subtree <code class="language-plaintext highlighter-rouge">R := generate(n-k-1)</code></li>
+        <li>Return <code class="language-plaintext highlighter-rouge">(L)Z(R)</code>, where <code class="language-plaintext highlighter-rouge">Z</code> stands for root node.</li>
       </ul>
     </li>
   </ul>
@@ -320,7 +320,7 @@ which, in its turn, follows from the reccurence relation on its coefficients.</p
   <ul>
     <li>Input \(n\), target <em>expected</em> tree size.</li>
     <li>Choose \( z = z_n \) depending on \( n \), we will discuss this below.</li>
-    <li>Function <code class="highlighter-rouge">generate(z)</code>:
+    <li>Function <code class="language-plaintext highlighter-rouge">generate(z)</code>:
       <ul>
         <li>Carefully look at the equation
   \[
@@ -334,12 +334,12 @@ which, in its turn, follows from the reccurence relation on its coefficients.</p
   \end{cases}
   \]
           <ul>
-            <li>If \( X = 0 \) then return <code class="highlighter-rouge">Z</code> (tree with one node)</li>
+            <li>If \( X = 0 \) then return <code class="language-plaintext highlighter-rouge">Z</code> (tree with one node)</li>
             <li>If \( X = 1 \) then
               <ul>
-                <li>Left subtree <code class="highlighter-rouge">L := generate(z)</code></li>
-                <li>Right subtree <code class="highlighter-rouge">R := generate(z)</code></li>
-                <li>Return <code class="highlighter-rouge">(L)Z(R)</code> where <code class="highlighter-rouge">Z</code> stands for root node.</li>
+                <li>Left subtree <code class="language-plaintext highlighter-rouge">L := generate(z)</code></li>
+                <li>Right subtree <code class="language-plaintext highlighter-rouge">R := generate(z)</code></li>
+                <li>Return <code class="language-plaintext highlighter-rouge">(L)Z(R)</code> where <code class="language-plaintext highlighter-rouge">Z</code> stands for root node.</li>
               </ul>
             </li>
           </ul>
