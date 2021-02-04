@@ -141,7 +141,7 @@ Electronic Journal of Combinatorics, 2019
 <li><b>
 An interdisciplinary image of Analytic Combinatorics
 </b><div style="float: right">
-<a href="https://lipn.fr/~dovgal/thesis.pdf">[pdf]</a>
+<a href="files/thesis.pdf">[pdf]</a>
 <!--<a href="">[slides]</a>-->
 </div><br /><i>
 PhD Thesis, 2019.
