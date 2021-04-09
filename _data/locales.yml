@@ -1,8 +1,8 @@
 en:
     nav:
-    - text:         "[home]"
-      url:          "/index.html"
     - text:         "[research]"
+      url:          "/index.html"
+    - text:         "[publications]"
       url:          "/research.html"
     - text:         "[talks]"
       url:          "/talks.html"

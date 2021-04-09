@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Research
+title: Publications
 ref: research
 lang: en
 ---
