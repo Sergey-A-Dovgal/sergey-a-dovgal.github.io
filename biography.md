@@ -98,5 +98,6 @@ March 2013, 2014
 
 [[YouTube]](https://www.youtube.com/channel/UCD4gnkkUbiDyynaYqR_cK3w)
 [[Github]](https://github.com/electric-tric/)
+[[Gitlab]](https://gitlab.com/sergey.dovgal/)
 [[Piano sketches]](https://t.me/pianosketches)
 [[Telegram channel]](https://t.me/hitherandthither)
