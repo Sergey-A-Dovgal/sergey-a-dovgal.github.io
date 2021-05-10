@@ -22,9 +22,9 @@ and Euler's method](files/teach/l2-spi-td5.pdf)
     * [TD4. Pads and Hashes](files/teach/m1-crypto-td4.pdf)
 
 * Programmation fonctionelle (L2, 2019-2020)
-    * [TD1. Les bases du calcul lambda](files/teach/l1-ocaml-td1.pdf)
+    * [TD1. Les bases du calcul lambda](files/teach/l2-ocaml-td1.pdf)
 [[video]](https://www.youtube.com/watch?v=QHhPxGjp_Bs)
-    * [TD2. Operations arithmetiques dans le calcul lambda](files/teach/m1-ocaml-td2.pdf)[[video]](https://youtu.be/1l4InelfLZI)
+    * [TD2. Operations arithmetiques dans le calcul lambda](files/teach/l2-ocaml-td2.pdf)[[video]](https://youtu.be/1l4InelfLZI)
     * [TD3. Typage simple: video](https://www.youtube.com/watch?v=boVjNrI1gU0)
 
 * Algorithmique (Cours Preparatoire II, 2019-2020)
