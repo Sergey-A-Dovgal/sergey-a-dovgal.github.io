@@ -17,7 +17,7 @@ All the available preprints are collected on
 The birth of the strong components
 </b><div style="float: right">
 <a href="http://arxiv.org/abs/2009.12127">[arxiv]</a>
-<a href="https://gitlab.com/vit.north/strong-components-aux">[ipython]</a>
+<a href="https://gitlab.com/sergey.dovgal/strong-components-aux">[ipython]</a>
 </div><br /><i>
 Élie de Panafieu,
 Sergey Dovgal,
