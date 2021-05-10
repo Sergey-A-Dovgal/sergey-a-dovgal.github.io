@@ -92,6 +92,7 @@ March 2013, 2014
 * Combinatorics, Probability and Computing
 * Discrete Mathematics and Theoretical Computer Science
 * Electronic Journal of Combinatorics
+* Random Structures and Algorithms
 
 ## Social
 
