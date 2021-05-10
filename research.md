@@ -26,7 +26,7 @@ Dimbinaina Ralaivaosaona,
 Vonjy Rasendrahasina,
 and Stephan Wagner
 </i><br />
-Preprint, September 2020
+Accepted to CPC, April 2021
 </li>
 
 <li><b>
