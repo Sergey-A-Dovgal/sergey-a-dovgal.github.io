@@ -14,9 +14,22 @@ All the available preprints are collected on
 <ul class="pre">
 
 <li><b>
+Exact enumeration of satisfiable 2-SAT formulae 
+</b><div style="float: right">
+<a href="https://arxiv.org/abs/2108.08067">[arxiv]</a>
+<a href="https://gitlab.com/sergey.dovgal/enumeration-2sat-aux">[gitlab]</a>
+</div><br /><i>
+Sergey Dovgal,
+Élie de Panafieu,
+and Vlady Ravelomanana
+</i><br />
+Preprint, August 2021
+</li>
+
+<li><b>
 The birth of the strong components
 </b><div style="float: right">
-<a href="http://arxiv.org/abs/2009.12127">[arxiv]</a>
+<a href="https://arxiv.org/abs/2009.12127">[arxiv]</a>
 <a href="https://gitlab.com/sergey.dovgal/strong-components-aux">[gitlab]</a>
 </div><br /><i>
 Élie de Panafieu,
