@@ -5,7 +5,8 @@ ref: biography
 lang: en
 ---
 
-Download complete CV in [[English]](files/cv-dovgal-en.pdf) or in [[French]](files/cv-dovgal-en.pdf).
+Download complete CV in [[English]](files/cv-dovgal-en.pdf).
+<!-- or in [[French]](files/cv-dovgal-en.pdf).-->
 
 
 # Affiliations and activities
@@ -13,8 +14,14 @@ Download complete CV in [[English]](files/cv-dovgal-en.pdf) or in [[French]](fil
 
 <li>
 <b>Postdoc</b><br />
+<i>Université de Bourgogne</i><br />
+2021 – Present
+</li>
+
+<li>
+<b>Postdoc</b><br />
 <i>Université de Bordeaux</i><br />
-2020 – Present
+2020 – 2021
 </li>
 
 <li>
@@ -96,7 +103,7 @@ March 2013, 2014
 
 ## Social
 
-[[YouTube]](https://www.youtube.com/channel/UCD4gnkkUbiDyynaYqR_cK3w)
+<!--[[YouTube]](https://www.youtube.com/channel/UCD4gnkkUbiDyynaYqR_cK3w)-->
 [[Github]](https://github.com/electric-tric/)
 [[Gitlab]](https://gitlab.com/sergey.dovgal/)
 [[Piano sketches]](https://t.me/pianosketches)

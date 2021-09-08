@@ -7,7 +7,7 @@ lang: en
 
 
 My current affiliation is a *postdoc*
-at the **University of Bordeaux**, **Laboratoire Bordelais de Recherche en Informatique**.
+at the **University of Bourgogne, Dijon**, **Institut de Mathématiques de Bourgogne**.
 
 <p align="center">
 <img src="pic/up13.jpg" height=250vh
@@ -23,7 +23,7 @@ under the supervision of **Olivier Bodini** and **Vlady Ravelomanana**.-->
 ## Research overview
 
 Since 2016, I am doing [research](research.html) in the field of **Analytic
-Combinatorics**.
+Combinatorics** and **Probability**.
 In short, Analytic Combinatorics studies [generating
 functions](https://en.wikipedia.org/wiki/Generating_function) from the
 perspective of [complex
